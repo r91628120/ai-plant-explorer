@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="icon" type="image/png" href="/images/plant-quiz-favicon.png">
+<link rel="apple-touch-icon" href="/images/plant-quiz-favicon.png">
+<meta name="theme-color" content="#22c55e">
+<title>植物圖鑑｜AI植物探索王</title>
+<meta name="description" content="AI植物探索王植物圖鑑：依 A-H 八大類瀏覽園藝植物識別題庫照片，適合教師教學與學生課堂觀察。">
+<style>
+:root{
+  --green:#16813a;--green2:#22c55e;--deep:#064e3b;--soft:#eefbea;
+  --sky:#dff8ff;--gold:#fbbf24;--orange:#f97316;--blue:#2563eb;
+  --purple:#7c3aed;--ink:#17321f;--muted:#62766a;
+  --shadow:0 18px 40px rgba(6,95,42,.14);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,body{
+  margin:0;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans TC","PingFang TC","Hiragino Sans","Microsoft JhengHei",sans-serif;
+  color:var(--ink);
+  background:linear-gradient(180deg,#e7fbff 0%,#f2ffe9 48%,#d6f7c8 100%);
+}
+a{color:inherit;text-decoration:none}
+.main-nav{
+  position:sticky;top:0;z-index:99;
+  background:rgba(255,255,255,.94);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(22,129,58,.14);
+  box-shadow:0 8px 24px rgba(6,95,42,.08);
+}
+.nav-wrap{
+  max-width:1180px;margin:auto;padding:12px 18px;
+  display:flex;justify-content:space-between;align-items:center;gap:18px;
+}
+.nav-logo{display:flex;align-items:center;gap:10px;font-weight:1000;font-size:26px;color:#13251a}
+.logo-mark{width:40px;height:40px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(180deg,#e8ffd9,#a7f3d0);font-size:25px}
+.nav-logo small{display:block;font-size:12px;color:var(--green);font-weight:900;margin-top:3px}
+.version{font-size:13px;color:#fff;background:linear-gradient(180deg,#48c94b,#16813a);padding:4px 9px;border-radius:999px}
+.nav-links{display:flex;gap:18px;align-items:center;font-weight:900}
+.nav-links a{padding:10px 0;border-bottom:4px solid transparent}
+.nav-links a:hover,.nav-links a.active{color:var(--green);border-color:var(--green)}
+.wrap{max-width:1180px;margin:auto;padding:24px 16px 34px}
+.gallery-stage{
+  position:relative;overflow:hidden;border-radius:0 0 36px 36px;
+  min-height:calc(100vh - 72px);padding:28px;
+  background:
+    radial-gradient(circle at 8% 9%,rgba(255,255,255,.82) 0 70px,transparent 72px),
+    radial-gradient(circle at 86% 14%,rgba(255,255,255,.65) 0 86px,transparent 88px),
+    linear-gradient(180deg,#8ee8ff 0%,#dff7c4 58%,#70c86b 100%);
+  box-shadow:var(--shadow);
+}
+.hero-head{text-align:center;margin-bottom:18px}
+.hero-head h1{
+  margin:0;
+  font-size:48px;
+  line-height:1.1;
+  font-weight:1000;
+  color:#fff;
+  -webkit-text-stroke:2px var(--green);
+  text-shadow:0 5px 0 #0a6c2d,0 12px 18px rgba(0,0,0,.12);
+}
+.hero-head p{
+  display:inline-block;
+  margin:12px auto 0;
+  padding:9px 20px;
+  border-radius:999px;
+  background:linear-gradient(180deg,#fff8bf,#e5aa31);
+  border:3px solid #b97913;
+  font-weight:1000;
+  color:#4a2b04;
+}
+.card{
+  background:rgba(255,255,255,.94);
+  border:3px solid rgba(255,255,255,.9);
+  border-radius:24px;
+  box-shadow:var(--shadow);
+  padding:18px;
+}
+.category-panel{margin-bottom:18px}
+.category-buttons{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+}
+button,.btn{
+  border:0;border-radius:15px;padding:12px 14px;
+  background:linear-gradient(180deg,#32b044,#087b27);
+  color:white;font-weight:1000;font-size:16px;cursor:pointer;
+  box-shadow:0 6px 0 rgba(0,0,0,.13);transition:.18s;
+}
+button:hover,.btn:hover{transform:translateY(-2px);filter:brightness(1.04)}
+.cat-btn{background:linear-gradient(180deg,#ffffff,#f6fff0);color:#14532d;border:3px solid #9bdc80;box-shadow:0 6px 0 rgba(31,109,46,.1)}
+.cat-btn.active{background:linear-gradient(180deg,#30b24c,#087b27);color:white;border-color:#087b27}
+.gallery-grid{display:grid;grid-template-columns:1fr 300px;gap:18px;align-items:start}
+.viewer{text-align:center}
+.plant-name{
+  display:inline-block;
+  margin:0 auto 10px;
+  font-size:30px;
+  font-weight:1000;
+  color:#064e3b;
+  background:#ffffff;
+  padding:8px 24px;
+  border-radius:999px;
+  border:3px solid #b7e69c;
+}
+.meta{font-weight:900;color:#3a6b4b;margin-bottom:12px}
+.image-frame{
+  min-height:520px;
+  background:#f1f5f9;
+  border:3px dashed #cfe7c0;
+  border-radius:22px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:14px;
+  overflow:hidden;
+}
+.image-frame img{
+  max-width:100%;
+  max-height:70vh;
+  border-radius:16px;
+  box-shadow:0 14px 30px rgba(0,0,0,.14);
+  background:#fff;
+}
+.controls{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:14px}
+.controls button{min-width:150px}
+.side h2{margin:0 0 8px;color:#065f2b;font-size:22px}
+.side p{margin:0 0 14px;color:#526b58;font-weight:850;line-height:1.55}
+.jump-list{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:7px;
+  max-height:620px;
+  overflow:auto;
+  padding-right:4px;
+}
+.jump-btn{
+  width:100%;
+  text-align:left;
+  background:#fff;
+  color:#16452a;
+  border:1px solid #d8edc8;
+  box-shadow:none;
+  border-radius:12px;
+  padding:9px 10px;
+  font-size:14px;
+  line-height:1.25;
+}
+.jump-btn.active{background:#dcfce7;border-color:#22c55e;color:#065f2b}
+.status{font-weight:900;color:#64748b;text-align:center;padding:20px}
+.site-footer{
+  margin:18px -28px -28px;padding:14px 28px;
+  background:linear-gradient(180deg,#118238,#056025);
+  color:white;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-weight:900;
+}
+@media(max-width:900px){
+  .gallery-grid{grid-template-columns:1fr}
+  .category-buttons{grid-template-columns:repeat(2,1fr)}
+  .image-frame{min-height:360px}
+  .jump-list{max-height:360px}
+}
+@media(max-width:760px){
+  .nav-wrap{align-items:flex-start;flex-wrap:wrap;padding:10px 12px}
+  .nav-logo{font-size:22px}.nav-logo small{font-size:11px}
+  .nav-links{width:100%;overflow:auto;gap:14px}
+  .nav-links a{white-space:nowrap;font-size:14px}
+  .wrap{padding:0 10px 20px}
+  .gallery-stage{padding:16px 10px;border-radius:0 0 24px 24px}
+  .hero-head h1{font-size:36px}
+  .category-buttons{grid-template-columns:1fr}
+  .plant-name{font-size:24px}
+  .image-frame{min-height:280px}
+  .image-frame img{max-height:52vh}
+  .site-footer{margin:18px -10px -16px;font-size:13px}
+}
+</style>
+</head>
+<body>
+<nav class="main-nav">
+  <div class="nav-wrap">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-mark">🌱</span>
+      <span>AI植物探索王 <span class="version">v1.0</span><small>認識植物・探索自然・挑戰自我</small></span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">首頁</a>
+      <a href="plant-gallery.html" class="active">植物圖鑑</a>
+      <a href="index.html#practice">練習區</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+  <main class="gallery-stage">
+    <header class="hero-head">
+      <h1>🌿 植物圖鑑</h1>
+      <p>八大分類｜看照片、認植物、課堂教學更方便</p>
+    </header>
+
+    <section class="card category-panel">
+      <div id="categoryButtons" class="category-buttons">
+        <div class="status">題庫載入中...</div>
+      </div>
+    </section>
+
+    <section class="gallery-grid">
+      <article class="card viewer">
+        <h2 id="plantName" class="plant-name">—</h2>
+        <div id="photoMeta" class="meta">第 0 張 / 共 0 張</div>
+        <div class="image-frame">
+          <img id="plantImage" alt="植物照片" loading="lazy">
+        </div>
+        <div class="controls">
+          <button id="prevBtn" type="button">← 前一張</button>
+          <button id="nextBtn" type="button">後一張 →</button>
+        </div>
+      </article>
+
+      <aside class="card side">
+        <h2 id="categoryTitle">A區 aquatic plants</h2>
+        <p id="categoryHint">選擇上方分類後，可以用編號按鈕快速切換圖片。</p>
+        <div id="jumpList" class="jump-list"></div>
+      </aside>
+    </section>
+
+    <footer class="site-footer">
+      <span>AI植物探索王｜植物圖鑑</span>
+      <span>© 2026 農業教育創新團隊｜教育與非營利用途</span>
+    </footer>
+  </main>
+</div>
+
+<script>
+const R2_IMAGE_ORIGIN = 'https://img.miracle-mind.org';
+const CATEGORY_ZH = {
+  A:'水生植物',
+  B:'果樹',
+  C:'草本植物',
+  D:'資材',
+  E:'灌木',
+  F:'喬木',
+  G:'蔬菜',
+  H:'蔓性植物'
+};
+
+let RAW = null;
+let currentKey = 'A';
+let currentIndex = 0;
+
+const $ = s => document.querySelector(s);
+
+function toR2Url(url){
+  if(!url || typeof url !== 'string') return url;
+  if(url.startsWith(R2_IMAGE_ORIGIN)) return encodeURI(url);
+
+  if(url.includes('.r2.dev')){
+    const converted = url.replace(/^https:\/\/[^/]+\.r2\.dev/, R2_IMAGE_ORIGIN);
+    return encodeURI(converted);
+  }
+
+  if(url.includes('res.cloudinary.com') && url.includes('/upload/')){
+    const match = url.match(/\/upload\/(?:v\d+\/)?(.+)$/);
+    if(match && match[1]){
+      const decodedPath = decodeURIComponent(match[1]);
+      return encodeURI(`${R2_IMAGE_ORIGIN}/${decodedPath}`);
+    }
+  }
+  return encodeURI(url);
+}
+
+function cleanName(name){
+  const noNum = String(name || '').replace(/_\d+$/, '');
+  const parts = noNum.split('_').filter(Boolean);
+  if(parts.length === 0) return '—';
+  if(parts.length === 1) return parts[0];
+  return `${parts[0]}（${parts.slice(1).join('、')}）`;
+}
+
+function getCategoryInfo(key){
+  return (RAW.categories || []).find(c => c.key === key) || {
+    key,
+    name: key,
+    count: Array.isArray(RAW[key]) ? RAW[key].length : 0
+  };
+}
+
+function renderCategoryButtons(){
+  const box = $('#categoryButtons');
+  box.innerHTML = '';
+
+  (RAW.categories || []).forEach(cat => {
+    const btn = document.createElement('button');
+    btn.className = 'cat-btn' + (cat.key === currentKey ? ' active' : '');
+    btn.type = 'button';
+    btn.innerHTML = `${cat.key}｜${CATEGORY_ZH[cat.key] || cat.name}<br><small>${cat.name}・${cat.count} 張</small>`;
+    btn.addEventListener('click', () => {
+      currentKey = cat.key;
+      currentIndex = 0;
+      renderAll();
+    });
+    box.appendChild(btn);
+  });
+}
+
+function renderViewer(){
+  const list = RAW[currentKey] || [];
+  if(list.length === 0){
+    $('#plantName').textContent = '此分類尚無資料';
+    $('#photoMeta').textContent = '第 0 張 / 共 0 張';
+    $('#plantImage').removeAttribute('src');
+    return;
+  }
+
+  if(currentIndex < 0) currentIndex = list.length - 1;
+  if(currentIndex >= list.length) currentIndex = 0;
+
+  const item = list[currentIndex];
+  $('#plantName').textContent = cleanName(item.name);
+  $('#photoMeta').textContent = `第 ${currentIndex + 1} 張 / 共 ${list.length} 張`;
+  $('#plantImage').src = toR2Url(item.image);
+  $('#plantImage').alt = cleanName(item.name);
+
+  const info = getCategoryInfo(currentKey);
+  $('#categoryTitle').textContent = `${currentKey}區 ${info.name}`;
+  $('#categoryHint').textContent = `${CATEGORY_ZH[currentKey] || ''}｜共 ${list.length} 張照片，可用下方編號快速切換。`;
+}
+
+function renderJumpList(){
+  const list = RAW[currentKey] || [];
+  const box = $('#jumpList');
+  box.innerHTML = '';
+
+  list.forEach((item, idx) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'jump-btn' + (idx === currentIndex ? ' active' : '');
+    btn.textContent = `${idx + 1}. ${cleanName(item.name)}`;
+    btn.addEventListener('click', () => {
+      currentIndex = idx;
+      renderViewer();
+      renderJumpList();
+      window.scrollTo({top:0, behavior:'smooth'});
+    });
+    box.appendChild(btn);
+  });
+}
+
+function renderAll(){
+  renderCategoryButtons();
+  renderViewer();
+  renderJumpList();
+}
+
+$('#prevBtn').addEventListener('click', () => {
+  currentIndex--;
+  renderViewer();
+  renderJumpList();
+});
+
+$('#nextBtn').addEventListener('click', () => {
+  currentIndex++;
+  renderViewer();
+  renderJumpList();
+});
+
+async function init(){
+  try{
+    const res = await fetch('questions.json?t=' + Date.now(), {cache:'no-store'});
+    RAW = await res.json();
+    const first = (RAW.categories && RAW.categories[0] && RAW.categories[0].key) || 'A';
+    currentKey = first;
+    renderAll();
+  }catch(err){
+    $('#categoryButtons').innerHTML = `<div class="status">題庫載入失敗，請確認 questions.json 是否與 plant-gallery.html 放在同一層。</div>`;
+    console.error(err);
+  }
+}
+
+init();
+</script>
+</body>
+</html>
