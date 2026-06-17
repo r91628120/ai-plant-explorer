@@ -246,17 +246,9 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
               <option value="junior" selected>國中組</option>
               <option value="senior">高中職組</option>
             </select>
-            <select id="bankSel" title="題庫">
-              <option value="mix">正式挑戰：全部題庫（依比例組卷）</option>
-              <option value="A">練習：A 水生植物</option>
-              <option value="B">練習：B 果樹</option>
-              <option value="C">練習：C 草本植物</option>
-              <option value="D">練習：D 資材</option>
-              <option value="E">練習：E 灌木</option>
-              <option value="F">練習：F 喬木</option>
-              <option value="G">練習：G 蔬菜</option>
-              <option value="H">練習：H 蔓性植物</option>
-            </select>
+            
+            <input type="hidden" id="bankSel" value="mix">
+
           </div>
           <div class="helper-row">
             <span id="qCountHint" class="question-hint">（目前題數：100 題）</span>
@@ -265,7 +257,7 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
             <span class="pill">累計挑戰：<b id="globalCount">000000 人</b></span>
           </div>
           <div style="margin-top:14px;text-align:center">
-            <button id="btnStart" type="button">開始正式挑戰（100 題）</button>
+           
             <button id="btnQuick" class="ghost" type="button">⚡ 快速體驗 10 題</button>
           </div>
         </div>
@@ -939,9 +931,7 @@ function startWrongReview(){
 }
 
 /* ----------------------- 4) 綁定 ----------------------- */
-$('#btnStart').addEventListener('click', async () => {
-  await startNormalExam({quick:false});
-});
+
 
 $('#btnQuick').addEventListener('click', async () => {
   LAST_WHO = $('#uname').value.trim() || '—';
