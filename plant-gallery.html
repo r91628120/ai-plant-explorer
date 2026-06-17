@@ -6,7 +6,7 @@
 <link rel="icon" type="image/png" href="/images/plant-quiz-favicon.png">
 <link rel="apple-touch-icon" href="/images/plant-quiz-favicon.png">
 <meta name="theme-color" content="#22c55e">
-<title>植物圖鑑｜AI植物探索王</title>
+<title>園藝植物圖鑑｜AI植物探索王</title>
 <meta name="description" content="AI植物探索王植物圖鑑：依 A-H 八大類瀏覽園藝植物識別題庫照片，適合教師教學與學生課堂觀察。">
 <style>
 :root{
@@ -53,15 +53,22 @@ a{color:inherit;text-decoration:none}
   box-shadow:var(--shadow);
 }
 .hero-head{text-align:center;margin-bottom:18px}
+
 .hero-head h1{
   margin:0;
+
   font-size:48px;
-  line-height:1.1;
-  font-weight:1000;
-  color:#fff;
-  -webkit-text-stroke:2px var(--green);
-  text-shadow:0 5px 0 #0a6c2d,0 12px 18px rgba(0,0,0,.12);
+
+  font-weight:700;
+
+  color:#0f6b2f;
+
+  letter-spacing:2px;
+
+  text-shadow:
+    1px 1px 2px rgba(255,255,255,.6);
 }
+
 .hero-head p{
   display:inline-block;
   margin:12px auto 0;
@@ -85,6 +92,39 @@ a{color:inherit;text-decoration:none}
   grid-template-columns:repeat(4,1fr);
   gap:10px;
 }
+
+.gallery-tools{
+  display:flex;
+  gap:10px;
+  margin-top:14px;
+  flex-wrap:wrap;
+  align-items:center;
+}
+
+.gallery-tools input{
+  flex:1;
+  min-width:260px;
+  border:2px solid #b7e69c;
+  border-radius:14px;
+  padding:12px 14px;
+  font-size:16px;
+  font-weight:700;
+}
+
+.quiz-link{
+  display:inline-block;
+  background:#2563eb;
+  color:white;
+  border-radius:14px;
+  padding:12px 16px;
+  font-weight:900;
+  text-decoration:none;
+}
+
+.quiz-link:hover{
+  background:#1d4ed8;
+}
+
 button,.btn{
   border:0;border-radius:15px;padding:12px 14px;
   background:linear-gradient(180deg,#32b044,#087b27);
@@ -128,6 +168,13 @@ button:hover,.btn:hover{transform:translateY(-2px);filter:brightness(1.04)}
 }
 .controls{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:14px}
 .controls button{min-width:150px}
+
+#teacherModeBtn.teacher-active{
+  background:linear-gradient(180deg,#f59e0b,#d97706);
+  color:white;
+  box-shadow:0 6px 0 rgba(146,64,14,.22);
+}
+
 .side h2{margin:0 0 8px;color:#065f2b;font-size:22px}
 .side p{margin:0 0 14px;color:#526b58;font-weight:850;line-height:1.55}
 .jump-list{
@@ -170,26 +217,39 @@ button:hover,.btn:hover{transform:translateY(-2px);filter:brightness(1.04)}
   .nav-links a{white-space:nowrap;font-size:14px}
   .wrap{padding:0 10px 20px}
   .gallery-stage{padding:16px 10px;border-radius:0 0 24px 24px}
-  .hero-head h1{font-size:36px}
+  .hero-head h1{
+    font-size:30px;
+    letter-spacing:1px;
+   }
   .category-buttons{grid-template-columns:1fr}
   .plant-name{font-size:24px}
   .image-frame{min-height:280px}
   .image-frame img{max-height:52vh}
   .site-footer{margin:18px -10px -16px;font-size:13px}
+  
+
 }
 </style>
+
+<!-- GoatCounter -->
+<script 
+  data-goatcounter="https://ai-agri-education.goatcounter.com/count"
+  async
+  src="//gc.zgo.at/count.js">
+</script>
+
 </head>
 <body>
 <nav class="main-nav">
   <div class="nav-wrap">
-    <a href="index.html" class="nav-logo">
+    <a href="../" class="nav-logo">
       <span class="logo-mark">🌱</span>
-      <span>AI植物探索王 <span class="version">v1.0</span><small>認識植物・探索自然・挑戰自我</small></span>
+      <span>AI植物探索王 <span class="version">v1.1</span><small>認識植物・探索自然・挑戰自我</small></span>
     </a>
     <div class="nav-links">
-      <a href="index.html">首頁</a>
-      <a href="plant-gallery.html" class="active">植物圖鑑</a>
-      <a href="index.html#practice">練習區</a>
+      <a href="../">首頁</a>
+      <a href="plant-gallery.html" class="active">園藝植物圖鑑</a>
+      <a href="../#practice">練習區</a>
     </div>
   </div>
 </nav>
@@ -197,26 +257,49 @@ button:hover,.btn:hover{transform:translateY(-2px);filter:brightness(1.04)}
 <div class="wrap">
   <main class="gallery-stage">
     <header class="hero-head">
-      <h1>🌿 植物圖鑑</h1>
+      <h1>植物圖鑑</h1>
       <p>八大分類｜看照片、認植物、課堂教學更方便</p>
     </header>
 
     <section class="card category-panel">
-      <div id="categoryButtons" class="category-buttons">
-        <div class="status">題庫載入中...</div>
-      </div>
-    </section>
+  <div id="categoryButtons" class="category-buttons">
+    <div class="status">題庫載入中...</div>
+  </div>
+
+  <div class="gallery-tools">
+    <input
+      id="searchPlant"
+      type="text"
+      placeholder="搜尋植物名稱，例如：九重葛、桂花、火鶴"
+    >
+    <button id="clearSearchBtn" type="button">
+      清除搜尋
+    </button>
+  </div>
+</section>
 
     <section class="gallery-grid">
       <article class="card viewer">
         <h2 id="plantName" class="plant-name">—</h2>
         <div id="photoMeta" class="meta">第 0 張 / 共 0 張</div>
-        <div class="image-frame">
+        <div class="image-frame" id="imageFrame">
           <img id="plantImage" alt="植物照片" loading="lazy">
         </div>
         <div class="controls">
-          <button id="prevBtn" type="button">← 前一張</button>
-          <button id="nextBtn" type="button">後一張 →</button>
+           <button id="prevBtn">← 前一張</button>
+           <button id="nextBtn">後一張 →</button>
+            
+           <button id="randomBtn">
+              🎲 隨機植物
+             </button>
+
+           <button id="fullscreenBtn" title="按下 Esc 可退出全螢幕">
+               🖥️ 全螢幕
+           </button>   
+           
+           <button id="teacherModeBtn">
+            👨‍🏫 教學模式
+           </button>
         </div>
       </article>
 
@@ -250,6 +333,8 @@ const CATEGORY_ZH = {
 let RAW = null;
 let currentKey = 'A';
 let currentIndex = 0;
+let teacherMode = false;
+let answerVisible = false;
 
 const $ = s => document.querySelector(s);
 
@@ -319,7 +404,30 @@ function renderViewer(){
   if(currentIndex >= list.length) currentIndex = 0;
 
   const item = list[currentIndex];
-  $('#plantName').textContent = cleanName(item.name);
+
+  if(teacherMode){
+
+  if(answerVisible){
+
+    $('#plantName').textContent =
+    `${currentKey}-${currentIndex + 1}｜${cleanName(item.name)}`;
+
+  }else{
+
+    $('#plantName').textContent =
+    `${currentKey}-${currentIndex + 1}｜❓請猜猜這是什麼植物`;
+
+  }
+
+}else{
+
+  $('#plantName').textContent =
+  `${currentKey}-${currentIndex + 1}｜${cleanName(item.name)}`;
+
+}
+
+
+
   $('#photoMeta').textContent = `第 ${currentIndex + 1} 張 / 共 ${list.length} 張`;
   $('#plantImage').src = toR2Url(item.image);
   $('#plantImage').alt = cleanName(item.name);
@@ -327,6 +435,7 @@ function renderViewer(){
   const info = getCategoryInfo(currentKey);
   $('#categoryTitle').textContent = `${currentKey}區 ${info.name}`;
   $('#categoryHint').textContent = `${CATEGORY_ZH[currentKey] || ''}｜共 ${list.length} 張照片，可用下方編號快速切換。`;
+
 }
 
 function renderJumpList(){
@@ -356,20 +465,145 @@ function renderAll(){
 }
 
 $('#prevBtn').addEventListener('click', () => {
+
   currentIndex--;
+
+  answerVisible = false;
+
   renderViewer();
   renderJumpList();
+
 });
 
 $('#nextBtn').addEventListener('click', () => {
+
   currentIndex++;
+
+  answerVisible = false;
+
   renderViewer();
   renderJumpList();
+
 });
+
+$('#randomBtn').addEventListener('click', () => {
+
+  const list = RAW[currentKey] || [];
+
+  currentIndex = Math.floor(
+    Math.random() * list.length
+  );
+
+  answerVisible = false;
+
+  renderViewer();
+  renderJumpList();
+
+});
+
+$('#fullscreenBtn').addEventListener('click', () => {
+
+  const frame = document.getElementById('imageFrame');
+
+  if(!document.fullscreenElement){
+
+    frame.requestFullscreen();
+
+  }else{
+
+    document.exitFullscreen();
+
+  }
+
+});
+
+$('#searchPlant').addEventListener('input', e => {
+
+  const keyword = e.target.value.trim();
+
+  if(!keyword) return;
+
+  let foundKey = null;
+  let foundIndex = -1;
+
+  Object.keys(CATEGORY_ZH).some(key => {
+
+    const list = RAW[key] || [];
+
+    foundIndex = list.findIndex(item =>
+      cleanName(item.name).includes(keyword) ||
+      String(item.name || '').includes(keyword)
+    );
+
+    if(foundIndex >= 0){
+      foundKey = key;
+      return true;
+    }
+
+    return false;
+
+  });
+
+  if(foundKey){
+    currentKey = foundKey;
+    currentIndex = foundIndex;
+    answerVisible = false;
+    renderAll();
+  }
+
+});
+
+$('#clearSearchBtn').addEventListener('click', () => {
+
+  $('#searchPlant').value = '';
+
+});
+
+$('#teacherModeBtn').addEventListener('click', () => {
+
+  teacherMode = !teacherMode;
+  answerVisible = false;
+
+  if(teacherMode){
+
+  $('#teacherModeBtn').textContent =
+  '👀 顯示答案';
+
+  $('#teacherModeBtn').classList.add('teacher-active');
+
+}else{
+
+  $('#teacherModeBtn').textContent =
+  '👨‍🏫 教學模式';
+
+  $('#teacherModeBtn').classList.remove('teacher-active');
+
+}
+
+  renderViewer();
+
+});
+
+document.addEventListener('keydown', (e) => {
+
+  if(!teacherMode) return;
+
+  if(e.code === 'Space'){
+
+    e.preventDefault();
+
+    answerVisible = !answerVisible;
+
+    renderViewer();
+
+  }
+
+});
+
 
 async function init(){
   try{
-    const res = await fetch('questions.json?t=' + Date.now(), {cache:'no-store'});
+    const res = await fetch('../questions.json?t=' + Date.now(), {cache:'no-store'});
     RAW = await res.json();
     const first = (RAW.categories && RAW.categories[0] && RAW.categories[0].key) || 'A';
     currentKey = first;

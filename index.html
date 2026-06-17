@@ -6,8 +6,8 @@
 <link rel="icon" type="image/png" href="/images/plant-quiz-favicon.png">
 <link rel="apple-touch-icon" href="/images/plant-quiz-favicon.png">
 <meta name="theme-color" content="#22c55e">
-<title>AI植物探索王 v1.0｜植物識別挑戰平台</title>
-<meta name="description" content="AI植物探索王：把園藝植物識別題庫轉化成國小、國中、高中職都能參與的植物探索挑戰平台。正式挑戰使用100題40分鐘比例組卷，練習區提供八大分類題庫。">
+<title>AI植物探索王 v2.0｜全台植物識別挑戰賽</title>
+<meta name="description" content="AI植物探索王：全台第一個國小、國中、高中職共用的植物識別競賽平台。每日植物挑戰、排行榜、連勝紀錄與闖關地圖，讓學生用遊戲方式認識植物。">
 <meta name="keywords" content="AI植物探索王,植物識別,校園植物,國小植物學習,國中生涯探索,高中職園藝,園藝丙級,植物挑戰賽">
 <meta name="robots" content="index,follow">
 <style>
@@ -166,6 +166,21 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
 .muted{color:#6b7280}
 .question-hint{display:inline-block;color:#3a6b4b;font-size:14px;font-weight:900}
 
+
+/* v2.0 game widgets */
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px auto 16px;max-width:720px}
+.stat-card{background:rgba(255,255,255,.92);border:2px solid rgba(255,255,255,.95);border-radius:18px;padding:12px 10px;box-shadow:0 10px 22px rgba(6,95,42,.1);font-weight:1000}
+.stat-card b{display:block;font-size:24px;color:#0b7a2c;margin-top:4px}.stat-card small{display:block;color:#577060;font-weight:900}
+.feature-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:14px;margin:14px auto 16px;max-width:720px}
+.daily-card,.streak-card,.adventure-map,.shortcut-dock{background:rgba(255,255,255,.94);border:3px solid rgba(255,255,255,.94);border-radius:24px;box-shadow:var(--shadow);padding:15px}
+.daily-card{text-align:left;border-color:#fcd34d;background:linear-gradient(180deg,#fffdf0,#fff7d0)}
+.daily-head{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:10px}.daily-head h3,.streak-card h3,.adventure-map h3{margin:0;color:#065f2b;font-size:21px}.daily-tag{background:#f59e0b;color:white;border-radius:999px;padding:6px 10px;font-weight:1000;font-size:13px}
+.daily-body{display:grid;grid-template-columns:118px 1fr;gap:12px;align-items:center}.daily-body img{width:118px;height:86px;object-fit:cover;border-radius:16px;border:3px solid #fff;box-shadow:0 8px 18px rgba(0,0,0,.12);background:#eef2f7}.daily-body p{margin:0 0 8px;font-weight:900;color:#4a5d4f;line-height:1.45}.daily-body button{font-size:15px;padding:10px 14px}
+.streak-card{text-align:left;background:linear-gradient(180deg,#fff,#f2fff1);border-color:#9bdc80}.streak-big{display:flex;align-items:end;gap:8px;margin:10px 0 8px;color:#dc2626;font-weight:1000}.streak-big b{font-size:42px;line-height:.9}.streak-row{display:flex;gap:8px;flex-wrap:wrap}.mini-badge{background:#eef9e9;color:#245335;border-radius:999px;padding:6px 10px;font-weight:900;font-size:13px}
+.adventure-map{margin:16px 0;text-align:left;background:linear-gradient(180deg,#ffffff,#f4fff0)}.map-line{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;margin-top:12px}.stage-btn{background:#fff;color:#14532d;border:2px solid #b7e69c;box-shadow:0 6px 0 rgba(31,109,46,.1);font-size:13px;padding:11px 7px;line-height:1.35}.stage-btn b{display:block;font-size:22px}.stage-btn.king{background:linear-gradient(180deg,#fff1a8,#f59e0b);border-color:#d97706;color:#78350f}
+.shortcut-dock{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;margin:14px 0 4px;padding:12px}.shortcut-dock a,.shortcut-dock button{display:block;text-align:center;background:#fff;color:#12462a;border:2px solid #d8edc8;border-radius:16px;box-shadow:0 6px 0 rgba(31,109,46,.08);padding:10px 6px;font-size:13px;font-weight:1000}.shortcut-dock b{display:block;font-size:22px}.shortcut-dock button{cursor:pointer}
+.rank-actions{padding:0 16px 14px}.rank-actions button{width:100%;font-size:14px;padding:10px}.rank li small{color:#66785f}
+
 @media(max-width:1040px){
   .home-grid{grid-template-columns:1fr}
   .side-left{order:2}.hero{order:1}.side-right{order:3}
@@ -182,7 +197,7 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
   .logo-title .king{font-size:62px;-webkit-text-stroke:3px var(--green)}
   .crown{font-size:40px;right:-12px}
   .subtitle{font-size:18px}.goal{font-size:14px}
-  .form-grid,.group-grid,.practice-grid{grid-template-columns:1fr}
+  .form-grid,.group-grid,.practice-grid,.hero-stats,.feature-grid,.map-line,.shortcut-dock{grid-template-columns:1fr}
   .panel,.card{padding:15px;border-radius:18px}
   .imgbox{min-height:260px;padding:8px}
   .imgbox>img{max-height:52vh}
@@ -197,14 +212,15 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
   <div class="nav-wrap">
     <a href="#home" class="nav-logo">
       <span class="logo-mark">🌱</span>
-      <span>AI植物探索王 <span class="version">v1.0</span><small>認識植物・探索自然・挑戰自我</small></span>
+      <span>AI植物探索王 <span class="version">v2.0</span><small>全台植物識別挑戰賽</small></span>
     </a>
     <div class="nav-links">
       <a href="/home" class="active">首頁</a>
       <a href="plant-gallery.html">植物圖鑑</a>
-      <a href="/rules">測驗說明</a>
-      <a href="/ranking">排行榜規劃</a>
-      <a href="/practice">練習區</a>
+      <a href="#dailyChallenge">每日挑戰</a>
+      <a href="#ranking">排行榜</a>
+      <a href="#adventureMap">闖關地圖</a>
+      <a href="#practice">練習區</a>
     </div>
   </div>
 </nav>
@@ -219,11 +235,11 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
           <div class="sign">先來猜植物<br>再挑戰植物王！</div>
         </div>
         <div class="panel news">
-          <h3>📣 今日任務</h3>
+          <h3>📣 最新消息</h3>
           <ul>
-            <li>🏆 正式挑戰：100題、40分鐘<small>未來列入排行榜</small></li>
-            <li>🌿 練習區：八大分類自由練習<small>不列入排行榜</small></li>
-            <li>🏫 分組：國小、國中、高中職<small>同一題庫，不同組別競賽</small></li>
+            <li>🏆 AI植物探索王 v2.0 開跑！<small>全台植物識別挑戰賽</small></li>
+            <li>🔥 新增連勝紀錄與每日挑戰<small>每天完成一次挑戰，連勝不中斷</small></li>
+            <li>🗺️ 植物闖關地圖上線<small>從水生植物一路挑戰植物王</small></li>
           </ul>
         </div>
       </aside>
@@ -234,9 +250,42 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
           <span class="king">探索王</span>
           <span class="crown">👑</span>
         </div>
-        <div class="ribbon">認識植物・探索自然・挑戰自我</div>
-        <div class="subtitle">從國小到高中職，一起挑戰植物王寶座！</div>
-        <p class="goal">這不是招生簡章，也不是考試網站，而是一個讓學生用「猜植物」開始認識農業與自然的遊戲化入口。</p>
+        <div class="ribbon">全台植物識別挑戰賽</div>
+        <div class="subtitle">認識植物 × 挑戰排行榜 × 成為植物王</div>
+        <p class="goal">從國小到高中職都能參與的植物識別競賽平台：用每日挑戰、連勝紀錄、學校積分與闖關地圖，讓學生從「猜植物」開始走進自然與農業。</p>
+
+
+        <div class="hero-stats" aria-label="平台重點數據">
+          <div class="stat-card">🌿 題庫照片 <b id="totalPhotoCount">2003</b><small>八大類植物識別</small></div>
+          <div class="stat-card">🔥 我的連勝 <b id="streakDays">0 天</b><small>每天挑戰不中斷</small></div>
+          <div class="stat-card">🏆 今日挑戰 <b id="todayDoneLabel">未完成</b><small>完成後累積連勝</small></div>
+        </div>
+
+        <div class="feature-grid">
+          <section id="dailyChallenge" class="daily-card">
+            <div class="daily-head">
+              <h3>🌟 每日植物挑戰</h3>
+              <span class="daily-tag">答對 +50 分</span>
+            </div>
+            <div class="daily-body">
+              <img id="dailyPlantImg" alt="今日植物挑戰圖片" loading="lazy">
+              <div>
+                <p id="dailyPlantHint">每天固定一題，讓學生養成植物觀察習慣。</p>
+                <button id="btnDaily" type="button">立即挑戰今日植物 ➜</button>
+              </div>
+            </div>
+          </section>
+
+          <section class="streak-card">
+            <h3>🔥 連勝紀錄</h3>
+            <div class="streak-big"><b id="streakBig">0</b><span>天連勝</span></div>
+            <div class="streak-row">
+              <span class="mini-badge">最佳：<b id="bestStreak">0</b> 天</span>
+              <span class="mini-badge">稱號：<b id="rankTitle">植物新手</b></span>
+            </div>
+            <p class="note" style="padding:8px 0 0;margin:0">每天完成「每日挑戰」或正式挑戰，就能延續連勝。</p>
+          </section>
+        </div>
 
         <div class="start-box">
           <div class="form-grid">
@@ -284,6 +333,20 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
           </article>
         </div>
 
+
+        <section id="adventureMap" class="adventure-map">
+          <h3>🗺️ 植物闖關地圖</h3>
+          <p style="margin:6px 0 0;font-weight:850;color:#526b58">底層沿用原本題庫抽題，只是包裝成學生更有感的闖關模式。</p>
+          <div class="map-line">
+            <button class="stage-btn js-stage-start" data-bank="A"><b>💧</b>第1關<br>水生植物</button>
+            <button class="stage-btn js-stage-start" data-bank="C"><b>🌸</b>第2關<br>草本花卉</button>
+            <button class="stage-btn js-stage-start" data-bank="B"><b>🥭</b>第3關<br>果樹植物</button>
+            <button class="stage-btn js-stage-start" data-bank="G"><b>🥬</b>第4關<br>蔬菜植物</button>
+            <button class="stage-btn js-stage-start" data-bank="F"><b>🌳</b>第5關<br>喬木植物</button>
+            <button class="stage-btn king js-king-start"><b>👑</b>第6關<br>植物王挑戰</button>
+          </div>
+        </section>
+
         <section id="practice" class="practice">
           <h3>🌿 練習區：八大分類自由練習</h3>
           <p style="margin:0 0 12px;font-weight:850;color:#5b6f60">練習區用來熟悉植物，不列入排行榜；正式挑戰才作為未來競賽成績。</p>
@@ -298,27 +361,39 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
             <button class="js-practice-start" data-bank="H">蔓性植物</button>
           </div>
         </section>
+
+        <div class="shortcut-dock" aria-label="快速功能入口">
+          <a href="plant-gallery.html"><b>📚</b>植物圖鑑</a>
+          <a href="#ranking"><b>🏆</b>排行榜</a>
+          <button id="btnShowStreak" type="button"><b>🔥</b>連勝紀錄</button>
+          <a href="#adventureMap"><b>🗺️</b>闖關地圖</a>
+          <a href="#dailyChallenge"><b>🌟</b>每日挑戰</a>
+          <button id="btnMystery" type="button"><b>🎲</b>神秘植物</button>
+        </div>
       </main>
 
       <aside class="side-right" id="ranking">
         <div class="panel rank">
           <h3>🏆 個人排行榜 TOP5</h3>
-          <ol>
-            <li><span class="no">1</span><span>植物小高手<br><small>潮州國中</small></span><b>98分</b></li>
-            <li><span class="no">2</span><span>GreenKing<br><small>明正國中</small></span><b>95分</b></li>
-            <li><span class="no">3</span><span>小葉子<br><small>麟洛國中</small></span><b>93分</b></li>
-            <li><span class="no">4</span><span>花花達人<br><small>潮州國中</small></span><b>92分</b></li>
-            <li><span class="no">5</span><span>植物博士<br><small>長治國中</small></span><b>90分</b></li>
+          <ol id="personalRankList">
+            <li><span class="no">1</span><span>植物王<br><small>潮州國中</small></span><b>98分</b></li>
+            <li><span class="no">2</span><span>植物博士<br><small>明正國中</small></span><b>95分</b></li>
+            <li><span class="no">3</span><span>植物達人<br><small>麟洛國中</small></span><b>93分</b></li>
+            <li><span class="no">4</span><span>花卉高手<br><small>潮州國中</small></span><b>92分</b></li>
+            <li><span class="no">5</span><span>校園小偵探<br><small>長治國中</small></span><b>90分</b></li>
           </ol>
-          <div class="note">示意資料：未來僅正式挑戰成績列入。</div>
+          <div class="rank-actions"><button id="btnClearLocalRank" class="ghost" type="button">清除本機示範成績</button></div>
+          <div class="note">示意＋本機成績：未來可串接正式排行榜資料庫。</div>
         </div>
         <div class="panel rank">
           <h3 class="blue">🏫 學校積分排行榜</h3>
           <div class="tabs"><span class="active">國小組</span><span>國中組</span><span>高中職組</span></div>
-          <ol>
-            <li><span class="no">1</span><span>潮州國小</span><b>12,560分</b></li>
-            <li><span class="no">2</span><span>明正國小</span><b>11,820分</b></li>
-            <li><span class="no">3</span><span>麟洛國小</span><b>10,750分</b></li>
+          <ol id="schoolRankList">
+            <li><span class="no">1</span><span>潮州國中</span><b>12,560分</b></li>
+            <li><span class="no">2</span><span>明正國中</span><b>11,820分</b></li>
+            <li><span class="no">3</span><span>佳冬高農</span><b>10,750分</b></li>
+            <li><span class="no">4</span><span>萬丹國中</span><b>9,680分</b></li>
+            <li><span class="no">5</span><span>長治國中</span><b>8,920分</b></li>
           </ol>
           <div class="note">正式版會依國小組、國中組、高中職組分開計算，並加入最低參與人數門檻。</div>
         </div>
@@ -326,12 +401,12 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
     </div>
 
     <section id="rules" class="panel rules">
-      <b>🌱 平台規則：</b>正式挑戰採用原本園藝題庫「全部題庫依比例組卷」100題、40分鐘；八大分類作為練習區，不列入競賽排名。題庫與測驗邏輯沿用原本園藝識別平台。
+      <b>🌱 平台規則：</b>正式挑戰採用原本園藝題庫「全部題庫依比例組卷」100題、40分鐘；每日挑戰、神秘植物、闖關地圖皆沿用同一份題庫與測驗邏輯，不另建複雜帳號系統。
       <br><span class="pill" style="margin-top:8px">題庫版本：<b id="ver">載入中</b></span>
     </section>
 
     <footer class="site-footer">
-      <span>AI植物探索王 v1.0｜認識植物・探索自然・挑戰自我</span>
+      <span>AI植物探索王 v2.0｜全台植物識別挑戰賽</span>
       <span>© 2026 農業教育創新團隊｜教育與非營利用途</span>
     </footer>
   </section>
@@ -417,6 +492,8 @@ let WRONG_QUESTIONS = [];
 let LAST_MODE = 'normal'; // normal | review
 let LAST_PAPER_MODE = 'mix';
 let LAST_WHO = '—';
+let LAST_CHALLENGE_LABEL = '正式挑戰';
+let LAST_IS_RANKABLE = true;
 
 const $  = s => document.querySelector(s);
 const $$ = s => document.querySelectorAll(s);
@@ -585,6 +662,9 @@ async function loadQuestions(){
   const r = await fetch(url, {cache:'no-store'});
   RAW = await r.json();
   VERSION = RAW?.version || '—';
+  const totalPhoto = (RAW.categories || []).reduce((sum, cat) => sum + Number(cat.count || 0), 0);
+  const totalPhotoCount = $('#totalPhotoCount');
+  if(totalPhotoCount && totalPhoto) totalPhotoCount.textContent = totalPhoto.toLocaleString();
   $('#ver').textContent = VERSION;
   $('#rVer').textContent = VERSION;
 
@@ -767,6 +847,163 @@ function resetExamRuntime(){
   LEFT = 40 * 60;
 }
 
+
+function todayKey(){
+  return new Date().toISOString().slice(0,10);
+}
+
+function hashString(str){
+  let h = 0;
+  for(let i=0;i<str.length;i++) h = ((h << 5) - h + str.charCodeAt(i)) | 0;
+  return Math.abs(h);
+}
+
+function getAllItemsWithCategory(pools){
+  return Object.entries(pools).flatMap(([k, arr]) => arr.map(item => ({...item, categoryKey:k})));
+}
+
+function titleByScore(score){
+  if(score >= 95) return '植物王';
+  if(score >= 85) return '植物博士';
+  if(score >= 75) return '植物達人';
+  if(score >= 60) return '植物學徒';
+  return '植物新手';
+}
+
+function loadGameState(){
+  try{
+    return JSON.parse(localStorage.getItem('plantKingState') || '{}') || {};
+  }catch(_){
+    return {};
+  }
+}
+
+function saveGameState(state){
+  localStorage.setItem('plantKingState', JSON.stringify(state));
+}
+
+function markTodayDone(){
+  const state = loadGameState();
+  const t = todayKey();
+  if(state.lastDoneDate !== t){
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    const y = yesterday.toISOString().slice(0,10);
+    state.streak = state.lastDoneDate === y ? Number(state.streak || 0) + 1 : 1;
+    state.bestStreak = Math.max(Number(state.bestStreak || 0), state.streak);
+    state.lastDoneDate = t;
+    saveGameState(state);
+  }
+  renderStreak();
+}
+
+function renderStreak(){
+  const state = loadGameState();
+  const streak = Number(state.streak || 0);
+  const best = Number(state.bestStreak || 0);
+  const done = state.lastDoneDate === todayKey();
+  const streakDays = $('#streakDays'); if(streakDays) streakDays.textContent = `${streak} 天`;
+  const streakBig = $('#streakBig'); if(streakBig) streakBig.textContent = streak;
+  const bestStreak = $('#bestStreak'); if(bestStreak) bestStreak.textContent = best;
+  const todayDone = $('#todayDoneLabel'); if(todayDone) todayDone.textContent = done ? '已完成' : '未完成';
+}
+
+function getLocalScores(){
+  try{return JSON.parse(localStorage.getItem('plantKingScores') || '[]') || [];}catch(_){return []}
+}
+
+function saveLocalScore(score, correct, total){
+  if(!LAST_IS_RANKABLE || LAST_MODE === 'review') return;
+  const scores = getLocalScores();
+  scores.push({
+    name: $('#uname').value.trim() || '植物挑戰者',
+    school: $('#schoolName').value.trim() || '未填學校',
+    group: $('#groupSel').value || 'junior',
+    score, correct, total,
+    mode: LAST_CHALLENGE_LABEL,
+    ts: Date.now()
+  });
+  scores.sort((a,b) => b.score - a.score || b.correct - a.correct || a.ts - b.ts);
+  localStorage.setItem('plantKingScores', JSON.stringify(scores.slice(0,30)));
+}
+
+function renderRankings(){
+  const demo = [
+    {name:'植物王', school:'潮州國中', score:98},
+    {name:'植物博士', school:'明正國中', score:95},
+    {name:'植物達人', school:'麟洛國中', score:93},
+    {name:'花卉高手', school:'潮州國中', score:92},
+    {name:'校園小偵探', school:'長治國中', score:90}
+  ];
+  const scores = getLocalScores().map(s => ({name:s.name, school:s.school, score:s.score}));
+  const merged = scores.concat(demo).sort((a,b) => b.score - a.score).slice(0,5);
+  const list = $('#personalRankList');
+  if(list){
+    list.innerHTML = merged.map((r,i) => `<li><span class="no">${i+1}</span><span>${r.name}<br><small>${r.school}</small></span><b>${r.score}分</b></li>`).join('');
+  }
+
+  const schoolMap = new Map([
+    ['潮州國中',12560],['明正國中',11820],['佳冬高農',10750],['萬丹國中',9680],['長治國中',8920]
+  ]);
+  getLocalScores().forEach(s => schoolMap.set(s.school, (schoolMap.get(s.school)||0) + Math.round(s.score * 10)));
+  const schools = Array.from(schoolMap.entries()).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  const schoolList = $('#schoolRankList');
+  if(schoolList){
+    schoolList.innerHTML = schools.map((r,i) => `<li><span class="no">${i+1}</span><span>${r[0]}</span><b>${r[1].toLocaleString()}分</b></li>`).join('');
+  }
+}
+
+function setupDailyPreview(){
+  loadQuestions().then(({pools}) => {
+    const all = getAllItemsWithCategory(pools);
+    if(!all.length) return;
+    const item = all[hashString(todayKey()) % all.length];
+    const img = $('#dailyPlantImg');
+    if(img) img.src = optimizeImage(item.image);
+    const hint = $('#dailyPlantHint');
+    const catName = ({A:'水生植物',B:'果樹',C:'草本植物',D:'資材',E:'灌木',F:'喬木',G:'蔬菜',H:'蔓性植物'})[item.categoryKey] || '植物';
+    if(hint) hint.textContent = `今日提示：${catName}。看照片猜植物，完成後可延續連勝紀錄。`;
+  }).catch(()=>{});
+}
+
+async function startCustomExam({items, label='特色挑戰', minutes=10, rankable=true}){
+  const {pools} = await loadQuestions();
+  LAST_MODE = 'normal';
+  LAST_WHO = $('#uname').value.trim() || '—';
+  LAST_CHALLENGE_LABEL = label;
+  LAST_IS_RANKABLE = rankable;
+  QUESTIONS = buildExamItems(items, pools);
+  ANSW = Array(QUESTIONS.length).fill(-1);
+  CUR = 0;
+  LEFT = minutes * 60;
+  WRONG_QUESTIONS = [];
+  $('#who').textContent = LAST_WHO;
+  updateReviewButton();
+  renderQuestion();
+  renderGuide();
+  startTimer();
+  show('exam');
+}
+
+async function startDailyChallenge(){
+  const {pools} = await loadQuestions();
+  const all = getAllItemsWithCategory(pools);
+  const item = all[hashString(todayKey()) % all.length];
+  await startCustomExam({items:[item], label:'每日植物挑戰', minutes:2, rankable:true});
+}
+
+async function startMysteryChallenge(){
+  const {pools} = await loadQuestions();
+  const all = getAllItemsWithCategory(pools);
+  await startCustomExam({items:pick(all, Math.min(10, all.length)), label:'神秘植物挑戰', minutes:10, rankable:true});
+}
+
+async function startStageChallenge(key){
+  const {pools} = await loadQuestions();
+  const bag = (pools[key] || []).map(item => ({...item, categoryKey:key}));
+  await startCustomExam({items:pick(bag, Math.min(10, bag.length)), label:'闖關地圖', minutes:8, rankable:true});
+}
+
 function updateSummary(total, correct, wrong){
   $('#sumTotal').textContent = total;
   $('#sumCorrect').textContent = correct;
@@ -819,7 +1056,15 @@ function renderResult({correct, wrong, rows}){
   if(LAST_MODE === 'review'){
     $('#rScore').textContent = `答對 ${correct} / ${QUESTIONS.length}`;
   }else{
-    $('#rScore').textContent = `${correct}`;
+    $('#rScore').textContent = `${Math.round((correct / QUESTIONS.length) * 100)} 分（答對 ${correct} 題）`;
+  }
+
+  const finalScore = QUESTIONS.length ? Math.round((correct / QUESTIONS.length) * 100) : 0;
+  if(LAST_MODE !== 'review'){
+    saveLocalScore(finalScore, correct, QUESTIONS.length);
+    markTodayDone();
+    const rankTitle = $('#rankTitle'); if(rankTitle) rankTitle.textContent = titleByScore(finalScore);
+    renderRankings();
   }
 
   updateSummary(QUESTIONS.length, correct, wrong);
@@ -863,6 +1108,8 @@ async function startNormalExam({quick=false} = {}){
   LAST_MODE = 'normal';
   LAST_WHO = $('#uname').value.trim() || '—';
   LAST_PAPER_MODE = $('#bankSel').value;
+  LAST_CHALLENGE_LABEL = quick ? '快速體驗' : '正式挑戰';
+  LAST_IS_RANKABLE = true;
 
   if(!quick){
     incrementCounterOptimistic();
@@ -1010,6 +1257,9 @@ updateSummary(0, 0, 0);
 updateReviewButton();
 updateQuestionCountUI();
 loadCounter();
+renderStreak();
+renderRankings();
+setupDailyPreview();
 
 /* ----------------------- 6) AI植物探索王首頁入口 ----------------------- */
 function setGroup(groupValue){
@@ -1034,6 +1284,32 @@ document.querySelectorAll('.js-practice-start').forEach(btn => {
     updateQuestionCountUI();
     await startNormalExam({quick:false});
   });
+});
+
+
+const btnDaily = document.getElementById('btnDaily');
+if(btnDaily) btnDaily.addEventListener('click', startDailyChallenge);
+const btnMystery = document.getElementById('btnMystery');
+if(btnMystery) btnMystery.addEventListener('click', startMysteryChallenge);
+const btnShowStreak = document.getElementById('btnShowStreak');
+if(btnShowStreak) btnShowStreak.addEventListener('click', () => {
+  alert(`🔥 目前連勝：${(loadGameState().streak || 0)} 天\n🏆 最佳紀錄：${(loadGameState().bestStreak || 0)} 天`);
+});
+document.querySelectorAll('.js-stage-start').forEach(btn => {
+  btn.addEventListener('click', () => startStageChallenge(btn.dataset.bank || 'A'));
+});
+document.querySelectorAll('.js-king-start').forEach(btn => {
+  btn.addEventListener('click', async () => {
+    const bankSel = document.getElementById('bankSel');
+    if(bankSel) bankSel.value = 'mix';
+    updateQuestionCountUI();
+    await startNormalExam({quick:false});
+  });
+});
+const btnClearLocalRank = document.getElementById('btnClearLocalRank');
+if(btnClearLocalRank) btnClearLocalRank.addEventListener('click', () => {
+  localStorage.removeItem('plantKingScores');
+  renderRankings();
 });
 
 </script>
