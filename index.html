@@ -7,114 +7,380 @@
 <link rel="apple-touch-icon" href="/images/plant-quiz-favicon.png">
 <meta name="theme-color" content="#22c55e">
 <title>AI植物探索王 v1.0｜植物識別挑戰平台</title>
-<meta name="description" content="AI植物探索王：國小、國中、高中職都能使用的植物識別遊戲化挑戰平台。正式挑戰使用園藝題庫依比例組卷，練習區提供八大分類題庫。">
-<meta name="keywords" content="AI植物探索王, 植物識別, 校園植物, 國小植物學習, 國中生涯探索, 高中職園藝, 園藝丙級, 植物挑戰賽, 排行榜, 農業教育" />
+<meta name="description" content="AI植物探索王：把園藝植物識別題庫轉化成國小、國中、高中職都能參與的植物探索挑戰平台。正式挑戰使用100題40分鐘比例組卷，練習區提供八大分類題庫。">
+<meta name="keywords" content="AI植物探索王,植物識別,校園植物,國小植物學習,國中生涯探索,高中職園藝,園藝丙級,植物挑戰賽">
 <meta name="robots" content="index,follow">
 <style>
-:root{--green:#15803d;--blue:#2563eb;--purple:#7c3aed;--orange:#f97316;--ink:#123323;--ok:#16a34a;--bad:#dc2626;--amber:#f59e0b;}
+:root{
+  --green:#16813a;--green2:#22c55e;--deep:#064e3b;--soft:#eefbea;
+  --sky:#dff8ff;--gold:#fbbf24;--orange:#f97316;--blue:#2563eb;
+  --purple:#7c3aed;--ink:#17321f;--muted:#62766a;
+  --ok:#16a34a;--bad:#dc2626;--amber:#f59e0b;
+  --shadow:0 18px 40px rgba(6,95,42,.14);
+}
 *{box-sizing:border-box}
-html,body{margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;color:var(--ink);background:linear-gradient(180deg,#e8fbff,#d9f8c9)}
-a{color:inherit;text-decoration:none}.hide{display:none!important}
-.main-nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);box-shadow:0 8px 24px rgba(6,95,42,.08);border-bottom:1px solid rgba(21,128,61,.12)}
-.nav-wrap{max-width:1536px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:18px;padding:14px 28px}
-.nav-logo{display:flex;align-items:center;gap:12px;font-weight:1000;font-size:30px;line-height:1;color:#0f2215;white-space:nowrap}
-.logo-mark{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(180deg,#e9ffd9,#a7f3d0);box-shadow:inset 0 -3px 0 rgba(21,128,61,.16),0 7px 15px rgba(21,128,61,.18);font-size:26px}
-.nav-logo small{display:block;color:var(--green);font-size:13px;margin-top:5px;font-weight:900}.version-badge{font-size:14px;color:white;background:linear-gradient(180deg,#4ac844,#15803d);padding:4px 10px;border-radius:999px}
-.nav-links{display:flex;align-items:center;gap:24px}.nav-links a{font-weight:900;font-size:16px;padding:10px 3px;border-bottom:4px solid transparent}.nav-links a:hover,.nav-links a.active{color:var(--green);border-bottom-color:var(--green)}
-.wrap{max-width:1536px;margin:0 auto;padding:0 16px 30px}
-.poster-stage{position:relative;margin:0 auto;border-radius:0 0 34px 34px;overflow:hidden;box-shadow:0 20px 50px rgba(6,95,42,.22);background:#bff2c4}
-.poster{position:relative;width:100%;aspect-ratio:1536/934;background:url('assets/hero-cover.png') center/cover no-repeat;min-height:640px}
-.hotspot{position:absolute;border:0;background:rgba(255,255,255,.01);cursor:pointer;border-radius:22px;color:transparent;box-shadow:none;padding:0}
-.hotspot:hover{outline:4px solid rgba(255,255,255,.78);background:rgba(255,255,255,.10)}
-.hs-elementary{left:23.0%;top:50.5%;width:13.2%;height:28.5%}.hs-junior{left:37.1%;top:50.5%;width:13.2%;height:28.5%}.hs-senior{left:51.1%;top:50.5%;width:13.2%;height:28.5%}.hs-practice{left:65.0%;top:50.5%;width:13.4%;height:28.5%}
-.hs-quick{left:64.8%;top:82%;width:11%;height:8%}.hs-ranking{right:3.8%;top:47%;width:16%;height:34%}
-.setup-panel{position:absolute;left:31.4%;top:39.5%;width:42.5%;display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px;background:rgba(255,255,255,.82);border:2px dashed #bde8ae;border-radius:18px;backdrop-filter:blur(4px)}
-.setup-panel input,.setup-panel select{width:100%;border:2px solid #d9edc8;border-radius:12px;padding:10px 12px;font-size:15px;background:white;font-weight:800}
-.status-row{grid-column:1/-1;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;font-size:13px}
-.pill,.counter-badge{display:inline-flex;align-items:center;gap:.4rem;background:#eef9e9;color:#245335;padding:5px 10px;border-radius:999px;font-weight:900}.counter-badge{background:#eef2ff;border:1px solid #e5e7ff}
-.badge-dot{width:8px;height:8px;border-radius:50%}.dot-spinning{background:var(--amber);animation:blink 1s infinite}.dot-ok{background:var(--ok)}.dot-off{background:#999}@keyframes blink{50%{opacity:.2}}.muted{color:#6b7280}
-#btnStart{display:none}
-.card{background:white;border-radius:18px;box-shadow:0 12px 30px rgba(6,95,42,.12);padding:24px}.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
-button{border:0;background:#2563eb;color:#fff;border-radius:12px;padding:12px 18px;font-size:16px;cursor:pointer}button.ghost{background:#eef2ff;color:#1d4ed8}button:disabled{opacity:.5;cursor:not-allowed}
-.exam-card,.result-card{max-width:1120px;margin:22px auto}.bar{height:8px;border-radius:999px;background:#e5e7eb;overflow:hidden}.bar>i{display:block;height:100%;background:linear-gradient(90deg,#22c55e,#2563eb);width:0%}
-.imgbox{display:flex;align-items:center;justify-content:center;background:#f1f5f9;border:2px dashed #e5e7eb;border-radius:18px;min-height:420px;overflow:hidden;padding:12px}.imgbox>img{max-width:100%;max-height:70vh;display:block;border-radius:12px}
-.opts{display:grid;gap:10px;margin-top:14px}.opt{background:#f8fafc;border:1px solid #e5e7eb;border-radius:14px;padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:10px;font-weight:800}.opt.correct{border-color:var(--ok);background:#ecfdf5}.opt.wrong{border-color:var(--bad);background:#fef2f2}
-.numguide{display:flex;gap:6px;flex-wrap:wrap}.numguide button{background:#fff;color:#0f172a;border:1px solid #cbd5e1;padding:6px 10px;border-radius:8px;font-weight:700;box-shadow:none;font-size:14px}.numguide button.done{background:#dbeafe;color:#1d4ed8;border-color:#93c5fd}.numguide button.current{background:#dcfce7;color:#166534;border-color:#86efac}
-.summary-box{margin:14px 0;padding:12px 14px;border:1px solid #dbeafe;background:#f8fbff;border-radius:12px}.summary-title{font-size:14px;font-weight:900;margin-bottom:8px;color:#1e40af}
-.footer-note{padding:14px 22px;background:#087333;color:white;font-weight:900;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
-@media(max-width:900px){.nav-wrap{padding:10px 12px;flex-wrap:wrap}.nav-logo{font-size:23px}.nav-links{width:100%;overflow:auto;gap:16px}.poster{min-height:720px;background-position:center top}.setup-panel{position:relative;left:auto;top:auto;width:auto;margin:12px;grid-template-columns:1fr}.hotspot{background:rgba(255,255,255,.001)}.hs-elementary,.hs-junior,.hs-senior,.hs-practice{top:auto;bottom:21%;height:16%;width:22%}.hs-elementary{left:4%}.hs-junior{left:27%}.hs-senior{left:50%}.hs-practice{left:73%}.hs-quick{left:62%;top:auto;bottom:8%;width:20%;height:8%}.hs-ranking{display:none}.imgbox{min-height:260px}#rTable{display:block;overflow-x:auto;white-space:nowrap}}
+html{scroll-behavior:smooth}
+html,body{
+  margin:0;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans TC","PingFang TC","Hiragino Sans","Microsoft JhengHei",sans-serif;
+  color:var(--ink);
+  background:linear-gradient(180deg,#e7fbff 0%,#f2ffe9 48%,#d6f7c8 100%);
+}
+a{color:inherit;text-decoration:none}
+.hide{display:none!important}
+.main-nav{
+  position:sticky;top:0;z-index:99;
+  background:rgba(255,255,255,.94);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(22,129,58,.14);
+  box-shadow:0 8px 24px rgba(6,95,42,.08);
+}
+.nav-wrap{
+  max-width:1180px;margin:auto;padding:12px 18px;
+  display:flex;justify-content:space-between;align-items:center;gap:18px;
+}
+.nav-logo{display:flex;align-items:center;gap:10px;font-weight:1000;font-size:26px;color:#13251a}
+.logo-mark{width:40px;height:40px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(180deg,#e8ffd9,#a7f3d0);font-size:25px}
+.nav-logo small{display:block;font-size:12px;color:var(--green);font-weight:900;margin-top:3px}
+.version{font-size:13px;color:#fff;background:linear-gradient(180deg,#48c94b,#16813a);padding:4px 9px;border-radius:999px}
+.nav-links{display:flex;gap:18px;align-items:center;font-weight:900}
+.nav-links a{padding:10px 0;border-bottom:4px solid transparent}
+.nav-links a:hover,.nav-links a.active{color:var(--green);border-color:var(--green)}
+.wrap{max-width:1180px;margin:auto;padding:0 16px 34px}
+.home-stage{
+  position:relative;overflow:hidden;border-radius:0 0 36px 36px;
+  min-height:calc(100vh - 72px);padding:28px;
+  background:
+    radial-gradient(circle at 8% 9%,rgba(255,255,255,.82) 0 70px,transparent 72px),
+    radial-gradient(circle at 86% 14%,rgba(255,255,255,.65) 0 86px,transparent 88px),
+    linear-gradient(180deg,#8ee8ff 0%,#dff7c4 58%,#70c86b 100%);
+  box-shadow:var(--shadow);
+}
+.home-stage:before{
+  content:"";position:absolute;inset:auto -5% -40px -5%;height:240px;
+  background:radial-gradient(ellipse at 50% 100%,rgba(20,120,45,.72) 0 54%,transparent 55%);
+  opacity:.45;pointer-events:none;
+}
+.home-grid{
+  position:relative;z-index:1;
+  display:grid;grid-template-columns:260px 1fr 285px;gap:18px;align-items:start;
+}
+.hero{text-align:center}
+.logo-title{margin:4px auto 10px;display:inline-block;position:relative;filter:drop-shadow(0 14px 14px rgba(0,0,0,.12))}
+.logo-title .ai{display:block;font-size:64px;line-height:.95;font-weight:1000;color:white;-webkit-text-stroke:3px var(--green);text-shadow:0 6px 0 #0a6c2d}
+.logo-title .king{display:block;font-size:92px;line-height:.9;font-weight:1000;letter-spacing:.04em;color:#ffd23a;-webkit-text-stroke:4px var(--green);text-shadow:0 7px 0 #9d6206}
+.crown{position:absolute;right:-22px;top:-3px;font-size:58px;transform:rotate(13deg)}
+.ribbon{display:inline-block;background:linear-gradient(180deg,#fff2a8,#dda12b);border:3px solid #b97913;border-radius:999px;padding:9px 28px;font-weight:1000;color:#4a2b04}
+.subtitle{font-size:24px;color:#065f2b;font-weight:1000;margin:18px 0 8px;text-shadow:0 2px 0 rgba(255,255,255,.8)}
+.goal{margin:0 auto 18px;max-width:660px;line-height:1.8;font-weight:900;color:#22593a;background:rgba(255,255,255,.72);border-radius:20px;padding:10px 16px}
+.panel,.card{
+  background:rgba(255,255,255,.94);border:3px solid rgba(255,255,255,.9);
+  border-radius:24px;box-shadow:var(--shadow);padding:18px;
+}
+.mascot{min-height:282px;text-align:center;display:flex;flex-direction:column;justify-content:center;align-items:center;background:rgba(255,255,255,.72)}
+.bubble{background:white;border-radius:28px;padding:14px 16px;font-weight:1000;color:#06652f;box-shadow:0 8px 18px rgba(0,0,0,.1)}
+.mascot-emoji{font-size:90px;margin:12px 0;filter:drop-shadow(0 10px 8px rgba(0,0,0,.12))}
+.sign{background:linear-gradient(180deg,#a56426,#754216);color:white;border-radius:12px;padding:10px 14px;font-weight:1000;box-shadow:inset 0 2px 0 rgba(255,255,255,.3)}
+.news{margin-top:14px}
+.news h3,.rank h3{margin:0 0 12px;font-size:21px;color:#b45309}
+.news ul,.rank ol{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+.news li{font-weight:900;line-height:1.35}
+.news small{display:block;color:#7c6b45;margin-left:26px}
+.start-box{max-width:720px;margin:0 auto 16px;padding:16px;border-radius:22px;background:rgba(255,255,255,.92);border:2px dashed #9bdc80}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+input[type=text],select{
+  width:100%;border:2px solid #d8edc8;border-radius:14px;padding:12px 14px;font-size:16px;background:#fff;font-weight:800;min-width:0;
+}
+.helper-row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.pill,.counter-badge{
+  display:inline-flex;align-items:center;gap:.45rem;background:#eef9e9;color:#245335;
+  padding:6px 12px;border-radius:999px;font-size:14px;font-weight:900;
+}
+.counter-badge{background:#eef2ff}
+.badge-dot{width:8px;height:8px;border-radius:50%}
+.dot-spinning{background:var(--amber);animation:blink 1s infinite}.dot-ok{background:var(--ok)}.dot-off{background:#999}
+@keyframes blink{50%{opacity:.25}}
+.group-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:16px 0}
+.group-card{
+  background:linear-gradient(180deg,#ffffff,#f7fff2);border:4px solid #9bdc80;border-radius:24px;padding:15px;
+  box-shadow:0 12px 0 rgba(31,109,46,.1),0 12px 26px rgba(6,95,42,.12);text-align:center;
+}
+.group-card.blue{border-color:#82caff;background:linear-gradient(180deg,#fff,#eef8ff)}
+.group-card.purple{border-color:#c4a0ff;background:linear-gradient(180deg,#fff,#f6f0ff)}
+.group-card h2{margin:0;font-size:30px;color:#12462a}
+.group-card.blue h2{color:#174aa6}.group-card.purple h2{color:#5b21b6}
+.age{font-weight:900;color:#4b6b54;margin:6px 0 12px}
+.card-pic{height:96px;border-radius:18px;background-size:cover;background-position:center;margin-bottom:12px;border:2px solid rgba(255,255,255,.9);display:grid;place-items:end center;overflow:hidden}
+.pic1{background-image:linear-gradient(rgba(255,255,255,.12),rgba(22,129,58,.22)),url("https://img.miracle-mind.org/Hort_plant_quiz/herbaceous%20plants/%E4%B8%80%E4%B8%B2%E7%B4%85%EF%BC%88%E7%88%86%E7%AB%B9%E7%B4%85%EF%BC%89_1.jpg")}
+.pic2{background-image:linear-gradient(rgba(255,255,255,.12),rgba(37,99,235,.18)),url("https://img.miracle-mind.org/Hort_plant_quiz/fruit/%E5%8F%AF%E5%8F%AF_1.jpg")}
+.pic3{background-image:linear-gradient(rgba(255,255,255,.12),rgba(124,58,237,.18)),url("https://img.miracle-mind.org/Hort_plant_quiz/vegetables/%E5%86%AC%E7%93%9C_1.jpg")}
+.pic-label{margin-bottom:8px;background:rgba(255,255,255,.9);border-radius:999px;padding:5px 10px;font-size:13px;font-weight:1000;color:#14532d}
+.list{list-style:none;margin:0 0 12px;padding:0;display:grid;gap:6px;text-align:left;font-weight:850}
+.list li:before{content:"⭐ ";color:#f59e0b}
+button,.btn{
+  border:0;border-radius:15px;padding:12px 18px;background:linear-gradient(180deg,#32b044,#087b27);
+  color:white;font-weight:1000;font-size:17px;cursor:pointer;box-shadow:0 6px 0 rgba(0,0,0,.13);transition:.18s;
+}
+button:hover,.btn:hover{transform:translateY(-2px);filter:brightness(1.04)}
+button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
+.practice{
+  margin-top:16px;background:rgba(255,255,255,.83);border-radius:22px;padding:15px;border:2px solid rgba(255,255,255,.9)
+}
+.practice h3{margin:0 0 10px;color:#a35106;font-size:22px}
+.practice-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+.practice-grid button{font-size:14px;padding:10px 8px;background:linear-gradient(180deg,#fb923c,#ea580c)}
+.rank{margin-bottom:14px;padding:0;overflow:hidden}
+.rank h3{background:linear-gradient(180deg,#249443,#0d6f31);color:white;margin:0;padding:12px 16px}
+.rank h3.blue{background:linear-gradient(180deg,#38a8ed,#0b73c8)}
+.rank ol{padding:14px 16px}
+.rank li{display:grid;grid-template-columns:32px 1fr auto;gap:8px;align-items:center;border-bottom:1px solid #edf2e7;padding-bottom:8px;font-weight:900}
+.rank li:last-child{border:0}
+.no{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#f3f4f6;font-weight:1000}
+.rank li:nth-child(1) .no{background:#fbbf24;color:#fff}.rank li:nth-child(2) .no{background:#cbd5e1;color:#fff}.rank li:nth-child(3) .no{background:#b45309;color:#fff}
+.tabs{display:flex;gap:6px;padding:12px 12px 0}
+.tabs span{flex:1;text-align:center;background:#eef9e9;border-radius:999px;padding:6px;font-size:13px;font-weight:1000;color:#14532d}
+.tabs span.active{background:#15803d;color:white}
+.note{font-size:12px;color:#617261;font-weight:800;padding:0 16px 12px;line-height:1.5}
+.rules{position:relative;z-index:1;margin-top:18px;text-align:center;line-height:1.8;font-weight:850}
+.site-footer{position:relative;z-index:1;margin:18px -28px -28px;padding:14px 28px;background:linear-gradient(180deg,#118238,#056025);color:white;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-weight:900}
+
+/* exam / result */
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.exam-card,.result-card{max-width:1120px;margin:22px auto}
+.exam-title{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.exam-title h2,.result-card h2{margin:0;font-size:28px;color:#064e3b}
+.bar{height:8px;border-radius:999px;background:#e5e7eb;overflow:hidden}
+.bar>i{display:block;height:100%;background:linear-gradient(90deg,#22c55e,#2563eb);width:0%}
+.imgbox{display:flex;align-items:center;justify-content:center;background:#f1f5f9;border:2px dashed #e5e7eb;border-radius:18px;min-height:420px;overflow:hidden;padding:12px}
+.imgbox>img{max-width:100%;max-height:70vh;display:block;border-radius:12px}
+.opts{display:grid;gap:10px;margin-top:14px}
+.opt{background:#f8fafc;border:1px solid #e5e7eb;border-radius:14px;padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:10px;font-weight:800}
+.opt input{margin:0}.opt.correct{border-color:var(--ok);background:#ecfdf5}.opt.wrong{border-color:var(--bad);background:#fef2f2}
+.numguide{display:flex;gap:6px;flex-wrap:wrap}
+.numguide button{background:#ffffff;color:#0f172a;border:1px solid #cbd5e1;padding:6px 10px;border-radius:8px;font-weight:700;box-shadow:none;font-size:14px}
+.numguide button.done{background:#dbeafe;color:#1d4ed8;border-color:#93c5fd}
+.numguide button.current{background:#dcfce7;color:#166534;border-color:#86efac}
+.summary-box{margin:14px 0;padding:12px 14px;border:1px solid #dbeafe;background:#f8fbff;border-radius:12px}
+.summary-title{font-size:14px;font-weight:900;margin-bottom:8px;color:#1e40af}
+.answer-tag{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;background:#eef2ff;color:#1d4ed8;margin-left:6px}
+.muted{color:#6b7280}
+.question-hint{display:inline-block;color:#3a6b4b;font-size:14px;font-weight:900}
+
+@media(max-width:1040px){
+  .home-grid{grid-template-columns:1fr}
+  .side-left{order:2}.hero{order:1}.side-right{order:3}
+  .mascot{display:none}
+}
+@media(max-width:760px){
+  .nav-wrap{align-items:flex-start;flex-wrap:wrap;padding:10px 12px}
+  .nav-logo{font-size:22px}.nav-logo small{font-size:11px}
+  .nav-links{width:100%;overflow:auto;gap:14px}
+  .nav-links a{white-space:nowrap;font-size:14px}
+  .wrap{padding:0 10px 20px}
+  .home-stage{padding:16px 10px;border-radius:0 0 24px 24px}
+  .logo-title .ai{font-size:42px;-webkit-text-stroke:2px var(--green)}
+  .logo-title .king{font-size:62px;-webkit-text-stroke:3px var(--green)}
+  .crown{font-size:40px;right:-12px}
+  .subtitle{font-size:18px}.goal{font-size:14px}
+  .form-grid,.group-grid,.practice-grid{grid-template-columns:1fr}
+  .panel,.card{padding:15px;border-radius:18px}
+  .imgbox{min-height:260px;padding:8px}
+  .imgbox>img{max-height:52vh}
+  #rTable{display:block;overflow-x:auto;white-space:nowrap}
+  .site-footer{margin:18px -10px -16px;font-size:13px}
+}
 </style>
 <script data-goatcounter="https://ai-agri-education.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
-<nav class="main-nav"><div class="nav-wrap"><a href="#home" class="nav-logo"><span class="logo-mark">🌱</span><span>AI植物探索王 <span class="version-badge">v1.0</span><small>認識植物・探索自然・挑戰自我</small></span></a><div class="nav-links"><a href="#home" class="active">首頁</a><a href="#exam-info">測驗說明</a><a href="#ranking">排行榜</a><a href="#achievement">我的成就</a><a href="#about">關於我們</a></div></div></nav>
-<div class="wrap">
-<section id="home" class="poster-stage">
-  <div class="poster">
-    <div class="setup-panel" aria-label="挑戰資料">
-      <input id="uname" type="text" placeholder="輸入暱稱 / 代號（不需真實姓名）" />
-      <input id="schoolName" type="text" placeholder="輸入學校名稱（例：潮州國中）" />
-      <select id="groupSel" title="組別"><option value="elementary">國小組</option><option value="junior">國中組</option><option value="senior">高中職組</option></select>
-      <select id="bankSel" title="題庫"><option value="mix">正式挑戰：全部題庫（依比例組卷）</option><option value="A">練習：A 水生植物</option><option value="B">練習：B 果樹</option><option value="C">練習：C 草本植物</option><option value="D">練習：D 資材</option><option value="E">練習：E 灌木</option><option value="F">練習：F 喬木</option><option value="G">練習：G 蔬菜</option><option value="H">練習：H 蔓性植物</option></select>
-      <div class="status-row"><span id="qCountHint">（目前題數：100 題）</span><span class="pill">來源：<b id="sourceLabel">R2 + Cloudflare CDN</b></span><span class="counter-badge" id="cloudBadge"><span class="badge-dot dot-off" id="cloudDot"></span><span id="cloudText" class="muted">雲端：離線</span></span><span class="pill">累計挑戰：<b id="globalCount">000000 人</b></span><span style="display:none">ver <b id="ver">載入中</b></span></div>
+<nav class="main-nav">
+  <div class="nav-wrap">
+    <a href="#home" class="nav-logo">
+      <span class="logo-mark">🌱</span>
+      <span>AI植物探索王 <span class="version">v1.0</span><small>認識植物・探索自然・挑戰自我</small></span>
+    </a>
+    <div class="nav-links">
+      <a href="#home" class="active">首頁</a>
+      <a href="#rules">測驗說明</a>
+      <a href="#ranking">排行榜規劃</a>
+      <a href="#practice">練習區</a>
     </div>
-    <button id="btnStart" type="button">開始正式挑戰</button>
-    <button class="hotspot hs-elementary" data-start-group="elementary" aria-label="國小組立即挑戰">國小組立即挑戰</button>
-    <button class="hotspot hs-junior" data-start-group="junior" aria-label="國中組立即挑戰">國中組立即挑戰</button>
-    <button class="hotspot hs-senior" data-start-group="senior" aria-label="高中職組立即挑戰">高中職組立即挑戰</button>
-    <button class="hotspot hs-practice" data-practice-bank="B" aria-label="進入練習區">練習區</button>
-    <button id="btnQuick" class="hotspot hs-quick" type="button" aria-label="每日挑戰快速體驗10題">每日挑戰</button>
-    <a class="hotspot hs-ranking" href="#ranking" aria-label="查看排行榜">排行榜</a>
   </div>
-  <div class="footer-note"><span>AI植物探索王 v1.0 ｜ 認識植物・探索自然・挑戰自我</span><span>© 2026 農業教育創新團隊｜教育與非營利用途</span></div>
-</section>
-<section id="exam-info" class="card" style="margin:22px auto;max-width:1120px"><b>🌿 挑戰規則：</b>正式挑戰使用「全部題庫依比例組卷」100 題、40 分鐘，列入未來排行榜；八大分類題庫作為練習區，不列入競賽排名。</section>
-<section id="ranking" class="card" style="margin:22px auto;max-width:1120px"><h2>🏫 學校積分排行榜</h2><p>排行榜正式版會分成：國小組、國中組、高中職組。第一版先保留畫面與入口，後續再串接成績資料庫。</p></section>
-<section id="achievement" class="card" style="margin:22px auto;max-width:1120px"><h2>🏅 我的成就</h2><p>未來可加入植物小學徒、校園達人、植物王等徽章。</p></section>
-<section id="about" class="card" style="margin:22px auto;max-width:1120px"><h2>🌱 關於平台</h2><p>AI植物探索王沿用園藝識別題庫與測驗核心，重新包裝成國小、國中、高中職都能使用的植物探索挑戰平台。</p></section>
-<section id="exam" class="card hide">
-    <div class="row" style="justify-content:space-between">
+</nav>
+
+<div class="wrap">
+  <section id="home" class="home-stage">
+    <div class="home-grid">
+      <aside class="side-left">
+        <div class="panel mascot">
+          <div class="bubble">你認識<br>校園裡的植物嗎？</div>
+          <div class="mascot-emoji">🧒🔍</div>
+          <div class="sign">先來猜植物<br>再挑戰植物王！</div>
+        </div>
+        <div class="panel news">
+          <h3>📣 今日任務</h3>
+          <ul>
+            <li>🏆 正式挑戰：100題、40分鐘<small>未來列入排行榜</small></li>
+            <li>🌿 練習區：八大分類自由練習<small>不列入排行榜</small></li>
+            <li>🏫 分組：國小、國中、高中職<small>同一題庫，不同組別競賽</small></li>
+          </ul>
+        </div>
+      </aside>
+
+      <main class="hero">
+        <div class="logo-title">
+          <span class="ai">AI植物</span>
+          <span class="king">探索王</span>
+          <span class="crown">👑</span>
+        </div>
+        <div class="ribbon">認識植物・探索自然・挑戰自我</div>
+        <div class="subtitle">從國小到高中職，一起挑戰植物王寶座！</div>
+        <p class="goal">這不是招生簡章，也不是考試網站，而是一個讓學生用「猜植物」開始認識農業與自然的遊戲化入口。</p>
+
+        <div class="start-box">
+          <div class="form-grid">
+            <input id="uname" type="text" placeholder="輸入暱稱 / 代號（不需真實姓名）">
+            <input id="schoolName" type="text" placeholder="輸入學校名稱（例：潮州國中）">
+            <select id="groupSel" title="組別">
+              <option value="elementary">國小組</option>
+              <option value="junior" selected>國中組</option>
+              <option value="senior">高中職組</option>
+            </select>
+            <select id="bankSel" title="題庫">
+              <option value="mix">正式挑戰：全部題庫（依比例組卷）</option>
+              <option value="A">練習：A 水生植物</option>
+              <option value="B">練習：B 果樹</option>
+              <option value="C">練習：C 草本植物</option>
+              <option value="D">練習：D 資材</option>
+              <option value="E">練習：E 灌木</option>
+              <option value="F">練習：F 喬木</option>
+              <option value="G">練習：G 蔬菜</option>
+              <option value="H">練習：H 蔓性植物</option>
+            </select>
+          </div>
+          <div class="helper-row">
+            <span id="qCountHint" class="question-hint">（目前題數：100 題）</span>
+            <span class="pill">來源：<b id="sourceLabel">R2 + Cloudflare CDN</b></span>
+            <span class="counter-badge" id="cloudBadge" title="雲端連線狀態"><span class="badge-dot dot-off" id="cloudDot"></span><span id="cloudText" class="muted">雲端：離線</span></span>
+            <span class="pill">累計挑戰：<b id="globalCount">000000 人</b></span>
+          </div>
+          <div style="margin-top:14px;text-align:center">
+            <button id="btnStart" type="button">開始正式挑戰（100 題）</button>
+            <button id="btnQuick" class="ghost" type="button">⚡ 快速體驗 10 題</button>
+          </div>
+        </div>
+
+        <div class="group-grid">
+          <article class="group-card">
+            <h2>國小組</h2><div class="age">四～六年級適用</div>
+            <div class="card-pic pic1"><span class="pic-label">校園植物探索</span></div>
+            <ul class="list"><li>入門挑戰模式</li><li>可愛徽章獎勵</li><li>適合課堂暖身</li></ul>
+            <button type="button" class="js-group-start" data-group="elementary">立即挑戰 ➜</button>
+          </article>
+          <article class="group-card blue">
+            <h2>國中組</h2><div class="age">七～九年級適用</div>
+            <div class="card-pic pic2"><span class="pic-label">植物達人挑戰</span></div>
+            <ul class="list"><li>生涯探索入口</li><li>學校積分競賽</li><li>縣市排行榜規劃</li></ul>
+            <button type="button" class="js-group-start" data-group="junior">立即挑戰 ➜</button>
+          </article>
+          <article class="group-card purple">
+            <h2>高中職組</h2><div class="age">高中職學生適用</div>
+            <div class="card-pic pic3"><span class="pic-label">植物王競技場</span></div>
+            <ul class="list"><li>丙級檢定模式</li><li>正式100題挑戰</li><li>全國排行榜規劃</li></ul>
+            <button type="button" class="js-group-start" data-group="senior">立即挑戰 ➜</button>
+          </article>
+        </div>
+
+        <section id="practice" class="practice">
+          <h3>🌿 練習區：八大分類自由練習</h3>
+          <p style="margin:0 0 12px;font-weight:850;color:#5b6f60">練習區用來熟悉植物，不列入排行榜；正式挑戰才作為未來競賽成績。</p>
+          <div class="practice-grid">
+            <button class="js-practice-start" data-bank="A">水生植物</button>
+            <button class="js-practice-start" data-bank="B">果樹</button>
+            <button class="js-practice-start" data-bank="C">草本植物</button>
+            <button class="js-practice-start" data-bank="D">資材</button>
+            <button class="js-practice-start" data-bank="E">灌木</button>
+            <button class="js-practice-start" data-bank="F">喬木</button>
+            <button class="js-practice-start" data-bank="G">蔬菜</button>
+            <button class="js-practice-start" data-bank="H">蔓性植物</button>
+          </div>
+        </section>
+      </main>
+
+      <aside class="side-right" id="ranking">
+        <div class="panel rank">
+          <h3>🏆 個人排行榜 TOP5</h3>
+          <ol>
+            <li><span class="no">1</span><span>植物小高手<br><small>潮州國中</small></span><b>98分</b></li>
+            <li><span class="no">2</span><span>GreenKing<br><small>明正國中</small></span><b>95分</b></li>
+            <li><span class="no">3</span><span>小葉子<br><small>麟洛國中</small></span><b>93分</b></li>
+            <li><span class="no">4</span><span>花花達人<br><small>潮州國中</small></span><b>92分</b></li>
+            <li><span class="no">5</span><span>植物博士<br><small>長治國中</small></span><b>90分</b></li>
+          </ol>
+          <div class="note">示意資料：未來僅正式挑戰成績列入。</div>
+        </div>
+        <div class="panel rank">
+          <h3 class="blue">🏫 學校積分排行榜</h3>
+          <div class="tabs"><span class="active">國小組</span><span>國中組</span><span>高中職組</span></div>
+          <ol>
+            <li><span class="no">1</span><span>潮州國小</span><b>12,560分</b></li>
+            <li><span class="no">2</span><span>明正國小</span><b>11,820分</b></li>
+            <li><span class="no">3</span><span>麟洛國小</span><b>10,750分</b></li>
+          </ol>
+          <div class="note">正式版會依國小組、國中組、高中職組分開計算，並加入最低參與人數門檻。</div>
+        </div>
+      </aside>
+    </div>
+
+    <section id="rules" class="panel rules">
+      <b>🌱 平台規則：</b>正式挑戰採用原本園藝題庫「全部題庫依比例組卷」100題、40分鐘；八大分類作為練習區，不列入競賽排名。題庫與測驗邏輯沿用原本園藝識別平台。
+      <br><span class="pill" style="margin-top:8px">題庫版本：<b id="ver">載入中</b></span>
+    </section>
+
+    <footer class="site-footer">
+      <span>AI植物探索王 v1.0｜認識植物・探索自然・挑戰自我</span>
+      <span>© 2026 農業教育創新團隊｜教育與非營利用途</span>
+    </footer>
+  </section>
+
+  <section id="exam" class="card exam-card hide">
+    <div class="exam-title">
+      <h2>🌿 植物王挑戰進行中</h2>
       <div class="row">
         <span class="pill">考生：<b id="who">—</b></span>
         <span class="pill">題數：<b id="countLabel">0/0</b></span>
         <span class="pill" id="clock">40:00</span>
       </div>
-      <div style="flex:1;max-width:520px" class="bar"><i id="bar"></i></div>
     </div>
-
+    <div class="bar" style="margin-bottom:16px"><i id="bar"></i></div>
     <h3 id="qtitle" style="margin:14px 0">第 1 / 0 題</h3>
     <div class="imgbox"><img id="qimg" alt="題目圖片" loading="lazy"></div>
     <div class="opts" id="opts"></div>
-
     <div class="row" style="margin-top:12px">
       <button id="btnPrev" class="ghost">← 上一題</button>
       <button id="btnNext" class="ghost">下一題 →</button>
       <button id="btnSubmit">交卷</button>
     </div>
-
-    <div style="margin-top:10px">
+    <div style="margin-top:14px">
       <div class="muted" style="margin-bottom:6px">題目導覽</div>
       <div id="numguide" class="numguide"></div>
     </div>
   </section>
 
-  
-<section id="result" class="card hide">
-    <h2>測驗結果</h2>
+  <section id="result" class="card result-card hide">
+    <h2>🏆 測驗結果</h2>
     <div class="row">
       <span class="pill">姓名/代號：<b id="rWho">—</b></span>
       <span class="pill">題數：<b id="rCount">0</b></span>
       <span class="pill">得分：<b id="rScore">0</b></span>
       <span class="pill">版本：<b id="rVer">—</b></span>
     </div>
-
     <div class="summary-box">
       <div class="summary-title">📌 測驗摘要</div>
       <span class="pill">總題數：<b id="sumTotal">0</b></span>
       <span class="pill">答對：<b id="sumCorrect">0</b></span>
       <span class="pill">錯題：<b id="sumWrong">0</b></span>
     </div>
-
     <div style="margin:14px 0">
       <table id="rTable" style="border-collapse:collapse;width:100%">
         <thead>
@@ -129,7 +395,6 @@ button{border:0;background:#2563eb;color:#fff;border-radius:12px;padding:12px 18
         <tbody id="rBody"></tbody>
       </table>
     </div>
-
     <div class="row">
       <button id="btnReviewWrong" class="ghost">⭐ 錯題回顧</button>
       <button id="btnHome" class="ghost">回首頁</button>
@@ -137,6 +402,7 @@ button{border:0;background:#2563eb;color:#fff;border-radius:12px;padding:12px 18
     </div>
   </section>
 </div>
+
 <script>
 /* ----------------------- 0) 全域設定 ----------------------- */
 
@@ -753,28 +1019,32 @@ updateSummary(0, 0, 0);
 updateReviewButton();
 updateQuestionCountUI();
 loadCounter();
-</script>
 
-<script>
-// AI植物探索王首頁互動：點選封面組別後，沿用原園藝測驗核心開始測驗
-document.querySelectorAll('[data-start-group]').forEach(btn => {
+/* ----------------------- 6) AI植物探索王首頁入口 ----------------------- */
+function setGroup(groupValue){
+  const groupSel = document.getElementById('groupSel');
+  if(groupSel) groupSel.value = groupValue;
+}
+
+document.querySelectorAll('.js-group-start').forEach(btn => {
   btn.addEventListener('click', async () => {
-    const groupSel = document.getElementById('groupSel');
-    if(groupSel) groupSel.value = btn.dataset.startGroup || 'junior';
+    setGroup(btn.dataset.group || 'junior');
     const bankSel = document.getElementById('bankSel');
     if(bankSel) bankSel.value = 'mix';
     updateQuestionCountUI();
     await startNormalExam({quick:false});
   });
 });
-document.querySelectorAll('[data-practice-bank]').forEach(btn => {
+
+document.querySelectorAll('.js-practice-start').forEach(btn => {
   btn.addEventListener('click', async () => {
     const bankSel = document.getElementById('bankSel');
-    if(bankSel) bankSel.value = btn.dataset.practiceBank || 'B';
+    if(bankSel) bankSel.value = btn.dataset.bank || 'A';
     updateQuestionCountUI();
     await startNormalExam({quick:false});
   });
 });
+
 </script>
 
 </body>
