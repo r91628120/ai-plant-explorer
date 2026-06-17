@@ -3,429 +3,682 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+<link rel="icon" type="image/png" href="/images/plant-quiz-favicon.png">
+<link rel="apple-touch-icon" href="/images/plant-quiz-favicon.png">
+<meta name="theme-color" content="#22c55e">
+
 <title>AI植物探索王 v1.0｜國小國中高中職植物識別挑戰平台</title>
-<meta name="description" content="AI植物探索王：國小、國中、高中職都能使用的植物識別遊戲化挑戰平台，正式挑戰使用園藝題庫依比例組卷，練習區提供八大分類題庫。">
+<meta name="description" content="AI植物探索王：國小、國中、高中職都能使用的植物識別遊戲化挑戰平台。正式挑戰使用園藝題庫依比例組卷，練習區提供八大分類題庫。">
 <meta name="keywords" content="AI植物探索王, 植物識別, 校園植物, 國小植物學習, 國中生涯探索, 高中職園藝, 園藝丙級, 植物挑戰賽, 排行榜, 農業教育" />
 <meta name="robots" content="index,follow">
+
 <style>
-  :root{
-    --green:#15803d;
-    --green-dark:#075f2a;
-    --leaf:#22c55e;
-    --sky:#dff7ff;
-    --blue:#2563eb;
-    --purple:#7c3aed;
-    --orange:#f97316;
-    --gold:#fbbf24;
-    --cream:#fff7db;
-    --paper:#fffdf4;
-    --ink:#17321f;
-    --muted:#5f7a66;
-    --ok:#16a34a;
-    --bad:#dc2626;
-    --amber:#f59e0b;
-    --shadow:0 14px 35px rgba(6,95,42,.18);
-  }
-
-  *{box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  html,body{
-    margin:0;
-    font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans TC","PingFang TC","Hiragino Sans","Microsoft JhengHei",sans-serif;
-    color:var(--ink);
-    background:linear-gradient(180deg,#edfbff 0%,#effde8 50%,#c6f4b3 100%);
-  }
-
-  body::before{
-    content:"";
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-    background:
-      radial-gradient(circle at 6% 14%,rgba(255,255,255,.9) 0 3%,transparent 4%),
-      radial-gradient(circle at 92% 18%,rgba(255,255,255,.8) 0 4%,transparent 5%),
-      radial-gradient(circle at 18% 84%,rgba(255,255,255,.45) 0 8%,transparent 9%);
-    z-index:-2;
-  }
-
-  .main-nav{
-    background:rgba(255,255,255,.92);
-    backdrop-filter:blur(14px);
-    position:sticky;
-    top:0;
-    z-index:9999;
-    border-bottom:1px solid rgba(21,128,61,.16);
-    box-shadow:0 6px 20px rgba(6,95,42,.08);
-  }
-
-  .nav-wrap{
-    max-width:1480px;
-    margin:auto;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:18px;
-    padding:14px 26px;
-  }
-
-  .nav-logo{
-    color:#111827;
-    font-weight:1000;
-    font-size:30px;
-    line-height:1;
-    text-decoration:none;
-    display:flex;
-    align-items:center;
-    gap:10px;
-    white-space:nowrap;
-  }
-
-  .nav-logo small{
-    display:block;
-    color:var(--green);
-    font-size:13px;
-    margin-top:5px;
-    font-weight:900;
-  }
-
-  .version-badge{
-    font-size:14px;
-    color:white;
-    background:linear-gradient(180deg,#45b83f,#18812f);
-    padding:4px 10px;
-    border-radius:999px;
-    box-shadow:inset 0 -2px 0 rgba(0,0,0,.14);
-  }
-
-  .nav-links{
-    display:flex;
-    align-items:center;
-    gap:26px;
-  }
-
-  .nav-links a{
-    color:#12231a;
-    text-decoration:none;
-    font-weight:900;
-    font-size:17px;
-    transition:.2s;
-    padding:10px 4px;
-    border-bottom:4px solid transparent;
-  }
-
-  .nav-links a:hover,.nav-links a.active{
-    color:var(--green);
-    border-bottom-color:var(--green);
-  }
-
-  .login-pill{
-    color:white!important;
-    background:linear-gradient(180deg,#37aa31,#087b27);
-    padding:11px 22px!important;
-    border-radius:999px;
-    box-shadow:0 8px 18px rgba(21,128,61,.25), inset 0 -3px 0 rgba(0,0,0,.18);
-    border-bottom:0!important;
-  }
-
-  .wrap{
-    max-width:1480px;
-    margin:0 auto;
-    padding:0 20px 26px;
-  }
-
-  .card{
-    background:#fff;
-    border-radius:22px;
-    box-shadow:var(--shadow);
-    padding:24px;
-  }
-
-  .home-stage{
-    position:relative;
-    overflow:hidden;
-    min-height:calc(100vh - 86px);
-    border-radius:0 0 34px 34px;
-    padding:22px 22px 22px;
-    background:
-      linear-gradient(180deg,rgba(106,211,255,.55) 0%,rgba(210,246,187,.78) 54%,rgba(75,175,76,.55) 100%),
-      radial-gradient(circle at 20% 12%,rgba(255,255,255,.85) 0 8%,transparent 9%),
-      radial-gradient(circle at 78% 10%,rgba(255,255,255,.7) 0 7%,transparent 8%);
-  }
-
-  .home-stage::before{
-    content:"";
-    position:absolute;
-    inset:auto -5% -2% -5%;
-    height:48%;
-    background:
-      radial-gradient(circle at 12% 70%,#166534 0 4px,transparent 5px),
-      radial-gradient(circle at 82% 64%,#86efac 0 5px,transparent 6px),
-      linear-gradient(180deg,rgba(68,187,65,.1),rgba(20,130,43,.55));
-    z-index:0;
-  }
-
-  .leaf-decoration{
-    position:absolute;
-    font-size:34px;
-    filter:drop-shadow(0 5px 6px rgba(0,0,0,.12));
-    animation:floaty 4s ease-in-out infinite;
-    z-index:1;
-  }
-  .leaf1{left:7%;top:20%}.leaf2{right:18%;top:14%;animation-delay:.8s}.leaf3{left:22%;top:11%;animation-delay:1.3s}.leaf4{right:5%;bottom:13%;animation-delay:.4s}
-  @keyframes floaty{50%{transform:translateY(-10px) rotate(3deg)}}
-
-  .home-grid{
-    position:relative;
-    z-index:2;
-    display:grid;
-    grid-template-columns:300px minmax(520px,1fr) 310px;
-    gap:18px;
-    align-items:start;
-  }
-
-  .hero-center{text-align:center;padding:8px 0 0}
-  .logo-title{
-    display:inline-block;
-    position:relative;
-    margin:6px auto 8px;
-    padding:18px 36px 24px;
-    color:#fff;
-    text-shadow:0 5px 0 #166534,0 8px 18px rgba(0,0,0,.18);
-    font-weight:1000;
-    letter-spacing:.02em;
-    line-height:.92;
-    filter:drop-shadow(0 16px 18px rgba(6,95,42,.22));
-  }
-  .logo-title .ai{font-size:76px;color:#f8fff0;-webkit-text-stroke:4px #13813a;display:block}
-  .logo-title .king{font-size:110px;color:#ffc928;-webkit-text-stroke:5px #16803a;display:block}
-  .logo-title::before{
-    content:"🌿 🌱 👑 🌿";
-    position:absolute;
-    inset:0;
-    z-index:-1;
-    font-size:56px;
-    letter-spacing:6px;
-    transform:translateY(-10px);
-    opacity:.95;
-  }
-
-  .ribbon{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    gap:8px;
-    margin-top:-10px;
-    padding:10px 34px;
-    background:linear-gradient(180deg,#ffe38a,#d9941a);
-    color:#422006;
-    border:3px solid #b87710;
-    border-radius:999px;
-    font-weight:1000;
-    box-shadow:0 8px 0 rgba(146,64,14,.18);
-  }
-
-  .hero-subtitle{
-    margin:14px 0 8px;
-    color:#056032;
-    font-size:25px;
-    font-weight:1000;
-    text-shadow:0 2px 0 rgba(255,255,255,.8);
-  }
-
-  .select-banner{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    gap:8px;
-    margin:4px auto 14px;
-    padding:7px 30px;
-    color:white;
-    background:linear-gradient(180deg,#239347,#0f6d30);
-    border-radius:999px;
-    font-size:20px;
-    font-weight:1000;
-    box-shadow:0 8px 16px rgba(6,95,42,.22);
-  }
-
-  .challenge-grid{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:12px;
-    align-items:stretch;
-  }
-
-  .challenge-card{
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
-    min-height:315px;
-    padding:14px;
-    border-radius:24px;
-    background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(255,255,255,.82));
-    border:4px solid #9bd66a;
-    box-shadow:0 12px 0 rgba(31,109,46,.11),0 12px 30px rgba(6,95,42,.13);
-    position:relative;
-    overflow:hidden;
-  }
-  .challenge-card::before{
-    content:"";
-    position:absolute;inset:-40% -35% auto auto;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.55)
-  }
-  .challenge-card.blue{border-color:#7cc5ff}.challenge-card.purple{border-color:#c4a0ff}.challenge-card.orange{border-color:#ffbe65}
-  .challenge-card h2{margin:0;font-size:30px;line-height:1.05;font-weight:1000;text-align:center}
-  .challenge-card .age{text-align:center;font-weight:900;margin:6px 0 10px;color:#22613b}
-  .challenge-card.blue .age{color:#1d4ed8}.challenge-card.purple .age{color:#6d28d9}.challenge-card.orange .age{color:#c2410c}
-  .card-art{height:94px;display:flex;align-items:center;justify-content:center;font-size:74px;filter:drop-shadow(0 8px 7px rgba(0,0,0,.13))}
-  .card-list{list-style:none;margin:0;padding:0;display:grid;gap:6px;font-size:16px;font-weight:800;color:#315641}
-  .card-list li::before{content:"🏅 ";}
-  .challenge-card.blue .card-list li::before{content:"🔹 "}.challenge-card.purple .card-list li::before{content:"💜 "}.challenge-card.orange .card-list li::before{content:"🌟 "}
-
-  button,.big-btn{
-    border:0;
-    background:linear-gradient(180deg,#37aa31,#087b27);
-    color:#fff;
-    border-radius:15px;
-    padding:12px 18px;
-    font-size:18px;
-    font-weight:1000;
-    cursor:pointer;
-    text-decoration:none;
-    box-shadow:0 6px 0 rgba(0,0,0,.14);
-    transition:.18s;
-  }
-  button:hover,.big-btn:hover{transform:translateY(-2px);filter:brightness(1.04)}
-  button.ghost{background:#eef2ff;color:#1d4ed8}
-  button:disabled{opacity:.5;cursor:not-allowed}
-  .challenge-card.blue button{background:linear-gradient(180deg,#38bdf8,#2563eb)}
-  .challenge-card.purple button{background:linear-gradient(180deg,#a78bfa,#7c3aed)}
-  .challenge-card.orange button{background:linear-gradient(180deg,#fb923c,#ea580c)}
-
-  .side-panel{
-    border-radius:24px;
-    padding:16px;
-    background:rgba(255,253,244,.93);
-    border:3px solid rgba(255,255,255,.8);
-    box-shadow:0 15px 30px rgba(6,95,42,.16);
-  }
-  .left-character,.right-character{
-    min-height:330px;
-    position:relative;
-    overflow:hidden;
-    display:flex;
-    flex-direction:column;
-    justify-content:flex-end;
-  }
-  .talk-bubble{
-    align-self:center;
-    max-width:220px;
-    background:white;
-    color:#06622e;
-    border-radius:35px;
-    padding:16px 18px;
-    font-size:20px;
-    font-weight:1000;
-    text-align:center;
-    box-shadow:0 8px 18px rgba(0,0,0,.1);
-    margin:8px auto 4px;
-  }
-  .cartoon-kid{font-size:122px;text-align:center;line-height:1;margin-top:8px;filter:drop-shadow(0 12px 8px rgba(0,0,0,.16))}
-  .wood-sign{
-    display:inline-block;
-    margin:0 auto 2px;
-    padding:10px 16px;
-    background:linear-gradient(180deg,#a56426,#6f3d14);
-    color:white;
-    font-size:20px;
-    font-weight:1000;
-    border-radius:14px;
-    box-shadow:inset 0 3px 0 rgba(255,255,255,.25),0 7px 0 rgba(78,38,8,.25);
-    text-align:center;
-  }
-
-  .news-panel h3,.rank-panel h3{margin:0 0 12px;font-size:23px;font-weight:1000;color:#b45309}
-  .news-list{list-style:none;margin:0;padding:0;display:grid;gap:12px}
-  .news-list li{font-weight:900;color:#3b2f1d;line-height:1.25}
-  .news-list small{display:block;color:#7c5f35;font-weight:700;margin-left:30px;margin-top:3px}
-  .more-chip{float:right;background:#fff3d0;border:1px solid #f1c875;border-radius:999px;padding:4px 10px;color:#8a4b10;font-size:13px;font-weight:900}
-
-  .rank-panel{margin-bottom:16px;background:rgba(255,255,255,.94);border-radius:22px;padding:0 0 14px;overflow:hidden;border:3px solid #e9f8e7;box-shadow:0 10px 24px rgba(6,95,42,.12)}
-  .rank-head{background:linear-gradient(180deg,#249443,#0d6f31);color:white;padding:12px 16px;font-weight:1000;font-size:21px}
-  .rank-head.blue{background:linear-gradient(180deg,#36a4ee,#0b73c8)}
-  .rank-list{list-style:none;margin:0;padding:10px 15px 4px;display:grid;gap:10px}
-  .rank-list li{display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:center;font-weight:900;border-bottom:1px solid #edf2e7;padding-bottom:8px}
-  .rank-list li:last-child{border-bottom:0}
-  .rank-no{width:30px;height:30px;display:grid;place-items:center;border-radius:50%;background:#f3f4f6;color:#333;font-weight:1000}
-  .rank-list li:nth-child(1) .rank-no{background:#fbbf24;color:white}.rank-list li:nth-child(2) .rank-no{background:#cbd5e1;color:white}.rank-list li:nth-child(3) .rank-no{background:#b45309;color:white}
-  .score{font-weight:1000;color:#12301b;white-space:nowrap}
-  .rank-btn{display:block;width:80%;margin:8px auto 0;text-align:center;background:linear-gradient(180deg,#37aa31,#087b27);color:white;text-decoration:none;border-radius:999px;padding:10px 14px;font-weight:1000}
-  .rank-head.blue + .rank-list + .rank-btn{background:linear-gradient(180deg,#39aef8,#1d76d1)}
-
-  .bottom-menu{position:relative;z-index:3;margin:18px auto 0;display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
-  .menu-card{min-width:140px;background:rgba(255,255,255,.95);border:2px solid rgba(255,255,255,.9);border-radius:18px;padding:10px 16px;text-align:center;box-shadow:0 9px 19px rgba(6,95,42,.16);font-weight:1000;color:#22472d;text-decoration:none}
-  .menu-card b{display:block;font-size:17px}.menu-card span{display:block;font-size:12px;color:#64735f;margin-top:3px}.menu-icon{font-size:34px;display:block;margin-bottom:4px}
-
-  .practice-form{margin-top:12px;padding:14px;background:rgba(255,255,255,.9);border-radius:18px;border:2px dashed #bde8ae;display:grid;gap:10px;text-align:left}
-  input[type=text],select{
-    border:2px solid #d9edc8;
-    border-radius:14px;
-    padding:12px 14px;
-    font-size:16px;
-    min-width:0;
-    background:#fff;
-    font-weight:800;
-  }
-  .practice-form .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-
-  .pill{display:inline-flex;align-items:center;gap:.45rem;background:#eef9e9;color:#245335;padding:6px 12px;border-radius:999px;font-size:14px;font-weight:900}
-  .counter-badge{display:inline-flex;align-items:center;gap:.5rem;padding:6px 12px;border-radius:12px;background:#eef2ff;border:1px solid #e5e7ff}
-  .badge-dot{width:8px;height:8px;border-radius:50%}.dot-spinning{background:var(--amber);animation:blink 1s infinite}.dot-ok{background:var(--ok)}.dot-off{background:#999}@keyframes blink{50%{opacity:.2}}
-  .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}.hide{display:none!important}.muted{color:#6b7280}
-
-  .bar{height:8px;border-radius:999px;background:#e5e7eb;overflow:hidden}.bar>i{display:block;height:100%;background:linear-gradient(90deg,#22c55e,#2563eb);width:0%}
-  .imgbox{display:flex;align-items:center;justify-content:center;background:#f1f5f9;border:2px dashed #e5e7eb;border-radius:18px;min-height:420px;overflow:hidden;padding:12px}.imgbox>img{max-width:100%;max-height:70vh;display:block;border-radius:12px}
-  .opts{display:grid;gap:10px;margin-top:14px}.opt{background:#f8fafc;border:1px solid #e5e7eb;border-radius:14px;padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:10px;font-weight:800}.opt input{margin:0}.opt.correct{border-color:var(--ok);background:#ecfdf5}.opt.wrong{border-color:var(--bad);background:#fef2f2}
-  .numguide{display:flex;gap:6px;flex-wrap:wrap}.numguide button{background:#ffffff;color:#0f172a;border:1px solid #cbd5e1;padding:6px 10px;border-radius:8px;font-weight:700;box-shadow:none}.numguide button.done{background:#dbeafe;color:#1d4ed8;border-color:#93c5fd}.numguide button.current{background:#dcfce7;color:#166534;border-color:#86efac}
-  .summary-box{margin:14px 0;padding:12px 14px;border:1px solid #dbeafe;background:#f8fbff;border-radius:12px}.summary-title{font-size:14px;font-weight:900;margin-bottom:8px;color:#1e40af}.answer-tag{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;background:#eef2ff;color:#1d4ed8;margin-left:6px}.question-hint{display:inline-block;color:#3a6b4b;font-size:14px;font-weight:900}
-
-  .site-footer{position:relative;z-index:3;margin:18px -22px -22px;padding:14px 24px;background:linear-gradient(180deg,#118238,#056025);color:white;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-weight:900}
-
-  @media (max-width:1180px){.home-grid{grid-template-columns:1fr}.side-left{order:2}.hero-center{order:1}.side-right{order:3}.challenge-grid{grid-template-columns:repeat(2,1fr)}.left-character,.right-character{display:none}.nav-links{gap:12px}.nav-links a{font-size:15px}.logo-title .ai{font-size:58px}.logo-title .king{font-size:82px}}
-  @media (max-width:768px){
-    .nav-wrap{padding:10px 12px;align-items:flex-start}.nav-logo{font-size:23px}.nav-logo small{font-size:11px}.version-badge{font-size:11px}.nav-links{width:100%;overflow:auto;justify-content:flex-start;padding-bottom:4px}.login-pill{display:none!important}.wrap{padding:0 10px 18px}.home-stage{padding:14px 10px;border-radius:0 0 24px 24px}.challenge-grid{grid-template-columns:1fr}.challenge-card{min-height:auto}.logo-title{padding:10px 10px 16px}.logo-title .ai{font-size:44px;-webkit-text-stroke:2px #13813a}.logo-title .king{font-size:64px;-webkit-text-stroke:3px #16803a}.ribbon{font-size:14px;padding:8px 16px}.hero-subtitle{font-size:18px}.select-banner{font-size:16px}.practice-form .row{grid-template-columns:1fr}input[type=text],select,#btnStart,#btnQuick{width:100%}.bottom-menu{justify-content:stretch}.menu-card{flex:1 1 42%}.card{padding:16px;border-radius:16px}.imgbox{min-height:260px;padding:8px}.imgbox>img{max-height:52vh}#exam .bar{width:100%;max-width:none!important}#btnPrev,#btnNext,#btnSubmit{width:auto;min-width:0;flex:0 0 auto}.numguide button{width:44px;height:44px;padding:0;border-radius:10px;flex:0 0 auto}#rTable{display:block;overflow-x:auto;white-space:nowrap}.site-footer{margin:18px -10px -14px;font-size:13px}.rank-panel{margin-bottom:12px}
-  }
+:root{
+  --green:#15803d;
+  --green2:#22c55e;
+  --deep:#064e3b;
+  --lime:#bef264;
+  --sky:#7dd3fc;
+  --blue:#2563eb;
+  --purple:#7c3aed;
+  --orange:#f97316;
+  --gold:#fbbf24;
+  --cream:#fff8dc;
+  --paper:#fffdf5;
+  --ink:#123323;
+  --muted:#5c735e;
+  --ok:#16a34a;
+  --bad:#dc2626;
+  --amber:#f59e0b;
+  --shadow:0 18px 45px rgba(6,95,42,.18);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,body{
+  margin:0;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans TC","PingFang TC","Hiragino Sans","Microsoft JhengHei",sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 8% 8%, rgba(255,255,255,.95) 0 70px, transparent 72px),
+    radial-gradient(circle at 88% 12%, rgba(255,255,255,.8) 0 90px, transparent 92px),
+    linear-gradient(180deg,#dff8ff 0%,#effde8 50%,#c4f0ad 100%);
+}
+a{color:inherit}
+.main-nav{
+  position:sticky;
+  top:0;
+  z-index:9999;
+  background:rgba(255,255,255,.94);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(21,128,61,.13);
+  box-shadow:0 8px 24px rgba(6,95,42,.08);
+}
+.nav-wrap{
+  max-width:1500px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  padding:14px 28px;
+}
+.nav-logo{
+  text-decoration:none;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  color:#0f2215;
+  font-weight:1000;
+  font-size:30px;
+  line-height:1;
+  white-space:nowrap;
+}
+.logo-mark{
+  width:43px;
+  height:43px;
+  border-radius:14px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(180deg,#e7ffd7,#a7f3d0);
+  box-shadow:inset 0 -3px 0 rgba(21,128,61,.16),0 7px 15px rgba(21,128,61,.18);
+}
+.logo-mark svg{width:30px;height:30px}
+.nav-logo small{
+  display:block;
+  color:var(--green);
+  font-size:13px;
+  margin-top:5px;
+  font-weight:900;
+}
+.version-badge{
+  font-size:14px;
+  color:white;
+  background:linear-gradient(180deg,#49c044,#15803d);
+  padding:4px 10px;
+  border-radius:999px;
+  box-shadow:inset 0 -2px 0 rgba(0,0,0,.14);
+}
+.nav-links{display:flex;align-items:center;gap:20px}
+.nav-links a{
+  text-decoration:none;
+  font-weight:900;
+  font-size:16px;
+  padding:10px 3px;
+  border-bottom:4px solid transparent;
+  color:#1c2b22;
+}
+.nav-links a:hover,.nav-links a.active{color:var(--green);border-bottom-color:var(--green)}
+.login-pill{
+  color:white!important;
+  background:linear-gradient(180deg,#39b836,#0b7d2c);
+  padding:12px 22px!important;
+  border-radius:999px;
+  border-bottom:0!important;
+  box-shadow:0 9px 18px rgba(21,128,61,.24), inset 0 -3px 0 rgba(0,0,0,.18);
+}
+.wrap{
+  max-width:1500px;
+  margin:0 auto;
+  padding:0 20px 28px;
+}
+.home-stage{
+  position:relative;
+  overflow:hidden;
+  min-height:calc(100vh - 82px);
+  border-radius:0 0 36px 36px;
+  padding:24px 24px 24px;
+  background:
+    linear-gradient(180deg,rgba(102,211,248,.55) 0%,rgba(206,246,188,.78) 53%,rgba(65,170,71,.56) 100%);
+  box-shadow:var(--shadow);
+}
+.home-stage::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 18% 10%,rgba(255,255,255,.75) 0 76px,transparent 78px),
+    radial-gradient(circle at 75% 12%,rgba(255,255,255,.55) 0 82px,transparent 84px),
+    linear-gradient(180deg,transparent 0 58%,rgba(34,197,94,.24) 59% 100%);
+}
+.home-stage::after{
+  content:"";
+  position:absolute;
+  left:-4%;
+  right:-4%;
+  bottom:-20px;
+  height:190px;
+  background:
+    radial-gradient(ellipse at 22% 100%,rgba(22,101,52,.55) 0 18%,transparent 19%),
+    radial-gradient(ellipse at 70% 100%,rgba(22,163,74,.5) 0 22%,transparent 23%),
+    linear-gradient(180deg,rgba(134,239,172,.2),rgba(21,128,61,.78));
+  pointer-events:none;
+}
+.decor{
+  position:absolute;
+  z-index:1;
+  opacity:.9;
+  filter:drop-shadow(0 8px 10px rgba(0,0,0,.12));
+  animation:floaty 4.6s ease-in-out infinite;
+}
+@keyframes floaty{50%{transform:translateY(-10px) rotate(2deg)}}
+.leaf-a{left:5%;top:18%;width:54px}.leaf-b{right:19%;top:15%;width:64px;animation-delay:.8s}.leaf-c{right:5%;bottom:15%;width:54px;animation-delay:1.2s}.leaf-d{left:21%;top:10%;width:48px;animation-delay:.4s}
+.home-grid{
+  position:relative;
+  z-index:2;
+  display:grid;
+  grid-template-columns:300px minmax(600px,1fr) 315px;
+  gap:18px;
+  align-items:start;
+}
+.hero-center{text-align:center;padding:0}
+.game-logo{
+  position:relative;
+  display:inline-block;
+  margin:8px auto 6px;
+  padding:8px 26px 20px;
+  filter:drop-shadow(0 18px 18px rgba(6,95,42,.22));
+}
+.logo-leaves{
+  position:absolute;
+  inset:0;
+  z-index:-1;
+}
+.logo-leaves span{
+  position:absolute;
+  width:68px;height:38px;
+  border-radius:999px 0 999px 0;
+  background:linear-gradient(135deg,#22c55e,#166534);
+  transform:rotate(-18deg);
+  box-shadow:0 3px 0 rgba(255,255,255,.35) inset;
+}
+.logo-leaves span:nth-child(1){left:36px;top:4px}
+.logo-leaves span:nth-child(2){right:54px;top:14px;transform:rotate(22deg)}
+.logo-leaves span:nth-child(3){left:8px;bottom:20px;transform:rotate(18deg)}
+.logo-leaves span:nth-child(4){right:12px;bottom:22px;transform:rotate(-24deg)}
+.logo-crown{
+  position:absolute;
+  right:20px;
+  top:4px;
+  width:78px;height:54px;
+  background:linear-gradient(180deg,#ffe47a,#f59e0b);
+  clip-path:polygon(0 100%,0 35%,22% 60%,38% 8%,56% 60%,78% 22%,100% 55%,100% 100%);
+  border-radius:8px;
+  transform:rotate(12deg);
+  box-shadow:0 6px 0 rgba(146,64,14,.22);
+}
+.game-logo .top{
+  display:block;
+  font-size:78px;
+  font-weight:1000;
+  line-height:.95;
+  color:#f8fff0;
+  -webkit-text-stroke:4px #12813a;
+  text-shadow:0 7px 0 #0b6830,0 14px 18px rgba(0,0,0,.15);
+}
+.game-logo .bottom{
+  display:block;
+  font-size:112px;
+  font-weight:1000;
+  line-height:.9;
+  letter-spacing:.03em;
+  color:#ffc928;
+  -webkit-text-stroke:5px #16803a;
+  text-shadow:0 8px 0 #a35f05,0 16px 18px rgba(0,0,0,.13);
+}
+.ribbon{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  margin-top:-6px;
+  padding:10px 36px;
+  color:#422006;
+  background:linear-gradient(180deg,#fff0a3,#d99521);
+  border:3px solid #b87710;
+  border-radius:999px;
+  font-weight:1000;
+  box-shadow:0 8px 0 rgba(146,64,14,.18);
+}
+.hero-subtitle{
+  margin:14px 0 8px;
+  color:#056032;
+  font-size:25px;
+  font-weight:1000;
+  text-shadow:0 2px 0 rgba(255,255,255,.82);
+}
+.select-banner{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  margin:4px auto 14px;
+  padding:8px 34px;
+  color:white;
+  background:linear-gradient(180deg,#239347,#0f6d30);
+  border-radius:999px;
+  font-size:20px;
+  font-weight:1000;
+  box-shadow:0 9px 17px rgba(6,95,42,.23);
+}
+.card{
+  background:#fff;
+  border-radius:22px;
+  box-shadow:var(--shadow);
+  padding:24px;
+}
+.side-panel{
+  border-radius:24px;
+  padding:16px;
+  background:rgba(255,253,244,.94);
+  border:3px solid rgba(255,255,255,.88);
+  box-shadow:0 15px 30px rgba(6,95,42,.15);
+}
+.character-card{
+  min-height:330px;
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  align-items:center;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 55% 54%,rgba(255,255,255,.75) 0 70px,transparent 72px),
+    linear-gradient(180deg,rgba(255,255,255,.22),rgba(255,255,255,.05));
+  box-shadow:none;
+  border:0;
+}
+.talk-bubble{
+  max-width:230px;
+  background:white;
+  color:#06622e;
+  border-radius:35px;
+  padding:16px 18px;
+  font-size:20px;
+  font-weight:1000;
+  text-align:center;
+  box-shadow:0 8px 18px rgba(0,0,0,.1);
+  margin:8px auto 4px;
+}
+.mascot{
+  width:170px;
+  height:185px;
+  position:relative;
+  margin:8px auto 0;
+}
+.mascot .face{
+  position:absolute;
+  left:32px;top:43px;
+  width:106px;height:106px;
+  border-radius:50%;
+  background:linear-gradient(180deg,#ffe0b2,#ffbd7a);
+  border:5px solid #8b5e34;
+}
+.mascot .hat{
+  position:absolute;
+  left:15px;top:18px;
+  width:140px;height:46px;
+  border-radius:50% 50% 35% 35%;
+  background:linear-gradient(180deg,#d6a85d,#9a6a2e);
+  border:5px solid #80521d;
+  z-index:2;
+}
+.mascot .hat::before{
+  content:"";
+  position:absolute;
+  left:38px;top:-28px;
+  width:62px;height:42px;
+  border-radius:50% 50% 0 0;
+  background:#c99644;
+  border:5px solid #80521d;
+  border-bottom:0;
+}
+.mascot .eye{position:absolute;top:82px;width:14px;height:20px;background:#231815;border-radius:50%;z-index:3}
+.mascot .eye.left{left:68px}.mascot .eye.right{left:100px}
+.mascot .smile{position:absolute;left:76px;top:116px;width:35px;height:18px;border-bottom:5px solid #7c2d12;border-radius:0 0 40px 40px;z-index:3}
+.mascot .glass{position:absolute;left:10px;top:75px;width:56px;height:56px;border:7px solid #6d28d9;border-radius:50%;z-index:4}
+.mascot .glass::after{content:"";position:absolute;right:-34px;bottom:-28px;width:44px;height:10px;background:#6d28d9;border-radius:999px;transform:rotate(45deg)}
+.mascot .body{position:absolute;left:45px;top:135px;width:80px;height:50px;border-radius:20px 20px 8px 8px;background:#4d7c0f}
+.wood-sign{
+  display:inline-block;
+  margin:0 auto 2px;
+  padding:10px 16px;
+  background:linear-gradient(180deg,#a56426,#6f3d14);
+  color:white;
+  font-size:20px;
+  font-weight:1000;
+  border-radius:14px;
+  box-shadow:inset 0 3px 0 rgba(255,255,255,.25),0 7px 0 rgba(78,38,8,.25);
+  text-align:center;
+}
+.news-panel{margin-top:14px}
+.news-panel h3,.rank-panel h3{margin:0 0 12px;font-size:23px;font-weight:1000;color:#b45309}
+.news-list{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.news-list li{font-weight:900;color:#3b2f1d;line-height:1.25}
+.news-list small{display:block;color:#7c5f35;font-weight:700;margin-left:30px;margin-top:3px}
+.more-chip{float:right;background:#fff3d0;border:1px solid #f1c875;border-radius:999px;padding:4px 10px;color:#8a4b10;font-size:13px;font-weight:900}
+.practice-form{
+  margin:0 auto 14px;
+  max-width:780px;
+  padding:14px;
+  background:rgba(255,255,255,.9);
+  border-radius:20px;
+  border:2px dashed #bde8ae;
+  display:grid;
+  gap:10px;
+  text-align:left;
+}
+.practice-form .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+input[type=text],select{
+  width:100%;
+  border:2px solid #d9edc8;
+  border-radius:14px;
+  padding:12px 14px;
+  font-size:16px;
+  min-width:0;
+  background:#fff;
+  font-weight:800;
+}
+.status-row{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  align-items:center;
+  gap:8px;
+}
+.pill{
+  display:inline-flex;
+  align-items:center;
+  gap:.45rem;
+  background:#eef9e9;
+  color:#245335;
+  padding:6px 12px;
+  border-radius:999px;
+  font-size:14px;
+  font-weight:900;
+}
+.counter-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:.5rem;
+  padding:6px 12px;
+  border-radius:12px;
+  background:#eef2ff;
+  border:1px solid #e5e7ff;
+  font-weight:900;
+}
+.badge-dot{width:8px;height:8px;border-radius:50%}
+.dot-spinning{background:var(--amber);animation:blink 1s infinite}
+.dot-ok{background:var(--ok)}
+.dot-off{background:#999}
+@keyframes blink{50%{opacity:.2}}
+.muted{color:#6b7280}
+.question-hint{display:inline-block;color:#3a6b4b;font-size:14px;font-weight:900}
+.challenge-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  align-items:stretch;
+}
+.challenge-card{
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  min-height:316px;
+  padding:14px;
+  border-radius:25px;
+  background:linear-gradient(180deg,rgba(255,255,255,.97),rgba(255,255,255,.84));
+  border:4px solid #9bd66a;
+  box-shadow:0 12px 0 rgba(31,109,46,.11),0 12px 30px rgba(6,95,42,.13);
+  overflow:hidden;
+  position:relative;
+}
+.challenge-card.blue{border-color:#7cc5ff}
+.challenge-card.purple{border-color:#c4a0ff}
+.challenge-card.orange{border-color:#ffbe65}
+.challenge-card::before{
+  content:"";
+  position:absolute;
+  right:-48px;
+  top:-48px;
+  width:130px;
+  height:130px;
+  border-radius:50%;
+  background:rgba(255,255,255,.6);
+}
+.challenge-card h2{position:relative;margin:0;font-size:30px;line-height:1.05;font-weight:1000;text-align:center}
+.challenge-card .age{position:relative;text-align:center;font-weight:900;margin:6px 0 10px;color:#22613b}
+.challenge-card.blue .age{color:#1d4ed8}
+.challenge-card.purple .age{color:#6d28d9}
+.challenge-card.orange .age{color:#c2410c}
+.card-art{
+  position:relative;
+  height:98px;
+  border-radius:18px;
+  overflow:hidden;
+  background:linear-gradient(180deg,#dcfce7,#f7fee7);
+  border:2px solid rgba(255,255,255,.8);
+}
+.card-art.photo1{background-image:linear-gradient(180deg,rgba(255,255,255,.1),rgba(21,128,61,.18)),url("https://img.miracle-mind.org/Hort_plant_quiz/herbaceous%20plants/%E4%B8%80%E4%B8%B2%E7%B4%85%EF%BC%88%E7%88%86%E7%AB%B9%E7%B4%85%EF%BC%89_1.jpg");background-size:cover;background-position:center}
+.card-art.photo2{background-image:linear-gradient(180deg,rgba(255,255,255,.1),rgba(37,99,235,.16)),url("https://img.miracle-mind.org/Hort_plant_quiz/fruit/%E5%8F%AF%E5%8F%AF_1.jpg");background-size:cover;background-position:center}
+.card-art.photo3{background-image:linear-gradient(180deg,rgba(255,255,255,.1),rgba(124,58,237,.16)),url("https://img.miracle-mind.org/Hort_plant_quiz/vegetables/%E5%86%AC%E7%93%9C_1.jpg");background-size:cover;background-position:center}
+.card-art.photo4{background-image:linear-gradient(180deg,rgba(255,255,255,.1),rgba(249,115,22,.18)),url("https://img.miracle-mind.org/Hort_plant_quiz/trees/%E5%85%89%E8%A0%9F%E6%A8%B9_1.jpg");background-size:cover;background-position:center}
+.card-art .overlay{
+  position:absolute;
+  left:10px;
+  bottom:8px;
+  padding:5px 10px;
+  border-radius:999px;
+  background:rgba(255,255,255,.88);
+  color:#14532d;
+  font-weight:1000;
+  font-size:13px;
+}
+.card-list{list-style:none;margin:10px 0 12px;padding:0;display:grid;gap:6px;font-size:16px;font-weight:800;color:#315641}
+.card-list li::before{content:"● ";color:#f59e0b}
+.challenge-card.blue .card-list li::before{color:#2563eb}
+.challenge-card.purple .card-list li::before{color:#7c3aed}
+.challenge-card.orange .card-list li::before{color:#f97316}
+button,.big-btn{
+  border:0;
+  background:linear-gradient(180deg,#37aa31,#087b27);
+  color:#fff;
+  border-radius:15px;
+  padding:12px 18px;
+  font-size:18px;
+  font-weight:1000;
+  cursor:pointer;
+  text-decoration:none;
+  box-shadow:0 6px 0 rgba(0,0,0,.14);
+  transition:.18s;
+}
+button:hover,.big-btn:hover{transform:translateY(-2px);filter:brightness(1.04)}
+button.ghost{background:#eef2ff;color:#1d4ed8}
+button:disabled{opacity:.5;cursor:not-allowed}
+.challenge-card.blue button{background:linear-gradient(180deg,#38bdf8,#2563eb)}
+.challenge-card.purple button{background:linear-gradient(180deg,#a78bfa,#7c3aed)}
+.challenge-card.orange button{background:linear-gradient(180deg,#fb923c,#ea580c)}
+.rank-panel{
+  margin-bottom:16px;
+  background:rgba(255,255,255,.96);
+  border-radius:22px;
+  padding:0 0 14px;
+  overflow:hidden;
+  border:3px solid #e9f8e7;
+  box-shadow:0 10px 24px rgba(6,95,42,.12);
+}
+.rank-head{
+  background:linear-gradient(180deg,#249443,#0d6f31);
+  color:white;
+  padding:12px 16px;
+  font-weight:1000;
+  font-size:21px;
+}
+.rank-head.blue{background:linear-gradient(180deg,#36a4ee,#0b73c8)}
+.rank-list{list-style:none;margin:0;padding:10px 15px 4px;display:grid;gap:10px}
+.rank-list li{
+  display:grid;
+  grid-template-columns:34px 1fr auto;
+  gap:10px;
+  align-items:center;
+  font-weight:900;
+  border-bottom:1px solid #edf2e7;
+  padding-bottom:8px;
+}
+.rank-list li:last-child{border-bottom:0}
+.rank-no{width:30px;height:30px;display:grid;place-items:center;border-radius:50%;background:#f3f4f6;color:#333;font-weight:1000}
+.rank-list li:nth-child(1) .rank-no{background:#fbbf24;color:white}
+.rank-list li:nth-child(2) .rank-no{background:#cbd5e1;color:white}
+.rank-list li:nth-child(3) .rank-no{background:#b45309;color:white}
+.score{font-weight:1000;color:#12301b;white-space:nowrap}
+.rank-btn{display:block;width:80%;margin:8px auto 0;text-align:center;background:linear-gradient(180deg,#37aa31,#087b27);color:white;text-decoration:none;border-radius:999px;padding:10px 14px;font-weight:1000}
+.rank-head.blue + .rank-list + .rank-btn{background:linear-gradient(180deg,#39aef8,#1d76d1)}
+.bottom-menu{
+  position:relative;
+  z-index:3;
+  margin:18px auto 0;
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.menu-card{
+  min-width:140px;
+  background:rgba(255,255,255,.95);
+  border:2px solid rgba(255,255,255,.9);
+  border-radius:18px;
+  padding:10px 16px;
+  text-align:center;
+  box-shadow:0 9px 19px rgba(6,95,42,.16);
+  font-weight:1000;
+  color:#22472d;
+  text-decoration:none;
+}
+.menu-card b{display:block;font-size:17px}
+.menu-card span{display:block;font-size:12px;color:#64735f;margin-top:3px}
+.menu-icon{font-size:30px;display:block;margin-bottom:4px}
+.rule-card{
+  position:relative;
+  z-index:3;
+  margin-top:18px;
+  text-align:center;
+  line-height:1.7;
+  background:rgba(255,253,244,.94);
+}
+.site-footer{
+  position:relative;
+  z-index:3;
+  margin:18px -24px -24px;
+  padding:14px 24px;
+  background:linear-gradient(180deg,#118238,#056025);
+  color:white;
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  font-weight:900;
+}
+.hide{display:none!important}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.bar{height:8px;border-radius:999px;background:#e5e7eb;overflow:hidden}
+.bar>i{display:block;height:100%;background:linear-gradient(90deg,#22c55e,#2563eb);width:0%}
+.imgbox{display:flex;align-items:center;justify-content:center;background:#f1f5f9;border:2px dashed #e5e7eb;border-radius:18px;min-height:420px;overflow:hidden;padding:12px}
+.imgbox>img{max-width:100%;max-height:70vh;display:block;border-radius:12px}
+.opts{display:grid;gap:10px;margin-top:14px}
+.opt{background:#f8fafc;border:1px solid #e5e7eb;border-radius:14px;padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:10px;font-weight:800}
+.opt input{margin:0}
+.opt.correct{border-color:var(--ok);background:#ecfdf5}
+.opt.wrong{border-color:var(--bad);background:#fef2f2}
+.numguide{display:flex;gap:6px;flex-wrap:wrap}
+.numguide button{background:#ffffff;color:#0f172a;border:1px solid #cbd5e1;padding:6px 10px;border-radius:8px;font-weight:700;box-shadow:none}
+.numguide button.done{background:#dbeafe;color:#1d4ed8;border-color:#93c5fd}
+.numguide button.current{background:#dcfce7;color:#166534;border-color:#86efac}
+.summary-box{margin:14px 0;padding:12px 14px;border:1px solid #dbeafe;background:#f8fbff;border-radius:12px}
+.summary-title{font-size:14px;font-weight:900;margin-bottom:8px;color:#1e40af}
+.answer-tag{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;background:#eef2ff;color:#1d4ed8;margin-left:6px}
+@media (max-width:1200px){
+  .home-grid{grid-template-columns:1fr}
+  .side-left{order:2}
+  .hero-center{order:1}
+  .side-right{order:3}
+  .character-card{display:none}
+  .challenge-grid{grid-template-columns:repeat(2,1fr)}
+  .nav-wrap{flex-wrap:wrap}
+  .nav-links{gap:14px}
+}
+@media (max-width:768px){
+  .nav-wrap{padding:10px 12px;align-items:flex-start}
+  .nav-logo{font-size:23px}
+  .nav-logo small{font-size:11px}
+  .version-badge{font-size:11px}
+  .nav-links{width:100%;overflow:auto;justify-content:flex-start;padding-bottom:4px}
+  .nav-links a{font-size:14px;white-space:nowrap}
+  .login-pill{display:none!important}
+  .wrap{padding:0 10px 18px}
+  .home-stage{padding:14px 10px;border-radius:0 0 24px 24px}
+  .challenge-grid{grid-template-columns:1fr}
+  .challenge-card{min-height:auto}
+  .game-logo{padding:8px 8px 15px}
+  .game-logo .top{font-size:45px;-webkit-text-stroke:2px #12813a}
+  .game-logo .bottom{font-size:64px;-webkit-text-stroke:3px #16803a}
+  .logo-crown{width:50px;height:36px;right:6px}
+  .ribbon{font-size:14px;padding:8px 16px}
+  .hero-subtitle{font-size:18px}
+  .select-banner{font-size:16px}
+  .practice-form .row{grid-template-columns:1fr}
+  .bottom-menu{justify-content:stretch}
+  .menu-card{flex:1 1 42%}
+  .card{padding:16px;border-radius:16px}
+  .imgbox{min-height:260px;padding:8px}
+  .imgbox>img{max-height:52vh}
+  #exam .bar{width:100%;max-width:none!important}
+  #btnPrev,#btnNext,#btnSubmit{width:auto;min-width:0;flex:0 0 auto}
+  .numguide button{width:44px;height:44px;padding:0;border-radius:10px;flex:0 0 auto}
+  #rTable{display:block;overflow-x:auto;white-space:nowrap}
+  .site-footer{margin:18px -10px -14px;font-size:13px}
+}
 </style>
+
+<script data-goatcounter="https://ai-agri-education.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
 
 <nav class="main-nav">
   <div class="nav-wrap">
     <a href="#home" class="nav-logo">
-      <span>🌱</span>
+      <span class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 64 64" fill="none">
+          <path d="M32 56V28" stroke="#15803d" stroke-width="6" stroke-linecap="round"/>
+          <path d="M31 27C16 24 11 13 12 6c12 0 22 8 19 21Z" fill="#22c55e"/>
+          <path d="M34 31c16 0 24-10 23-21-14 0-25 8-23 21Z" fill="#16a34a"/>
+        </svg>
+      </span>
       <span>AI植物探索王 <span class="version-badge">v1.0</span><small>認識植物・探索自然・挑戰自我</small></span>
     </a>
     <div class="nav-links">
-      <a href="#home" class="active">🏠 首頁</a>
-      <a href="#plant-book">🌿 植物圖鑑</a>
-      <a href="#ranking">🏆 排行榜</a>
-      <a href="#achievement">🏅 我的成就</a>
-      <a href="#about">❤️ 關於我們</a>
-      <a href="#login" class="login-pill">👤 登入 / 註冊</a>
+      <a href="#home" class="active">首頁</a>
+      <a href="#plant-book">植物圖鑑</a>
+      <a href="#ranking">排行榜</a>
+      <a href="#achievement">我的成就</a>
+      <a href="#about">關於我們</a>
+      <a href="#login" class="login-pill">登入 / 註冊</a>
     </div>
   </div>
 </nav>
 
 <div class="wrap">
   <section id="home" class="home-stage">
-    <span class="leaf-decoration leaf1">🌺</span>
-    <span class="leaf-decoration leaf2">🦋</span>
-    <span class="leaf-decoration leaf3">🐦</span>
-    <span class="leaf-decoration leaf4">🐝</span>
+    <svg class="decor leaf-a" viewBox="0 0 64 64"><path d="M52 12C28 12 14 27 12 52c24 0 39-14 40-40Z" fill="#22c55e"/><path d="M16 48 48 16" stroke="#166534" stroke-width="4"/></svg>
+    <svg class="decor leaf-b" viewBox="0 0 64 64"><path d="M52 12C28 12 14 27 12 52c24 0 39-14 40-40Z" fill="#84cc16"/><path d="M16 48 48 16" stroke="#3f6212" stroke-width="4"/></svg>
+    <svg class="decor leaf-c" viewBox="0 0 64 64"><path d="M52 12C28 12 14 27 12 52c24 0 39-14 40-40Z" fill="#facc15"/><path d="M16 48 48 16" stroke="#854d0e" stroke-width="4"/></svg>
+    <svg class="decor leaf-d" viewBox="0 0 64 64"><path d="M52 12C28 12 14 27 12 52c24 0 39-14 40-40Z" fill="#38bdf8"/><path d="M16 48 48 16" stroke="#075985" stroke-width="4"/></svg>
 
     <div class="home-grid">
       <aside class="side-left">
-        <div class="left-character">
+        <div class="character-card">
           <div class="talk-bubble">你認識<br>校園裡的植物嗎？</div>
-          <div class="cartoon-kid">🧒🔍</div>
+          <div class="mascot" aria-hidden="true">
+            <div class="hat"></div><div class="face"></div><div class="eye left"></div><div class="eye right"></div><div class="smile"></div><div class="glass"></div><div class="body"></div>
+          </div>
           <div class="wood-sign">學習植物知識<br>成為植物小達人！</div>
         </div>
 
@@ -434,19 +687,21 @@
           <ul class="news-list">
             <li>🏆 屏東縣植物王挑戰賽開跑！<small>2026/06/17</small></li>
             <li>🌱 沿用園藝題庫，新增國中小探索入口！<small>題庫版本：<b id="ver">載入中</b></small></li>
-            <li>🎁 參加挑戰賽抽限量好禮！<small>正式挑戰列入排名</small></li>
+            <li>🎁 參加挑戰賽抽限量好禮！<small>正式挑戰列入未來排名</small></li>
             <li>⭐ 學校積分榜即將開放！<small>個人、學校、縣市一起挑戰</small></li>
           </ul>
         </div>
       </aside>
 
       <main class="hero-center">
-        <div class="logo-title" aria-label="AI植物探索王">
-          <span class="ai">AI植物</span>
-          <span class="king">探索王</span>
+        <div class="game-logo" aria-label="AI植物探索王">
+          <div class="logo-leaves"><span></span><span></span><span></span><span></span></div>
+          <div class="logo-crown"></div>
+          <span class="top">AI植物</span>
+          <span class="bottom">探索王</span>
         </div>
         <div class="ribbon">認識植物・探索自然・挑戰自我</div>
-        <div class="hero-subtitle">🌿 從國小到高中職，一起挑戰植物王寶座！ 🌿</div>
+        <div class="hero-subtitle">從國小到高中職，一起挑戰植物王寶座！</div>
         <div class="select-banner">選擇你的挑戰組別</div>
 
         <div class="practice-form" aria-label="挑戰資料">
@@ -472,7 +727,7 @@
               <option value="H">練習：H 蔓性植物</option>
             </select>
           </div>
-          <div class="row" style="justify-content:center">
+          <div class="status-row">
             <span id="qCountHint" class="question-hint">（目前題數：100 題）</span>
             <span class="pill">來源：<b id="sourceLabel">R2 + Cloudflare CDN</b></span>
             <span class="counter-badge" id="cloudBadge" title="雲端連線狀態"><span class="badge-dot dot-off" id="cloudDot"></span><span id="cloudText" class="muted">雲端：離線</span></span>
@@ -486,7 +741,7 @@
           <article class="challenge-card">
             <h2>國小組</h2>
             <div class="age">四～六年級適用</div>
-            <div class="card-art">🌱🔍</div>
+            <div class="card-art photo1"><span class="overlay">校園植物探索</span></div>
             <ul class="card-list"><li>校園植物探索</li><li>入門挑戰模式</li><li>可愛徽章獎勵</li></ul>
             <button type="button" class="group-start" data-group="elementary">立即挑戰 ➜</button>
           </article>
@@ -494,7 +749,7 @@
           <article class="challenge-card blue">
             <h2>國中組</h2>
             <div class="age">七～九年級適用</div>
-            <div class="card-art">🧑‍🎒🌿</div>
+            <div class="card-art photo2"><span class="overlay">植物達人挑戰</span></div>
             <ul class="card-list"><li>植物達人挑戰</li><li>學校積分競賽</li><li>縣市排行榜</li></ul>
             <button type="button" class="group-start" data-group="junior">立即挑戰 ➜</button>
           </article>
@@ -502,7 +757,7 @@
           <article class="challenge-card purple">
             <h2>高中職組</h2>
             <div class="age">高中職學生適用</div>
-            <div class="card-art">🧑‍🌾📋</div>
+            <div class="card-art photo3"><span class="overlay">植物王競技場</span></div>
             <ul class="card-list"><li>植物王競技場</li><li>丙級檢定模式</li><li>全國排行榜</li></ul>
             <button type="button" class="group-start" data-group="senior">立即挑戰 ➜</button>
           </article>
@@ -510,7 +765,7 @@
           <article class="challenge-card orange">
             <h2>農業探索區</h2>
             <div class="age">認識農業・探索未來</div>
-            <div class="card-art">🚜🌾</div>
+            <div class="card-art photo4"><span class="overlay">農業職群介紹</span></div>
             <ul class="card-list"><li>農業職群介紹</li><li>職涯探索測驗</li><li>農業知識小學堂</li></ul>
             <button type="button" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">立即探索 ➜</button>
           </article>
@@ -553,8 +808,9 @@
       </aside>
     </div>
 
-    <section id="about" class="side-panel" style="position:relative;z-index:3;margin-top:18px;text-align:center">
-      <b>🌿 挑戰規則：</b>正式挑戰使用「全部題庫依比例組卷」，列入未來排行榜；八大分類題庫作為練習區，適合課堂暖身與學生自學。
+    <section id="about" class="side-panel rule-card">
+      <b>挑戰規則：</b>正式挑戰使用「全部題庫依比例組卷」，列入未來排行榜；八大分類題庫作為練習區，適合課堂暖身與學生自學。<br>
+      <span class="muted">資料來源：勞動部勞動力發展署技能檢定中心。本網站圖片僅供教育與非營利用途，著作權歸原權利人所有。</span>
     </section>
 
     <footer class="site-footer">
@@ -1214,23 +1470,29 @@ $('#btnRetry').addEventListener('click', async () => {
   await startNormalExam({quick:false});
 });
 
-$('#bankSel').addEventListener('change', updateQuestionCountUI);
 
-// AI植物探索王首頁：組別卡片啟動正式挑戰
 document.querySelectorAll('.group-start').forEach(btn => {
   btn.addEventListener('click', async () => {
     const group = btn.dataset.group || 'junior';
     const groupSel = document.getElementById('groupSel');
     if(groupSel) groupSel.value = group;
     const bankSel = document.getElementById('bankSel');
-    if(bankSel){
-      bankSel.value = 'mix';
-      updateQuestionCountUI();
-    }
+    if(bankSel) bankSel.value = 'mix';
+    updateQuestionCountUI();
     await startNormalExam({quick:false});
   });
 });
 
+document.querySelectorAll('.practice-start').forEach(btn => {
+  btn.addEventListener('click', async () => {
+    const bankSel = document.getElementById('bankSel');
+    if(bankSel) bankSel.value = btn.dataset.bank || 'A';
+    updateQuestionCountUI();
+    await startNormalExam({quick:false});
+  });
+});
+
+$('#bankSel').addEventListener('change', updateQuestionCountUI);
 
 /* ----------------------- 5) 啟動 ----------------------- */
 document.getElementById('sourceLabel').textContent = 'R2 + Cloudflare CDN';
