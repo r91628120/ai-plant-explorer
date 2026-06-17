@@ -8,7 +8,7 @@
 <link rel="apple-touch-icon" href="/images/plant-quiz-favicon.png">
 <meta name="theme-color" content="#22c55e">
 
-<title>AI植物探索王 v1.0｜國小國中高中職植物識別挑戰平台</title>
+<title>AI植物探索王 v1.0｜植物識別挑戰平台</title>
 <meta name="description" content="AI植物探索王：國小、國中、高中職都能使用的植物識別遊戲化挑戰平台。正式挑戰使用園藝題庫依比例組卷，練習區提供八大分類題庫。">
 <meta name="keywords" content="AI植物探索王, 植物識別, 校園植物, 國小植物學習, 國中生涯探索, 高中職園藝, 園藝丙級, 植物挑戰賽, 排行榜, 農業教育" />
 <meta name="robots" content="index,follow">
@@ -16,22 +16,24 @@
 <style>
 :root{
   --green:#15803d;
-  --green2:#22c55e;
+  --green-2:#22c55e;
+  --green-3:#86efac;
   --deep:#064e3b;
-  --lime:#bef264;
-  --sky:#7dd3fc;
+  --sky:#d9f7ff;
   --blue:#2563eb;
   --purple:#7c3aed;
   --orange:#f97316;
   --gold:#fbbf24;
-  --cream:#fff8dc;
-  --paper:#fffdf5;
+  --cream:#fff8df;
+  --paper:#fffdf6;
   --ink:#123323;
-  --muted:#5c735e;
+  --muted:#5d7463;
   --ok:#16a34a;
   --bad:#dc2626;
   --amber:#f59e0b;
+  --line:#d9f3c7;
   --shadow:0 18px 45px rgba(6,95,42,.18);
+  --soft-shadow:0 10px 25px rgba(6,95,42,.12);
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -40,50 +42,47 @@ html,body{
   font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans TC","PingFang TC","Hiragino Sans","Microsoft JhengHei",sans-serif;
   color:var(--ink);
   background:
-    radial-gradient(circle at 8% 8%, rgba(255,255,255,.95) 0 70px, transparent 72px),
-    radial-gradient(circle at 88% 12%, rgba(255,255,255,.8) 0 90px, transparent 92px),
-    linear-gradient(180deg,#dff8ff 0%,#effde8 50%,#c4f0ad 100%);
+    radial-gradient(circle at 9% 10%,rgba(255,255,255,.86) 0 76px,transparent 78px),
+    radial-gradient(circle at 88% 15%,rgba(255,255,255,.74) 0 88px,transparent 90px),
+    linear-gradient(180deg,#e5fbff 0%,#f2ffe9 52%,#caf2b6 100%);
 }
-a{color:inherit}
+a{color:inherit;text-decoration:none}
+.hide{display:none!important}
 .main-nav{
   position:sticky;
   top:0;
   z-index:9999;
   background:rgba(255,255,255,.94);
   backdrop-filter:blur(14px);
-  border-bottom:1px solid rgba(21,128,61,.13);
+  border-bottom:1px solid rgba(21,128,61,.14);
   box-shadow:0 8px 24px rgba(6,95,42,.08);
 }
 .nav-wrap{
-  max-width:1500px;
+  max-width:1480px;
   margin:auto;
   display:flex;
   align-items:center;
   justify-content:space-between;
   gap:20px;
-  padding:14px 28px;
+  padding:14px 24px;
 }
 .nav-logo{
-  text-decoration:none;
   display:flex;
   align-items:center;
   gap:12px;
   color:#0f2215;
   font-weight:1000;
-  font-size:30px;
+  font-size:29px;
   line-height:1;
   white-space:nowrap;
 }
 .logo-mark{
-  width:43px;
-  height:43px;
-  border-radius:14px;
-  display:grid;
-  place-items:center;
-  background:linear-gradient(180deg,#e7ffd7,#a7f3d0);
+  width:42px;height:42px;border-radius:14px;
+  display:grid;place-items:center;
+  background:linear-gradient(180deg,#e9ffd9,#a7f3d0);
   box-shadow:inset 0 -3px 0 rgba(21,128,61,.16),0 7px 15px rgba(21,128,61,.18);
+  font-size:26px;
 }
-.logo-mark svg{width:30px;height:30px}
 .nav-logo small{
   display:block;
   color:var(--green);
@@ -94,14 +93,13 @@ a{color:inherit}
 .version-badge{
   font-size:14px;
   color:white;
-  background:linear-gradient(180deg,#49c044,#15803d);
+  background:linear-gradient(180deg,#4ac844,#15803d);
   padding:4px 10px;
   border-radius:999px;
   box-shadow:inset 0 -2px 0 rgba(0,0,0,.14);
 }
-.nav-links{display:flex;align-items:center;gap:20px}
+.nav-links{display:flex;align-items:center;gap:22px}
 .nav-links a{
-  text-decoration:none;
   font-weight:900;
   font-size:16px;
   padding:10px 3px;
@@ -109,66 +107,53 @@ a{color:inherit}
   color:#1c2b22;
 }
 .nav-links a:hover,.nav-links a.active{color:var(--green);border-bottom-color:var(--green)}
-.login-pill{
-  color:white!important;
-  background:linear-gradient(180deg,#39b836,#0b7d2c);
-  padding:12px 22px!important;
-  border-radius:999px;
-  border-bottom:0!important;
-  box-shadow:0 9px 18px rgba(21,128,61,.24), inset 0 -3px 0 rgba(0,0,0,.18);
-}
-.wrap{
-  max-width:1500px;
-  margin:0 auto;
-  padding:0 20px 28px;
+.wrap{max-width:1480px;margin:0 auto;padding:0 18px 28px}
+.card{
+  background:white;
+  border-radius:22px;
+  box-shadow:var(--shadow);
+  padding:24px;
 }
 .home-stage{
   position:relative;
   overflow:hidden;
   min-height:calc(100vh - 82px);
   border-radius:0 0 36px 36px;
-  padding:24px 24px 24px;
+  padding:24px;
   background:
-    linear-gradient(180deg,rgba(102,211,248,.55) 0%,rgba(206,246,188,.78) 53%,rgba(65,170,71,.56) 100%);
+    linear-gradient(180deg,rgba(112,213,248,.56) 0%,rgba(212,247,190,.82) 52%,rgba(58,168,68,.58) 100%);
   box-shadow:var(--shadow);
 }
 .home-stage::before{
   content:"";
-  position:absolute;
-  inset:0;
+  position:absolute;inset:0;
   pointer-events:none;
   background:
-    radial-gradient(circle at 18% 10%,rgba(255,255,255,.75) 0 76px,transparent 78px),
+    radial-gradient(circle at 18% 10%,rgba(255,255,255,.78) 0 76px,transparent 78px),
     radial-gradient(circle at 75% 12%,rgba(255,255,255,.55) 0 82px,transparent 84px),
-    linear-gradient(180deg,transparent 0 58%,rgba(34,197,94,.24) 59% 100%);
+    linear-gradient(180deg,transparent 0 56%,rgba(34,197,94,.25) 57% 100%);
 }
 .home-stage::after{
   content:"";
   position:absolute;
-  left:-4%;
-  right:-4%;
-  bottom:-20px;
-  height:190px;
+  left:-4%;right:-4%;bottom:-25px;height:210px;
   background:
-    radial-gradient(ellipse at 22% 100%,rgba(22,101,52,.55) 0 18%,transparent 19%),
-    radial-gradient(ellipse at 70% 100%,rgba(22,163,74,.5) 0 22%,transparent 23%),
-    linear-gradient(180deg,rgba(134,239,172,.2),rgba(21,128,61,.78));
+    radial-gradient(ellipse at 22% 100%,rgba(22,101,52,.54) 0 18%,transparent 19%),
+    radial-gradient(ellipse at 72% 100%,rgba(22,163,74,.48) 0 23%,transparent 24%),
+    linear-gradient(180deg,rgba(134,239,172,.18),rgba(21,128,61,.78));
   pointer-events:none;
 }
-.decor{
-  position:absolute;
-  z-index:1;
-  opacity:.9;
+.float-leaf{
+  position:absolute;z-index:1;font-size:34px;
   filter:drop-shadow(0 8px 10px rgba(0,0,0,.12));
   animation:floaty 4.6s ease-in-out infinite;
 }
 @keyframes floaty{50%{transform:translateY(-10px) rotate(2deg)}}
-.leaf-a{left:5%;top:18%;width:54px}.leaf-b{right:19%;top:15%;width:64px;animation-delay:.8s}.leaf-c{right:5%;bottom:15%;width:54px;animation-delay:1.2s}.leaf-d{left:21%;top:10%;width:48px;animation-delay:.4s}
+.leaf-a{left:5%;top:18%}.leaf-b{right:21%;top:14%;animation-delay:.8s}.leaf-c{right:5%;bottom:15%;animation-delay:1.2s}.leaf-d{left:22%;top:10%;animation-delay:.4s}
 .home-grid{
-  position:relative;
-  z-index:2;
+  position:relative;z-index:2;
   display:grid;
-  grid-template-columns:300px minmax(600px,1fr) 315px;
+  grid-template-columns:285px minmax(620px,1fr) 330px;
   gap:18px;
   align-items:start;
 }
@@ -176,31 +161,12 @@ a{color:inherit}
 .game-logo{
   position:relative;
   display:inline-block;
-  margin:8px auto 6px;
-  padding:8px 26px 20px;
+  margin:4px auto 6px;
+  padding:8px 28px 20px;
   filter:drop-shadow(0 18px 18px rgba(6,95,42,.22));
 }
-.logo-leaves{
-  position:absolute;
-  inset:0;
-  z-index:-1;
-}
-.logo-leaves span{
-  position:absolute;
-  width:68px;height:38px;
-  border-radius:999px 0 999px 0;
-  background:linear-gradient(135deg,#22c55e,#166534);
-  transform:rotate(-18deg);
-  box-shadow:0 3px 0 rgba(255,255,255,.35) inset;
-}
-.logo-leaves span:nth-child(1){left:36px;top:4px}
-.logo-leaves span:nth-child(2){right:54px;top:14px;transform:rotate(22deg)}
-.logo-leaves span:nth-child(3){left:8px;bottom:20px;transform:rotate(18deg)}
-.logo-leaves span:nth-child(4){right:12px;bottom:22px;transform:rotate(-24deg)}
 .logo-crown{
-  position:absolute;
-  right:20px;
-  top:4px;
+  position:absolute;right:16px;top:4px;
   width:78px;height:54px;
   background:linear-gradient(180deg,#ffe47a,#f59e0b);
   clip-path:polygon(0 100%,0 35%,22% 60%,38% 8%,56% 60%,78% 22%,100% 55%,100% 100%);
@@ -209,30 +175,29 @@ a{color:inherit}
   box-shadow:0 6px 0 rgba(146,64,14,.22);
 }
 .game-logo .top{
-  display:block;
-  font-size:78px;
-  font-weight:1000;
-  line-height:.95;
-  color:#f8fff0;
-  -webkit-text-stroke:4px #12813a;
+  display:block;font-size:72px;font-weight:1000;line-height:.95;
+  color:#f8fff0;-webkit-text-stroke:4px #12813a;
   text-shadow:0 7px 0 #0b6830,0 14px 18px rgba(0,0,0,.15);
 }
 .game-logo .bottom{
-  display:block;
-  font-size:112px;
-  font-weight:1000;
-  line-height:.9;
-  letter-spacing:.03em;
-  color:#ffc928;
-  -webkit-text-stroke:5px #16803a;
+  display:block;font-size:108px;font-weight:1000;line-height:.9;letter-spacing:.03em;
+  color:#ffc928;-webkit-text-stroke:5px #16803a;
   text-shadow:0 8px 0 #a35f05,0 16px 18px rgba(0,0,0,.13);
 }
+.logo-leaf{
+  position:absolute;
+  width:76px;height:42px;
+  border-radius:999px 0 999px 0;
+  background:linear-gradient(135deg,#22c55e,#166534);
+  box-shadow:0 3px 0 rgba(255,255,255,.35) inset;
+  z-index:-1;
+}
+.logo-leaf.one{left:25px;top:16px;transform:rotate(-20deg)}
+.logo-leaf.two{right:40px;bottom:25px;transform:rotate(-20deg)}
+.logo-leaf.three{left:0;bottom:30px;transform:rotate(20deg)}
 .ribbon{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  margin-top:-6px;
-  padding:10px 36px;
+  display:inline-flex;align-items:center;justify-content:center;
+  margin-top:-6px;padding:10px 36px;
   color:#422006;
   background:linear-gradient(180deg,#fff0a3,#d99521);
   border:3px solid #b87710;
@@ -248,9 +213,7 @@ a{color:inherit}
   text-shadow:0 2px 0 rgba(255,255,255,.82);
 }
 .select-banner{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
+  display:inline-flex;align-items:center;justify-content:center;
   margin:4px auto 14px;
   padding:8px 34px;
   color:white;
@@ -260,12 +223,6 @@ a{color:inherit}
   font-weight:1000;
   box-shadow:0 9px 17px rgba(6,95,42,.23);
 }
-.card{
-  background:#fff;
-  border-radius:22px;
-  box-shadow:var(--shadow);
-  padding:24px;
-}
 .side-panel{
   border-radius:24px;
   padding:16px;
@@ -274,18 +231,15 @@ a{color:inherit}
   box-shadow:0 15px 30px rgba(6,95,42,.15);
 }
 .character-card{
-  min-height:330px;
-  position:relative;
+  min-height:315px;
   display:flex;
   flex-direction:column;
   justify-content:flex-end;
   align-items:center;
-  overflow:hidden;
-  background:
-    radial-gradient(circle at 55% 54%,rgba(255,255,255,.75) 0 70px,transparent 72px),
-    linear-gradient(180deg,rgba(255,255,255,.22),rgba(255,255,255,.05));
+  background:transparent;
   box-shadow:none;
   border:0;
+  overflow:hidden;
 }
 .talk-bubble{
   max-width:230px;
@@ -299,45 +253,11 @@ a{color:inherit}
   box-shadow:0 8px 18px rgba(0,0,0,.1);
   margin:8px auto 4px;
 }
-.mascot{
-  width:170px;
-  height:185px;
-  position:relative;
-  margin:8px auto 0;
+.mascot-emoji{
+  font-size:118px;
+  line-height:1;
+  filter:drop-shadow(0 12px 10px rgba(0,0,0,.12));
 }
-.mascot .face{
-  position:absolute;
-  left:32px;top:43px;
-  width:106px;height:106px;
-  border-radius:50%;
-  background:linear-gradient(180deg,#ffe0b2,#ffbd7a);
-  border:5px solid #8b5e34;
-}
-.mascot .hat{
-  position:absolute;
-  left:15px;top:18px;
-  width:140px;height:46px;
-  border-radius:50% 50% 35% 35%;
-  background:linear-gradient(180deg,#d6a85d,#9a6a2e);
-  border:5px solid #80521d;
-  z-index:2;
-}
-.mascot .hat::before{
-  content:"";
-  position:absolute;
-  left:38px;top:-28px;
-  width:62px;height:42px;
-  border-radius:50% 50% 0 0;
-  background:#c99644;
-  border:5px solid #80521d;
-  border-bottom:0;
-}
-.mascot .eye{position:absolute;top:82px;width:14px;height:20px;background:#231815;border-radius:50%;z-index:3}
-.mascot .eye.left{left:68px}.mascot .eye.right{left:100px}
-.mascot .smile{position:absolute;left:76px;top:116px;width:35px;height:18px;border-bottom:5px solid #7c2d12;border-radius:0 0 40px 40px;z-index:3}
-.mascot .glass{position:absolute;left:10px;top:75px;width:56px;height:56px;border:7px solid #6d28d9;border-radius:50%;z-index:4}
-.mascot .glass::after{content:"";position:absolute;right:-34px;bottom:-28px;width:44px;height:10px;background:#6d28d9;border-radius:999px;transform:rotate(45deg)}
-.mascot .body{position:absolute;left:45px;top:135px;width:80px;height:50px;border-radius:20px 20px 8px 8px;background:#4d7c0f}
 .wood-sign{
   display:inline-block;
   margin:0 auto 2px;
@@ -351,16 +271,16 @@ a{color:inherit}
   text-align:center;
 }
 .news-panel{margin-top:14px}
-.news-panel h3,.rank-panel h3{margin:0 0 12px;font-size:23px;font-weight:1000;color:#b45309}
+.news-panel h3{margin:0 0 12px;font-size:22px;font-weight:1000;color:#b45309}
 .news-list{list-style:none;margin:0;padding:0;display:grid;gap:12px}
 .news-list li{font-weight:900;color:#3b2f1d;line-height:1.25}
 .news-list small{display:block;color:#7c5f35;font-weight:700;margin-left:30px;margin-top:3px}
 .more-chip{float:right;background:#fff3d0;border:1px solid #f1c875;border-radius:999px;padding:4px 10px;color:#8a4b10;font-size:13px;font-weight:900}
 .practice-form{
   margin:0 auto 14px;
-  max-width:780px;
+  max-width:790px;
   padding:14px;
-  background:rgba(255,255,255,.9);
+  background:rgba(255,255,255,.93);
   border-radius:20px;
   border:2px dashed #bde8ae;
   display:grid;
@@ -378,17 +298,9 @@ input[type=text],select{
   background:#fff;
   font-weight:800;
 }
-.status-row{
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  align-items:center;
-  gap:8px;
-}
+.status-row{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px}
 .pill{
-  display:inline-flex;
-  align-items:center;
-  gap:.45rem;
+  display:inline-flex;align-items:center;gap:.45rem;
   background:#eef9e9;
   color:#245335;
   padding:6px 12px;
@@ -397,19 +309,13 @@ input[type=text],select{
   font-weight:900;
 }
 .counter-badge{
-  display:inline-flex;
-  align-items:center;
-  gap:.5rem;
-  padding:6px 12px;
-  border-radius:12px;
-  background:#eef2ff;
-  border:1px solid #e5e7ff;
-  font-weight:900;
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:6px 12px;border-radius:12px;
+  background:#eef2ff;border:1px solid #e5e7ff;font-weight:900;
 }
 .badge-dot{width:8px;height:8px;border-radius:50%}
 .dot-spinning{background:var(--amber);animation:blink 1s infinite}
-.dot-ok{background:var(--ok)}
-.dot-off{background:#999}
+.dot-ok{background:var(--ok)}.dot-off{background:#999}
 @keyframes blink{50%{opacity:.2}}
 .muted{color:#6b7280}
 .question-hint{display:inline-block;color:#3a6b4b;font-size:14px;font-weight:900}
@@ -420,64 +326,40 @@ input[type=text],select{
   align-items:stretch;
 }
 .challenge-card{
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
+  display:flex;flex-direction:column;justify-content:space-between;
   min-height:316px;
-  padding:14px;
-  border-radius:25px;
+  padding:14px;border-radius:25px;
   background:linear-gradient(180deg,rgba(255,255,255,.97),rgba(255,255,255,.84));
   border:4px solid #9bd66a;
   box-shadow:0 12px 0 rgba(31,109,46,.11),0 12px 30px rgba(6,95,42,.13);
-  overflow:hidden;
-  position:relative;
+  overflow:hidden;position:relative;
 }
-.challenge-card.blue{border-color:#7cc5ff}
-.challenge-card.purple{border-color:#c4a0ff}
-.challenge-card.orange{border-color:#ffbe65}
+.challenge-card.blue{border-color:#7cc5ff}.challenge-card.purple{border-color:#c4a0ff}.challenge-card.orange{border-color:#ffbe65}
 .challenge-card::before{
-  content:"";
-  position:absolute;
-  right:-48px;
-  top:-48px;
-  width:130px;
-  height:130px;
-  border-radius:50%;
+  content:"";position:absolute;right:-48px;top:-48px;width:130px;height:130px;border-radius:50%;
   background:rgba(255,255,255,.6);
 }
 .challenge-card h2{position:relative;margin:0;font-size:30px;line-height:1.05;font-weight:1000;text-align:center}
 .challenge-card .age{position:relative;text-align:center;font-weight:900;margin:6px 0 10px;color:#22613b}
-.challenge-card.blue .age{color:#1d4ed8}
-.challenge-card.purple .age{color:#6d28d9}
-.challenge-card.orange .age{color:#c2410c}
+.challenge-card.blue .age{color:#1d4ed8}.challenge-card.purple .age{color:#6d28d9}.challenge-card.orange .age{color:#c2410c}
 .card-art{
-  position:relative;
-  height:98px;
-  border-radius:18px;
-  overflow:hidden;
+  position:relative;height:98px;border-radius:18px;overflow:hidden;
   background:linear-gradient(180deg,#dcfce7,#f7fee7);
   border:2px solid rgba(255,255,255,.8);
+  background-size:cover;background-position:center;
 }
-.card-art.photo1{background-image:linear-gradient(180deg,rgba(255,255,255,.1),rgba(21,128,61,.18)),url("https://img.miracle-mind.org/Hort_plant_quiz/herbaceous%20plants/%E4%B8%80%E4%B8%B2%E7%B4%85%EF%BC%88%E7%88%86%E7%AB%B9%E7%B4%85%EF%BC%89_1.jpg");background-size:cover;background-position:center}
-.card-art.photo2{background-image:linear-gradient(180deg,rgba(255,255,255,.1),rgba(37,99,235,.16)),url("https://img.miracle-mind.org/Hort_plant_quiz/fruit/%E5%8F%AF%E5%8F%AF_1.jpg");background-size:cover;background-position:center}
-.card-art.photo3{background-image:linear-gradient(180deg,rgba(255,255,255,.1),rgba(124,58,237,.16)),url("https://img.miracle-mind.org/Hort_plant_quiz/vegetables/%E5%86%AC%E7%93%9C_1.jpg");background-size:cover;background-position:center}
-.card-art.photo4{background-image:linear-gradient(180deg,rgba(255,255,255,.1),rgba(249,115,22,.18)),url("https://img.miracle-mind.org/Hort_plant_quiz/trees/%E5%85%89%E8%A0%9F%E6%A8%B9_1.jpg");background-size:cover;background-position:center}
+.card-art.photo1{background-image:linear-gradient(180deg,rgba(255,255,255,.12),rgba(21,128,61,.20)),url("https://img.miracle-mind.org/Hort_plant_quiz/herbaceous%20plants/%E4%B8%80%E4%B8%B2%E7%B4%85%EF%BC%88%E7%88%86%E7%AB%B9%E7%B4%85%EF%BC%89_1.jpg")}
+.card-art.photo2{background-image:linear-gradient(180deg,rgba(255,255,255,.12),rgba(37,99,235,.18)),url("https://img.miracle-mind.org/Hort_plant_quiz/fruit/%E5%8F%AF%E5%8F%AF_1.jpg")}
+.card-art.photo3{background-image:linear-gradient(180deg,rgba(255,255,255,.12),rgba(124,58,237,.18)),url("https://img.miracle-mind.org/Hort_plant_quiz/vegetables/%E5%86%AC%E7%93%9C_1.jpg")}
+.card-art.photo4{background-image:linear-gradient(180deg,rgba(255,255,255,.12),rgba(249,115,22,.20)),url("https://img.miracle-mind.org/Hort_plant_quiz/trees/%E5%85%89%E8%A0%9F%E6%A8%B9_1.jpg")}
 .card-art .overlay{
-  position:absolute;
-  left:10px;
-  bottom:8px;
-  padding:5px 10px;
-  border-radius:999px;
+  position:absolute;left:10px;bottom:8px;
+  padding:5px 10px;border-radius:999px;
   background:rgba(255,255,255,.88);
-  color:#14532d;
-  font-weight:1000;
-  font-size:13px;
+  color:#14532d;font-weight:1000;font-size:13px;
 }
-.card-list{list-style:none;margin:10px 0 12px;padding:0;display:grid;gap:6px;font-size:16px;font-weight:800;color:#315641}
-.card-list li::before{content:"● ";color:#f59e0b}
-.challenge-card.blue .card-list li::before{color:#2563eb}
-.challenge-card.purple .card-list li::before{color:#7c3aed}
-.challenge-card.orange .card-list li::before{color:#f97316}
+.card-list{list-style:none;margin:10px 0 12px;padding:0;display:grid;gap:6px;font-size:16px;font-weight:800;color:#315641;text-align:left}
+.card-list li::before{content:"● ";color:#f59e0b}.challenge-card.blue .card-list li::before{color:#2563eb}.challenge-card.purple .card-list li::before{color:#7c3aed}.challenge-card.orange .card-list li::before{color:#f97316}
 button,.big-btn{
   border:0;
   background:linear-gradient(180deg,#37aa31,#087b27);
@@ -507,99 +389,77 @@ button:disabled{opacity:.5;cursor:not-allowed}
   box-shadow:0 10px 24px rgba(6,95,42,.12);
 }
 .rank-head{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
   background:linear-gradient(180deg,#249443,#0d6f31);
-  color:white;
-  padding:12px 16px;
-  font-weight:1000;
-  font-size:21px;
+  color:white;padding:12px 16px;font-weight:1000;font-size:20px;
 }
 .rank-head.blue{background:linear-gradient(180deg,#36a4ee,#0b73c8)}
-.rank-list{list-style:none;margin:0;padding:10px 15px 4px;display:grid;gap:10px}
-.rank-list li{
-  display:grid;
-  grid-template-columns:34px 1fr auto;
-  gap:10px;
-  align-items:center;
-  font-weight:900;
-  border-bottom:1px solid #edf2e7;
-  padding-bottom:8px;
+.rank-tabs{display:flex;gap:6px;padding:10px 12px 0;flex-wrap:wrap}
+.rank-tabs span{
+  flex:1 1 auto;text-align:center;
+  padding:7px 6px;border-radius:999px;
+  background:#eef9e9;color:#14532d;font-weight:1000;font-size:13px;
+  border:1px solid #cdeebd;
 }
+.rank-tabs span.active{background:#15803d;color:#fff}
+.rank-list{list-style:none;margin:0;padding:10px 15px 4px;display:grid;gap:10px}
+.rank-list li{display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:center;font-weight:900;border-bottom:1px solid #edf2e7;padding-bottom:8px}
 .rank-list li:last-child{border-bottom:0}
 .rank-no{width:30px;height:30px;display:grid;place-items:center;border-radius:50%;background:#f3f4f6;color:#333;font-weight:1000}
-.rank-list li:nth-child(1) .rank-no{background:#fbbf24;color:white}
-.rank-list li:nth-child(2) .rank-no{background:#cbd5e1;color:white}
-.rank-list li:nth-child(3) .rank-no{background:#b45309;color:white}
+.rank-list li:nth-child(1) .rank-no{background:#fbbf24;color:white}.rank-list li:nth-child(2) .rank-no{background:#cbd5e1;color:white}.rank-list li:nth-child(3) .rank-no{background:#b45309;color:white}
 .score{font-weight:1000;color:#12301b;white-space:nowrap}
-.rank-btn{display:block;width:80%;margin:8px auto 0;text-align:center;background:linear-gradient(180deg,#37aa31,#087b27);color:white;text-decoration:none;border-radius:999px;padding:10px 14px;font-weight:1000}
-.rank-head.blue + .rank-list + .rank-btn{background:linear-gradient(180deg,#39aef8,#1d76d1)}
+.rank-note{padding:0 16px;color:#5b745f;font-size:12px;font-weight:800}
+.rank-btn{display:block;width:80%;margin:10px auto 0;text-align:center;background:linear-gradient(180deg,#37aa31,#087b27);color:white;border-radius:999px;padding:10px 14px;font-weight:1000}
+.rank-head.blue + .rank-tabs + .rank-list + .rank-note + .rank-btn{background:linear-gradient(180deg,#39aef8,#1d76d1)}
 .bottom-menu{
-  position:relative;
-  z-index:3;
+  position:relative;z-index:3;
   margin:18px auto 0;
-  display:flex;
-  justify-content:center;
-  gap:12px;
-  flex-wrap:wrap;
+  display:flex;justify-content:center;gap:12px;flex-wrap:wrap;
 }
 .menu-card{
-  min-width:140px;
-  background:rgba(255,255,255,.95);
+  min-width:140px;background:rgba(255,255,255,.95);
   border:2px solid rgba(255,255,255,.9);
-  border-radius:18px;
-  padding:10px 16px;
-  text-align:center;
+  border-radius:18px;padding:10px 16px;text-align:center;
   box-shadow:0 9px 19px rgba(6,95,42,.16);
-  font-weight:1000;
-  color:#22472d;
-  text-decoration:none;
+  font-weight:1000;color:#22472d;
 }
 .menu-card b{display:block;font-size:17px}
 .menu-card span{display:block;font-size:12px;color:#64735f;margin-top:3px}
 .menu-icon{font-size:30px;display:block;margin-bottom:4px}
 .rule-card{
-  position:relative;
-  z-index:3;
-  margin-top:18px;
-  text-align:center;
-  line-height:1.7;
-  background:rgba(255,253,244,.94);
+  position:relative;z-index:3;margin-top:18px;text-align:center;line-height:1.7;background:rgba(255,253,244,.94);
 }
 .site-footer{
-  position:relative;
-  z-index:3;
-  margin:18px -24px -24px;
-  padding:14px 24px;
+  position:relative;z-index:3;
+  margin:18px -24px -24px;padding:14px 24px;
   background:linear-gradient(180deg,#118238,#056025);
-  color:white;
-  display:flex;
-  justify-content:space-between;
-  gap:12px;
-  flex-wrap:wrap;
-  font-weight:900;
+  color:white;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-weight:900;
 }
-.hide{display:none!important}
+
+/* exam / result */
 .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.exam-card,.result-card{max-width:1120px;margin:22px auto}
+.exam-title{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.exam-title h2,.result-card h2{margin:0;font-size:28px;color:#064e3b}
 .bar{height:8px;border-radius:999px;background:#e5e7eb;overflow:hidden}
 .bar>i{display:block;height:100%;background:linear-gradient(90deg,#22c55e,#2563eb);width:0%}
 .imgbox{display:flex;align-items:center;justify-content:center;background:#f1f5f9;border:2px dashed #e5e7eb;border-radius:18px;min-height:420px;overflow:hidden;padding:12px}
 .imgbox>img{max-width:100%;max-height:70vh;display:block;border-radius:12px}
 .opts{display:grid;gap:10px;margin-top:14px}
 .opt{background:#f8fafc;border:1px solid #e5e7eb;border-radius:14px;padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:10px;font-weight:800}
-.opt input{margin:0}
-.opt.correct{border-color:var(--ok);background:#ecfdf5}
-.opt.wrong{border-color:var(--bad);background:#fef2f2}
+.opt input{margin:0}.opt.correct{border-color:var(--ok);background:#ecfdf5}.opt.wrong{border-color:var(--bad);background:#fef2f2}
 .numguide{display:flex;gap:6px;flex-wrap:wrap}
-.numguide button{background:#ffffff;color:#0f172a;border:1px solid #cbd5e1;padding:6px 10px;border-radius:8px;font-weight:700;box-shadow:none}
+.numguide button{background:#ffffff;color:#0f172a;border:1px solid #cbd5e1;padding:6px 10px;border-radius:8px;font-weight:700;box-shadow:none;font-size:14px}
 .numguide button.done{background:#dbeafe;color:#1d4ed8;border-color:#93c5fd}
 .numguide button.current{background:#dcfce7;color:#166534;border-color:#86efac}
 .summary-box{margin:14px 0;padding:12px 14px;border:1px solid #dbeafe;background:#f8fbff;border-radius:12px}
 .summary-title{font-size:14px;font-weight:900;margin-bottom:8px;color:#1e40af}
 .answer-tag{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;background:#eef2ff;color:#1d4ed8;margin-left:6px}
+#rTable th,#rTable td{font-size:14px}
+
 @media (max-width:1200px){
   .home-grid{grid-template-columns:1fr}
-  .side-left{order:2}
-  .hero-center{order:1}
-  .side-right{order:3}
+  .side-left{order:2}.hero-center{order:1}.side-right{order:3}
   .character-card{display:none}
   .challenge-grid{grid-template-columns:repeat(2,1fr)}
   .nav-wrap{flex-wrap:wrap}
@@ -607,12 +467,9 @@ button:disabled{opacity:.5;cursor:not-allowed}
 }
 @media (max-width:768px){
   .nav-wrap{padding:10px 12px;align-items:flex-start}
-  .nav-logo{font-size:23px}
-  .nav-logo small{font-size:11px}
-  .version-badge{font-size:11px}
+  .nav-logo{font-size:23px}.nav-logo small{font-size:11px}.version-badge{font-size:11px}
   .nav-links{width:100%;overflow:auto;justify-content:flex-start;padding-bottom:4px}
   .nav-links a{font-size:14px;white-space:nowrap}
-  .login-pill{display:none!important}
   .wrap{padding:0 10px 18px}
   .home-stage{padding:14px 10px;border-radius:0 0 24px 24px}
   .challenge-grid{grid-template-columns:1fr}
@@ -645,57 +502,48 @@ button:disabled{opacity:.5;cursor:not-allowed}
 <nav class="main-nav">
   <div class="nav-wrap">
     <a href="#home" class="nav-logo">
-      <span class="logo-mark" aria-hidden="true">
-        <svg viewBox="0 0 64 64" fill="none">
-          <path d="M32 56V28" stroke="#15803d" stroke-width="6" stroke-linecap="round"/>
-          <path d="M31 27C16 24 11 13 12 6c12 0 22 8 19 21Z" fill="#22c55e"/>
-          <path d="M34 31c16 0 24-10 23-21-14 0-25 8-23 21Z" fill="#16a34a"/>
-        </svg>
-      </span>
+      <span class="logo-mark">🌱</span>
       <span>AI植物探索王 <span class="version-badge">v1.0</span><small>認識植物・探索自然・挑戰自我</small></span>
     </a>
     <div class="nav-links">
       <a href="#home" class="active">首頁</a>
-      <a href="#plant-book">植物圖鑑</a>
+      <a href="#exam-info">測驗說明</a>
       <a href="#ranking">排行榜</a>
       <a href="#achievement">我的成就</a>
       <a href="#about">關於我們</a>
-      <a href="#login" class="login-pill">登入 / 註冊</a>
     </div>
   </div>
 </nav>
 
 <div class="wrap">
   <section id="home" class="home-stage">
-    <svg class="decor leaf-a" viewBox="0 0 64 64"><path d="M52 12C28 12 14 27 12 52c24 0 39-14 40-40Z" fill="#22c55e"/><path d="M16 48 48 16" stroke="#166534" stroke-width="4"/></svg>
-    <svg class="decor leaf-b" viewBox="0 0 64 64"><path d="M52 12C28 12 14 27 12 52c24 0 39-14 40-40Z" fill="#84cc16"/><path d="M16 48 48 16" stroke="#3f6212" stroke-width="4"/></svg>
-    <svg class="decor leaf-c" viewBox="0 0 64 64"><path d="M52 12C28 12 14 27 12 52c24 0 39-14 40-40Z" fill="#facc15"/><path d="M16 48 48 16" stroke="#854d0e" stroke-width="4"/></svg>
-    <svg class="decor leaf-d" viewBox="0 0 64 64"><path d="M52 12C28 12 14 27 12 52c24 0 39-14 40-40Z" fill="#38bdf8"/><path d="M16 48 48 16" stroke="#075985" stroke-width="4"/></svg>
+    <span class="float-leaf leaf-a">🌺</span>
+    <span class="float-leaf leaf-b">🦋</span>
+    <span class="float-leaf leaf-c">🐝</span>
+    <span class="float-leaf leaf-d">🐦</span>
 
     <div class="home-grid">
       <aside class="side-left">
         <div class="character-card">
           <div class="talk-bubble">你認識<br>校園裡的植物嗎？</div>
-          <div class="mascot" aria-hidden="true">
-            <div class="hat"></div><div class="face"></div><div class="eye left"></div><div class="eye right"></div><div class="smile"></div><div class="glass"></div><div class="body"></div>
-          </div>
+          <div class="mascot-emoji">🧒🔍</div>
           <div class="wood-sign">學習植物知識<br>成為植物小達人！</div>
         </div>
 
         <div class="side-panel news-panel">
           <h3>📣 最新消息 <span class="more-chip">更多</span></h3>
           <ul class="news-list">
-            <li>🏆 屏東縣植物王挑戰賽開跑！<small>2026/06/17</small></li>
+            <li>🏆 植物王挑戰首頁重新設計！<small>2026/06/17</small></li>
             <li>🌱 沿用園藝題庫，新增國中小探索入口！<small>題庫版本：<b id="ver">載入中</b></small></li>
-            <li>🎁 參加挑戰賽抽限量好禮！<small>正式挑戰列入未來排名</small></li>
-            <li>⭐ 學校積分榜即將開放！<small>個人、學校、縣市一起挑戰</small></li>
+            <li>🎯 正式挑戰採 100 題比例組卷<small>列入未來排名依據</small></li>
+            <li>🏫 學校積分榜分組顯示<small>國小、國中、高中職各自競賽</small></li>
           </ul>
         </div>
       </aside>
 
       <main class="hero-center">
         <div class="game-logo" aria-label="AI植物探索王">
-          <div class="logo-leaves"><span></span><span></span><span></span><span></span></div>
+          <span class="logo-leaf one"></span><span class="logo-leaf two"></span><span class="logo-leaf three"></span>
           <div class="logo-crown"></div>
           <span class="top">AI植物</span>
           <span class="bottom">探索王</span>
@@ -763,21 +611,19 @@ button:disabled{opacity:.5;cursor:not-allowed}
           </article>
 
           <article class="challenge-card orange">
-            <h2>農業探索區</h2>
-            <div class="age">認識農業・探索未來</div>
-            <div class="card-art photo4"><span class="overlay">農業職群介紹</span></div>
-            <ul class="card-list"><li>農業職群介紹</li><li>職涯探索測驗</li><li>農業知識小學堂</li></ul>
-            <button type="button" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">立即探索 ➜</button>
+            <h2>練習區</h2>
+            <div class="age">八大分類自由練習</div>
+            <div class="card-art photo4"><span class="overlay">植物訓練營</span></div>
+            <ul class="card-list"><li>分類題庫練習</li><li>不列入競賽排名</li><li>適合課堂暖身</li></ul>
+            <button type="button" class="practice-start" data-bank="B">進入練習 ➜</button>
           </article>
         </div>
 
-        <div class="bottom-menu">
-          <a class="menu-card" id="plant-book" href="#"><span class="menu-icon">📖</span><b>植物圖鑑</b><span>認識更多植物</span></a>
-          <a class="menu-card" href="#"><span class="menu-icon">📊</span><b>學習統計</b><span>追蹤學習進度</span></a>
-          <a class="menu-card" id="achievement" href="#"><span class="menu-icon">🏅</span><b>我的成就</b><span>收集專屬徽章</span></a>
-          <a class="menu-card" href="#"><span class="menu-icon">🗺️</span><b>探索地圖</b><span>發現植物足跡</span></a>
+        <div class="bottom-menu" id="achievement">
           <button id="btnQuick" class="menu-card" type="button"><span class="menu-icon">✅</span><b>每日挑戰</b><span>快速體驗 10 題</span></button>
-          <a class="menu-card" href="#"><span class="menu-icon">🎁</span><b>好康活動</b><span>活動消息不錯過</span></a>
+          <a class="menu-card" id="plant-book" href="#exam-info"><span class="menu-icon">📖</span><b>測驗說明</b><span>正式與練習規則</span></a>
+          <a class="menu-card" href="#ranking"><span class="menu-icon">🏫</span><b>學校積分</b><span>三組分開排名</span></a>
+          <a class="menu-card" href="#about"><span class="menu-icon">🌿</span><b>關於平台</b><span>教育與非營利用途</span></a>
         </div>
       </main>
 
@@ -791,26 +637,33 @@ button:disabled{opacity:.5;cursor:not-allowed}
             <li><span class="rank-no">4</span><span>花花達人<br><small>潮州國中</small></span><span class="score">92分</span></li>
             <li><span class="rank-no">5</span><span>植物博士<br><small>長治國中</small></span><span class="score">90分</span></li>
           </ol>
+          <div class="rank-note">示意資料：未來僅正式挑戰列入排行榜。</div>
           <a class="rank-btn" href="#ranking">查看完整排行榜 ➜</a>
         </div>
 
         <div class="rank-panel">
-          <div class="rank-head blue">🏫 學校積分排行榜 TOP5</div>
+          <div class="rank-head blue">🏫 學校積分排行榜</div>
+          <div class="rank-tabs">
+            <span class="active">國小組</span><span>國中組</span><span>高中職組</span>
+          </div>
           <ol class="rank-list">
-            <li><span class="rank-no">1</span><span>潮州國中</span><span class="score">12,560分</span></li>
-            <li><span class="rank-no">2</span><span>明正國中</span><span class="score">11,820分</span></li>
-            <li><span class="rank-no">3</span><span>麟洛國中</span><span class="score">10,750分</span></li>
-            <li><span class="rank-no">4</span><span>萬丹國中</span><span class="score">9,680分</span></li>
-            <li><span class="rank-no">5</span><span>佳冬高農</span><span class="score">8,920分</span></li>
+            <li><span class="rank-no">1</span><span>潮州國小</span><span class="score">12,560分</span></li>
+            <li><span class="rank-no">2</span><span>明正國小</span><span class="score">11,820分</span></li>
+            <li><span class="rank-no">3</span><span>麟洛國小</span><span class="score">10,750分</span></li>
           </ol>
+          <div class="rank-note">正式版會依國小組、國中組、高中職組分開計算。</div>
           <a class="rank-btn" href="#ranking">查看完整排行榜 ➜</a>
         </div>
       </aside>
     </div>
 
+    <section id="exam-info" class="side-panel rule-card">
+      <b>🌿 挑戰規則：</b>正式挑戰使用「全部題庫依比例組卷」100 題、40 分鐘，列入未來排行榜；
+      八大分類題庫作為練習區，不列入競賽排名，適合課堂暖身與學生自學。
+    </section>
+
     <section id="about" class="side-panel rule-card">
-      <b>挑戰規則：</b>正式挑戰使用「全部題庫依比例組卷」，列入未來排行榜；八大分類題庫作為練習區，適合課堂暖身與學生自學。<br>
-      <span class="muted">資料來源：勞動部勞動力發展署技能檢定中心。本網站圖片僅供教育與非營利用途，著作權歸原權利人所有。</span>
+      <b>🌱 平台定位：</b>AI植物探索王是國小、國中、高中職都可使用的植物識別挑戰平台，沿用園藝識別題庫與圖片資源，作為農業教育、生涯探索與植物學習入口。
     </section>
 
     <footer class="site-footer">
@@ -819,15 +672,16 @@ button:disabled{opacity:.5;cursor:not-allowed}
     </footer>
   </section>
 
-  <section id="exam" class="card hide">
-    <div class="row" style="justify-content:space-between">
+  <section id="exam" class="card exam-card hide">
+    <div class="exam-title">
+      <h2>🌿 植物王挑戰進行中</h2>
       <div class="row">
         <span class="pill">考生：<b id="who">—</b></span>
         <span class="pill">題數：<b id="countLabel">0/0</b></span>
         <span class="pill" id="clock">40:00</span>
       </div>
-      <div style="flex:1;max-width:520px" class="bar"><i id="bar"></i></div>
     </div>
+    <div class="bar" style="margin-bottom:16px"><i id="bar"></i></div>
 
     <h3 id="qtitle" style="margin:14px 0">第 1 / 0 題</h3>
     <div class="imgbox"><img id="qimg" alt="題目圖片" loading="lazy"></div>
@@ -839,14 +693,14 @@ button:disabled{opacity:.5;cursor:not-allowed}
       <button id="btnSubmit">交卷</button>
     </div>
 
-    <div style="margin-top:10px">
+    <div style="margin-top:14px">
       <div class="muted" style="margin-bottom:6px">題目導覽</div>
       <div id="numguide" class="numguide"></div>
     </div>
   </section>
 
-  <section id="result" class="card hide">
-    <h2>測驗結果</h2>
+  <section id="result" class="card result-card hide">
+    <h2>🏆 測驗結果</h2>
     <div class="row">
       <span class="pill">姓名/代號：<b id="rWho">—</b></span>
       <span class="pill">題數：<b id="rCount">0</b></span>
