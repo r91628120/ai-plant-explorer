@@ -111,9 +111,25 @@ input[type=text],select{
 .group-card.blue h2{color:#174aa6}.group-card.purple h2{color:#5b21b6}
 .age{font-weight:900;color:#4b6b54;margin:6px 0 12px}
 .card-pic{height:96px;border-radius:18px;background-size:cover;background-position:center;margin-bottom:12px;border:2px solid rgba(255,255,255,.9);display:grid;place-items:end center;overflow:hidden}
-.pic1{background-image:linear-gradient(rgba(255,255,255,.12),rgba(22,129,58,.22)),url("https://img.miracle-mind.org/Hort_plant_quiz/herbaceous%20plants/%E4%B8%80%E4%B8%B2%E7%B4%85%EF%BC%88%E7%88%86%E7%AB%B9%E7%B4%85%EF%BC%89_1.jpg")}
-.pic2{background-image:linear-gradient(rgba(255,255,255,.12),rgba(37,99,235,.18)),url("https://img.miracle-mind.org/Hort_plant_quiz/fruit/%E5%8F%AF%E5%8F%AF_1.jpg")}
-.pic3{background-image:linear-gradient(rgba(255,255,255,.12),rgba(124,58,237,.18)),url("https://img.miracle-mind.org/Hort_plant_quiz/vegetables/%E5%86%AC%E7%93%9C_1.jpg")}
+
+.pic1{
+  background-image:
+    linear-gradient(rgba(255,255,255,.08),rgba(22,129,58,.20)),
+    url("assets/card-elementary.png");
+}
+
+.pic2{
+  background-image:
+    linear-gradient(rgba(255,255,255,.08),rgba(37,99,235,.18)),
+    url("assets/card-junior.png");
+}
+
+.pic3{
+  background-image:
+    linear-gradient(rgba(255,255,255,.08),rgba(124,58,237,.18)),
+    url("assets/card-senior.png");
+}
+
 .pic-label{margin-bottom:8px;background:rgba(255,255,255,.9);border-radius:999px;padding:5px 10px;font-size:13px;font-weight:1000;color:#14532d}
 .list{list-style:none;margin:0 0 12px;padding:0;display:grid;gap:6px;text-align:left;font-weight:850}
 .list li:before{content:"⭐ ";color:#f59e0b}
@@ -249,6 +265,14 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
   filter:drop-shadow(0 12px 12px rgba(0,0,0,.18));
 }
 
+.side-mascot-img{
+  width:180px;
+  max-width:100%;
+  display:block;
+  margin:14px auto;
+  filter:drop-shadow(0 12px 12px rgba(0,0,0,.18));
+}
+
 </style>
 <script data-goatcounter="https://ai-agri-education.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
@@ -276,7 +300,7 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
       <aside class="side-left">
         <div class="panel mascot">
           <div class="bubble">你認識<br>校園裡的植物嗎？</div>
-          <div class="mascot-emoji">🧒🔍</div>
+          <img class="side-mascot-img" src="assets/plant-mascot.png" alt="AI植物探索王公仔">
           <div class="sign">先來猜植物<br>再挑戰植物王！</div>
         </div>
         <div class="panel news">
@@ -300,8 +324,7 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
         <div class="ribbon">全台植物識別挑戰賽</div>
         <div class="subtitle">認識植物 × 挑戰排行榜 × 成為植物王</div>
         <p class="goal">從國小到高中職都能參與的植物識別競賽平台：用每日挑戰、連勝紀錄、學校積分與闖關地圖，讓學生從「猜植物」開始走進自然與農業。</p>
-        <img class="hero-mascot-img" src="assets/plant-mascot.png" alt="AI植物探索王公仔">
-
+        
         <div class="hero-stats" aria-label="平台重點數據">
           <div class="stat-card">🌿 題庫照片 <b id="totalPhotoCount">2003</b><small>八大類植物識別</small></div>
           <div class="stat-card">🔥 我的連勝 <b id="streakDays">0 天</b><small>每天挑戰不中斷</small></div>
