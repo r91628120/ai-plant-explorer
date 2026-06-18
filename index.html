@@ -363,6 +363,9 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
             <select id="schoolName">
                <option value="">請先選擇組別，再選擇學校</option>
             </select>
+
+            <input id="otherSchoolName" class="hide" type="text" placeholder="請輸入其他學校名稱">
+
             <select id="groupSel" title="組別">
               <option value="elementary">國小組</option>
               <option value="junior" selected>國中組</option>
@@ -1012,6 +1015,7 @@ async function loadSchools(){
 
 function renderSchoolOptions(){
   const schoolSel = document.getElementById('schoolName');
+  const otherInput = document.getElementById('otherSchoolName');
   const group = document.getElementById('groupSel').value;
 
   if(!schoolSel) return;
@@ -1021,9 +1025,25 @@ function renderSchoolOptions(){
   schoolSel.innerHTML = `
     <option value="">請選擇學校</option>
     ${schools.map(s => `<option value="${s.name}">${s.name}</option>`).join('')}
+    <option value="其他學校">其他學校</option>
   `;
+
+  if(otherInput){
+    otherInput.classList.add('hide');
+    otherInput.value = '';
+  }
 }
 
+function getSelectedSchoolName(){
+  const schoolSel = document.getElementById('schoolName');
+  const otherInput = document.getElementById('otherSchoolName');
+
+  if(schoolSel && schoolSel.value === '其他學校'){
+    return otherInput.value.trim() || '其他學校';
+  }
+
+  return schoolSel.value.trim() || '未填學校';
+}
 
 function getLocalScores(){
   try{return JSON.parse(localStorage.getItem('plantKingScores') || '[]') || [];}catch(_){return []}
@@ -1034,7 +1054,7 @@ function saveLocalScore(score, correct, total){
   const scores = getLocalScores();
   scores.push({
     name: $('#uname').value.trim() || '植物挑戰者',
-    school: $('#schoolName').value.trim() || '未填學校',
+    school: getSelectedSchoolName(),
     group: $('#groupSel').value || 'junior',
     score, correct, total,
     mode: LAST_CHALLENGE_LABEL,
@@ -1051,7 +1071,7 @@ function submitScoreToGoogleSheet(score, correct, total){
 
   const payload = {
     name: $('#uname').value.trim() || '植物挑戰者',
-    school: $('#schoolName').value.trim() || '未填學校',
+    school: getSelectedSchoolName(),
     group: $('#groupSel').value || 'junior',
     score,
     correct,
@@ -1468,6 +1488,19 @@ document.querySelectorAll('.practice-start').forEach(btn => {
 
 $('#bankSel').addEventListener('change', updateQuestionCountUI);
 $('#groupSel').addEventListener('change', renderSchoolOptions);
+$('#schoolName').addEventListener('change', () => {
+  const otherInput = document.getElementById('otherSchoolName');
+
+  if(!otherInput) return;
+
+  if($('#schoolName').value === '其他學校'){
+    otherInput.classList.remove('hide');
+    otherInput.focus();
+  }else{
+    otherInput.classList.add('hide');
+    otherInput.value = '';
+  }
+});
 
 /* ----------------------- 5) 啟動 ----------------------- */
 document.getElementById('sourceLabel').textContent = 'R2 + Cloudflare CDN';
