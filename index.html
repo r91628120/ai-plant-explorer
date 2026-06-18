@@ -2128,17 +2128,60 @@ function updateRankingSummary(
     totalPoints.toLocaleString();
 }
 
+function taiwanTodayKey(){
+  return new Date().toLocaleDateString('sv-SE', {
+    timeZone: 'Asia/Taipei'
+  });
+}
+
+function cleanPlantBaseName(name){
+  return String(name || '')
+    .replace(/_\d+$/, '')
+    .replace(/（.*?）/g, '')
+    .trim();
+}
+
+function getDailyPlantItem(pools){
+  const all = getAllItemsWithCategory(pools);
+  const uniqueMap = new Map();
+
+  all.forEach(item => {
+    const baseName = cleanPlantBaseName(item.name);
+    if(!uniqueMap.has(baseName)){
+      uniqueMap.set(baseName, item);
+    }
+  });
+
+  const uniquePlants = Array.from(uniqueMap.values());
+  const index = hashString(taiwanTodayKey()) % uniquePlants.length;
+
+  return uniquePlants[index];
+}
+
 
 function setupDailyPreview(){
   loadQuestions().then(({pools}) => {
-    const all = getAllItemsWithCategory(pools);
-    if(!all.length) return;
-    const item = all[hashString(todayKey()) % all.length];
+    const item = getDailyPlantItem(pools);
+    if(!item) return;
+
     const img = $('#dailyPlantImg');
     if(img) img.src = optimizeImage(item.image);
+
     const hint = $('#dailyPlantHint');
-    const catName = ({A:'水生植物',B:'果樹',C:'草本植物',D:'資材',E:'灌木',F:'喬木',G:'蔬菜',H:'蔓性植物'})[item.categoryKey] || '植物';
-    if(hint) hint.textContent = `今日提示：${catName}。看照片猜植物，完成後可延續連勝紀錄。`;
+    const catName = ({
+      A:'水生植物',
+      B:'果樹',
+      C:'草本植物',
+      D:'資材',
+      E:'灌木',
+      F:'喬木',
+      G:'蔬菜',
+      H:'蔓性植物'
+    })[item.categoryKey] || '植物';
+
+    if(hint){
+      hint.textContent = `今日提示：${catName}。每日更換一種植物，請看照片猜植物名稱。`;
+    }
   }).catch(()=>{});
 }
 
@@ -2163,9 +2206,14 @@ async function startCustomExam({items, label='特色挑戰', minutes=10, rankabl
 
 async function startDailyChallenge(){
   const {pools} = await loadQuestions();
-  const all = getAllItemsWithCategory(pools);
-  const item = all[hashString(todayKey()) % all.length];
-  await startCustomExam({items:[item], label:'每日植物挑戰', minutes:2, rankable:true});
+  const item = getDailyPlantItem(pools);
+
+  await startCustomExam({
+    items:[item],
+    label:'每日植物挑戰',
+    minutes:2,
+    rankable:true
+  });
 }
 
 async function startMysteryChallenge(){
