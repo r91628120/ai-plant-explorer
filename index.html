@@ -768,7 +768,7 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
          <b id="summaryPlayerCount">0</b>
        </div>
        <div class="ranking-summary-card">
-           🏫 參與學校
+           🏫 參與學校／自由挑戰
          <b id="summarySchoolCount">0</b>
        </div>
        <div class="ranking-summary-card">
@@ -1695,7 +1695,7 @@ function updateSchoolRanking(schools){
   list.innerHTML = schools.slice(0,10).map((r, i) => `
     <li>
       <span class="no">${rankNo(i)}</span>
-      <span>${r.school || '未填學校'}</span>
+      <span>${r.school === '未填學校' ? '自由挑戰者' : (r.school || '未填學校')}</span>
       <b>${Number(r.points || 0).toLocaleString()}分</b>
     </li>
   `).join('');
@@ -1721,7 +1721,7 @@ function updateFullSchoolRanking(schools){
   list.innerHTML = schools.slice(0,50).map((r, i) => `
     <li>
       <span class="no">${rankNo(i)}</span>
-      <span>${r.school || '未填學校'}</span>
+      <span>${r.school === '未填學校' ? '自由挑戰者' : (r.school || '未填學校')}</span>
       <b>${Number(r.points || 0).toLocaleString()}分</b>
     </li>
   `).join('');
@@ -1730,17 +1730,25 @@ function updateFullSchoolRanking(schools){
 function updateRankingSummary(personal, schoolsByGroup){
   const playerCount = personal.length;
 
-  const allSchools = [];
+  const realSchools = [];
+  let freeChallengerCount = 0;
 
   Object.values(schoolsByGroup || {}).forEach(groupSchools => {
     (groupSchools || []).forEach(s => {
       if(s.school && s.school !== '未填學校'){
-        allSchools.push(s.school);
+        realSchools.push(s.school);
+      }
+
+      if(s.school === '未填學校'){
+        freeChallengerCount++;
       }
     });
   });
 
-  const schoolCount = new Set(allSchools).size;
+  const schoolCount = new Set(realSchools).size;
+  const schoolDisplay = freeChallengerCount > 0
+    ? `${schoolCount}＋自由`
+    : schoolCount.toLocaleString();
 
   const totalPoints = Object.values(schoolsByGroup || {}).flat()
     .reduce((sum, s) => sum + Number(s.points || 0), 0);
@@ -1750,9 +1758,10 @@ function updateRankingSummary(personal, schoolsByGroup){
   const tp = document.getElementById('summaryTotalPoints');
 
   if(p) p.textContent = playerCount.toLocaleString();
-  if(sc) sc.textContent = schoolCount.toLocaleString();
+  if(sc) sc.textContent = schoolDisplay;
   if(tp) tp.textContent = totalPoints.toLocaleString();
 }
+
 
 function setupDailyPreview(){
   loadQuestions().then(({pools}) => {
@@ -2215,7 +2224,7 @@ if(btnSearchMyRank){
       🎉 找到了！<br>
       ${r.name || '植物挑戰者'} 目前排名第 <b>${index + 1}</b> 名，
       分數 <b>${Number(r.score || 0)}</b> 分，
-      學校：${r.school || '未填學校'}。
+      學校／身分：${r.school === '未填學校' ? '自由挑戰者' : (r.school || '未填學校')}。
     `;
   });
 }
