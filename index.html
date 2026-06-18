@@ -514,18 +514,6 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
        </div>
     </section>
 
-          <h3>🗺️ 植物闖關地圖</h3>
-          <p style="margin:6px 0 0;font-weight:850;color:#526b58">歡迎大家一起來植物識別闖關。</p>
-          <div class="map-line">
-            <button class="stage-btn js-stage-start" data-bank="A"><b>💧</b>第1關<br>水生植物</button>
-            <button class="stage-btn js-stage-start" data-bank="C"><b>🌸</b>第2關<br>草本花卉</button>
-            <button class="stage-btn js-stage-start" data-bank="B"><b>🥭</b>第3關<br>果樹植物</button>
-            <button class="stage-btn js-stage-start" data-bank="G"><b>🥬</b>第4關<br>蔬菜植物</button>
-            <button class="stage-btn js-stage-start" data-bank="F"><b>🌳</b>第5關<br>喬木植物</button>
-            <button class="stage-btn king js-king-start"><b>👑</b>第6關<br>植物王挑戰</button>
-          </div>
-        </section>
-
         <section id="practice" class="practice">
           <h3>🌿 練習區：八大分類自由練習</h3>
           <p style="margin:0 0 12px;font-weight:850;color:#5b6f60">練習區用來熟悉植物，不列入排行榜；正式挑戰才作為未來競賽成績。</p>
@@ -960,6 +948,10 @@ function show(id){
     $('#' + sec).classList.toggle('hide', sec !== id);
   }
 }
+
+setTimeout(() => {
+  document.getElementById(id)?.scrollIntoView({ behavior:'smooth', block:'start' });
+}, 50);
 
 function renderQuestion(){
   const q = QUESTIONS[CUR];
