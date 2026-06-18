@@ -455,7 +455,7 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
 
 .ranking-summary{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+  grid-template-columns:repeat(4,1fr);
   gap:12px;
   margin:16px 0 20px;
 }
@@ -935,18 +935,27 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
         <p>目前顯示 Google Sheet 正式排行榜資料。</p>
 
     <div class="ranking-summary">
-       <div class="ranking-summary-card">
-           🏆 參賽人次
+
+      <div class="ranking-summary-card">
+         🏆 總挑戰人次
+         <b id="summaryAttemptCount">0</b>
+      </div>
+
+      <div class="ranking-summary-card">
+         👤 參賽人數
          <b id="summaryPlayerCount">0</b>
-       </div>
-       <div class="ranking-summary-card">
-           🏫 參與學校／自由挑戰
+      </div>
+
+      <div class="ranking-summary-card">
+          🏫 參與學校
          <b id="summarySchoolCount">0</b>
-       </div>
-       <div class="ranking-summary-card">
-           🌱 累積積分
-         <b id="summaryTotalPoints">0</b>
-       </div>
+      </div>
+
+      <div class="ranking-summary-card">
+          🌱 累積積分
+          <b id="summaryTotalPoints">0</b>
+      </div>
+
     </div>
 
        <div class="rank-search-box">
@@ -1085,7 +1094,7 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
 
 // ✅ 修正 subject=horti
 const COUNTER_URL = 'https://script.google.com/macros/s/AKfycbxtY_zohVsck_4dnPvXnUaml9grxRm6C_3K6RML44s5yJIHAQXoKX222Hoii34LcKpf/exec?subject=horti';
-const RANKING_URL = 'https://script.google.com/macros/s/AKfycbwD_OeplD2KoNz0-8g6G8nlvIXqM7FCYB6NiwGMd3-Ohf4jvD73jDHGc0b0QLzBM9ug/exec';
+const RANKING_URL = 'https://script.google.com/macros/s/AKfycbxryciOwxnVOVTp5sc4tPxEgbkfdlBz2wOAZLT3Tx2VB2-zT5hOJWhucL1mrnWXyqRG/exec';
 
 const QUOTA_100 = { B:20, G:20, A:4, H:6, C:20, E:10, F:10, D:10 };
 const LABELS = ['A','B','C','D'];
@@ -1960,7 +1969,11 @@ async function loadRankingsFromGoogleSheet(){
 
      updatePersonalRanking(FULL_PERSONAL_DATA);
      updateFullPersonalRanking(FULL_PERSONAL_DATA);
-     updateRankingSummary(FULL_PERSONAL_DATA, data.schoolsByGroup || {});
+     updateRankingSummary(
+       FULL_PERSONAL_DATA,
+        data.schoolsByGroup || {},
+        data.totalAttempts || 0
+    );
 
     SCHOOL_RANK_DATA = data.schoolsByGroup || {
      elementary: [],
@@ -2050,39 +2063,69 @@ function updateFullSchoolRanking(schools){
   `).join('');
 }
 
-function updateRankingSummary(personal, schoolsByGroup){
-  const playerCount = personal.length;
+function updateRankingSummary(
+  personal,
+  schoolsByGroup,
+  totalAttempts
+){
+
+  const attemptCount = Number(totalAttempts || 0);
+
+  const uniquePlayers =
+    new Set(
+      personal.map(r =>
+        `${r.name}-${r.school}`
+      )
+    ).size;
 
   const realSchools = [];
-  let freeChallengerCount = 0;
 
   Object.values(schoolsByGroup || {}).forEach(groupSchools => {
+
     (groupSchools || []).forEach(s => {
-      if(s.school && s.school !== '未填學校'){
+
+      if(
+        s.school &&
+        s.school !== '未填學校'
+      ){
         realSchools.push(s.school);
       }
 
-      if(s.school === '未填學校'){
-        freeChallengerCount++;
-      }
     });
+
   });
 
-  const schoolCount = new Set(realSchools).size;
-  const schoolDisplay = freeChallengerCount > 0
-    ? `${schoolCount}＋自由`
-    : schoolCount.toLocaleString();
+  const schoolCount =
+    new Set(realSchools).size;
 
-  const totalPoints = Object.values(schoolsByGroup || {}).flat()
-    .reduce((sum, s) => sum + Number(s.points || 0), 0);
+  const totalPoints =
+    Object.values(schoolsByGroup || {})
+      .flat()
+      .reduce(
+        (sum,s)=>
+          sum + Number(s.points || 0),
+        0
+      );
 
-  const p = document.getElementById('summaryPlayerCount');
-  const sc = document.getElementById('summarySchoolCount');
-  const tp = document.getElementById('summaryTotalPoints');
+  document.getElementById(
+    'summaryAttemptCount'
+  ).textContent =
+    attemptCount.toLocaleString();
 
-  if(p) p.textContent = playerCount.toLocaleString();
-  if(sc) sc.textContent = schoolDisplay;
-  if(tp) tp.textContent = totalPoints.toLocaleString();
+  document.getElementById(
+    'summaryPlayerCount'
+  ).textContent =
+    uniquePlayers.toLocaleString();
+
+  document.getElementById(
+    'summarySchoolCount'
+  ).textContent =
+    schoolCount.toLocaleString();
+
+  document.getElementById(
+    'summaryTotalPoints'
+  ).textContent =
+    totalPoints.toLocaleString();
 }
 
 
