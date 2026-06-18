@@ -225,7 +225,53 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
 .daily-head{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:10px}.daily-head h3,.streak-card h3,.adventure-map h3{margin:0;color:#065f2b;font-size:21px}.daily-tag{background:#f59e0b;color:white;border-radius:999px;padding:6px 10px;font-weight:1000;font-size:13px}
 .daily-body{display:grid;grid-template-columns:118px 1fr;gap:12px;align-items:center}.daily-body img{width:118px;height:86px;object-fit:cover;border-radius:16px;border:3px solid #fff;box-shadow:0 8px 18px rgba(0,0,0,.12);background:#eef2f7}.daily-body p{margin:0 0 8px;font-weight:900;color:#4a5d4f;line-height:1.45}.daily-body button{font-size:15px;padding:10px 14px}
 .streak-card{text-align:left;background:linear-gradient(180deg,#fff,#f2fff1);border-color:#9bdc80}.streak-big{display:flex;align-items:end;gap:8px;margin:10px 0 8px;color:#dc2626;font-weight:1000}.streak-big b{font-size:42px;line-height:.9}.streak-row{display:flex;gap:8px;flex-wrap:wrap}.mini-badge{background:#eef9e9;color:#245335;border-radius:999px;padding:6px 10px;font-weight:900;font-size:13px}
-.adventure-map{margin:16px 0;text-align:left;background:linear-gradient(180deg,#ffffff,#f4fff0)}.map-line{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;margin-top:12px}.stage-btn{background:#fff;color:#14532d;border:2px solid #b7e69c;box-shadow:0 6px 0 rgba(31,109,46,.1);font-size:13px;padding:11px 7px;line-height:1.35}.stage-btn b{display:block;font-size:22px}.stage-btn.king{background:linear-gradient(180deg,#fff1a8,#f59e0b);border-color:#d97706;color:#78350f}
+.adventure-map{margin:16px 0;text-align:left;background:linear-gradient(180deg,#ffffff,#f4fff0)}.map-line{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;margin-top:12px}.stage-btn{background:#fff;color:#14532d;border:2px solid #b7e69c;box-shadow:0 6px 0 rgba(31,109,46,.1);font-size:13px;padding:11px 7px;line-height:1.35}.stage-btn b{display:block;font-size:22px}
+.stage-btn.king{background:linear-gradient(180deg,#fff1a8,#f59e0b);border-color:#d97706;color:#78350f}
+.stage-btn.locked{
+  opacity:.45;
+  filter:grayscale(.35);
+  cursor:not-allowed;
+}
+
+.stage-btn.done{
+  background:linear-gradient(180deg,#dcfce7,#86efac);
+  border-color:#22c55e;
+  color:#14532d;
+}
+
+.stage-btn.current{
+  background:linear-gradient(180deg,#fff7cd,#fbbf24);
+  border-color:#f59e0b;
+  color:#78350f;
+}
+
+.adventure-status{
+  margin-top:12px;
+  padding:12px;
+  border-radius:18px;
+  background:#f0fdf4;
+  border:2px dashed #86efac;
+  font-weight:900;
+  line-height:1.7;
+}
+
+.badge-box{
+  margin-top:8px;
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.adventure-badge{
+  background:#fff7ed;
+  color:#9a3412;
+  border:1px solid #fdba74;
+  border-radius:999px;
+  padding:5px 10px;
+  font-size:13px;
+  font-weight:1000;
+}
+
 .shortcut-dock{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;margin:14px 0 4px;padding:12px}.shortcut-dock a,.shortcut-dock button{display:block;text-align:center;background:#fff;color:#12462a;border:2px solid #d8edc8;border-radius:16px;box-shadow:0 6px 0 rgba(31,109,46,.08);padding:10px 6px;font-size:13px;font-weight:1000}.shortcut-dock b{display:block;font-size:22px}.shortcut-dock button{cursor:pointer}
 .rank-actions{padding:0 16px 14px}.rank-actions button{width:100%;font-size:14px;padding:10px}.rank li small{color:#66785f}
 
@@ -443,7 +489,31 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
         </div>
 
 
-        <section id="adventureMap" class="adventure-map">
+    <section id="adventureMap" class="adventure-map">
+       <h3>🗺️ 植物闖關地圖 v3.0</h3>
+         <p style="margin:6px 0 0;font-weight:850;color:#526b58">
+           每關 10 題，答對 8 題以上即可過關，解鎖下一關。
+         </p>
+
+          <div class="adventure-status">
+             <div id="adventureProgressText">目前進度：載入中...</div>
+             <div id="adventureBadges" class="badge-box"></div>
+          </div>
+
+       <div class="map-line">
+          <button class="stage-btn js-stage-start" data-stage="0"></button>
+          <button class="stage-btn js-stage-start" data-stage="1"></button>
+          <button class="stage-btn js-stage-start" data-stage="2"></button>
+          <button class="stage-btn js-stage-start" data-stage="3"></button>
+          <button class="stage-btn js-stage-start" data-stage="4"></button>
+          <button class="stage-btn king js-stage-start" data-stage="5"></button>
+       </div>
+
+       <div style="margin-top:12px;text-align:center">
+          <button id="btnResetAdventure" class="ghost" type="button">重新開始闖關</button>
+       </div>
+    </section>
+
           <h3>🗺️ 植物闖關地圖</h3>
           <p style="margin:6px 0 0;font-weight:850;color:#526b58">歡迎大家一起來植物識別闖關。</p>
           <div class="map-line">
@@ -619,6 +689,18 @@ let SCHOOL_RANK_DATA = {
 };
 
 let SCHOOL_LIST = [];
+
+let LAST_ADVENTURE_STAGE_INDEX = null;
+
+const ADVENTURE_STAGES = [
+  { key:'A', title:'水生植物', icon:'💧', badge:'水生植物達人' },
+  { key:'C', title:'草本花卉', icon:'🌸', badge:'花卉達人' },
+  { key:'B', title:'果樹植物', icon:'🥭', badge:'果樹達人' },
+  { key:'G', title:'蔬菜植物', icon:'🥬', badge:'蔬菜達人' },
+  { key:'F', title:'喬木植物', icon:'🌳', badge:'樹木達人' },
+  { key:'mix', title:'植物王挑戰', icon:'👑', badge:'植物王' }
+];
+
 
 const $  = s => document.querySelector(s);
 const $$ = s => document.querySelectorAll(s);
@@ -1033,6 +1115,132 @@ function renderStreak(){
   const todayDone = $('#todayDoneLabel'); if(todayDone) todayDone.textContent = done ? '已完成' : '未完成';
 }
 
+function loadAdventureState(){
+  try{
+    return JSON.parse(localStorage.getItem('plantAdventureState') || '{"level":0,"badges":[]}');
+  }catch(_){
+    return { level:0, badges:[] };
+  }
+}
+
+function saveAdventureState(state){
+  localStorage.setItem('plantAdventureState', JSON.stringify(state));
+}
+
+function renderAdventureMap(){
+  const state = loadAdventureState();
+  const level = Number(state.level || 0);
+  const badges = state.badges || [];
+
+  const progressText = document.getElementById('adventureProgressText');
+  const badgeBox = document.getElementById('adventureBadges');
+
+  if(progressText){
+    if(level >= ADVENTURE_STAGES.length){
+      progressText.textContent = '目前進度：🎉 全部通關！你已成為植物王！';
+    }else{
+      progressText.textContent = `目前進度：第 ${level + 1} / ${ADVENTURE_STAGES.length} 關，下一關：${ADVENTURE_STAGES[level].icon} ${ADVENTURE_STAGES[level].title}`;
+    }
+  }
+
+  if(badgeBox){
+    badgeBox.innerHTML = badges.length
+      ? badges.map(b => `<span class="adventure-badge">🏅 ${b}</span>`).join('')
+      : `<span class="adventure-badge">尚未獲得徽章</span>`;
+  }
+
+  document.querySelectorAll('.js-stage-start').forEach((btn, index) => {
+    const stage = ADVENTURE_STAGES[index];
+    if(!stage) return;
+
+    btn.classList.remove('locked','done','current');
+    btn.disabled = false;
+
+    if(index < level){
+      btn.classList.add('done');
+      btn.innerHTML = `<b>✅</b>第${index + 1}關<br>${stage.title}<br><small>已過關</small>`;
+    }else if(index === level){
+      btn.classList.add('current');
+      btn.innerHTML = `<b>👉</b>第${index + 1}關<br>${stage.title}<br><small>目前挑戰</small>`;
+    }else{
+      btn.classList.add('locked');
+      btn.disabled = true;
+      btn.innerHTML = `<b>🔒</b>第${index + 1}關<br>${stage.title}<br><small>尚未解鎖</small>`;
+    }
+
+    if(level >= ADVENTURE_STAGES.length){
+      btn.classList.add('done');
+      btn.disabled = false;
+    }
+  });
+}
+
+async function startAdventureStage(stageIndex){
+  const state = loadAdventureState();
+  const level = Number(state.level || 0);
+  const stage = ADVENTURE_STAGES[stageIndex];
+
+  if(!stage) return;
+
+  if(stageIndex > level){
+    alert('🔒 這一關尚未解鎖，請先完成前面的關卡！');
+    return;
+  }
+
+  LAST_ADVENTURE_STAGE_INDEX = stageIndex;
+
+  const {pools} = await loadQuestions();
+
+  if(stage.key === 'mix'){
+    const chosen = makePaperMix(pools).slice(0, 10);
+    await startCustomExam({
+      items: chosen,
+      label: '闖關地圖',
+      minutes: 8,
+      rankable: true
+    });
+    return;
+  }
+
+  const bag = (pools[stage.key] || []).map(item => ({...item, categoryKey:stage.key}));
+  await startCustomExam({
+    items: pick(bag, Math.min(10, bag.length)),
+    label: '闖關地圖',
+    minutes: 8,
+    rankable: true
+  });
+}
+
+function checkAdventurePass(correct, total){
+  if(LAST_CHALLENGE_LABEL !== '闖關地圖') return;
+  if(LAST_ADVENTURE_STAGE_INDEX === null) return;
+
+  const passNeed = 8;
+  const state = loadAdventureState();
+  const stage = ADVENTURE_STAGES[LAST_ADVENTURE_STAGE_INDEX];
+
+  if(!stage) return;
+
+  if(correct >= passNeed){
+    if(!state.badges.includes(stage.badge)){
+      state.badges.push(stage.badge);
+    }
+
+    state.level = Math.max(
+      Number(state.level || 0),
+      LAST_ADVENTURE_STAGE_INDEX + 1
+    );
+
+    saveAdventureState(state);
+    alert(`🎉 恭喜過關！\n獲得徽章：${stage.badge}`);
+  }else{
+    alert(`🌱 再接再厲！\n本關需要答對 ${passNeed} 題以上才能過關。\n你這次答對 ${correct} 題。`);
+  }
+
+  LAST_ADVENTURE_STAGE_INDEX = null;
+  renderAdventureMap();
+}
+
 async function loadSchools(){
   try{
     const res = await fetch('schools.json?t=' + Date.now(), {
@@ -1332,6 +1540,7 @@ function renderResult({correct, wrong, rows}){
      saveLocalScore(finalScore, correct, QUESTIONS.length);
      submitScoreToGoogleSheet(finalScore, correct, QUESTIONS.length);
      markTodayDone();
+     checkAdventurePass(correct, QUESTIONS.length);
 
     const rankTitle = $('#rankTitle'); if(rankTitle) rankTitle.textContent = titleByScore(finalScore);
     renderRankings();
@@ -1547,6 +1756,7 @@ renderRankings();
 loadRankingsFromGoogleSheet();
 loadSchools();
 setupDailyPreview();
+renderAdventureMap();
 
 /* ----------------------- 6) AI植物探索王首頁入口 ----------------------- */
 function setGroup(groupValue){
@@ -1582,17 +1792,23 @@ const btnShowStreak = document.getElementById('btnShowStreak');
 if(btnShowStreak) btnShowStreak.addEventListener('click', () => {
   alert(`🔥 目前連勝：${(loadGameState().streak || 0)} 天\n🏆 最佳紀錄：${(loadGameState().bestStreak || 0)} 天`);
 });
+
 document.querySelectorAll('.js-stage-start').forEach(btn => {
-  btn.addEventListener('click', () => startStageChallenge(btn.dataset.bank || 'A'));
-});
-document.querySelectorAll('.js-king-start').forEach(btn => {
-  btn.addEventListener('click', async () => {
-    const bankSel = document.getElementById('bankSel');
-    if(bankSel) bankSel.value = 'mix';
-    updateQuestionCountUI();
-    await startNormalExam({quick:false});
+  btn.addEventListener('click', () => {
+    const stageIndex = Number(btn.dataset.stage || 0);
+    startAdventureStage(stageIndex);
   });
 });
+
+const btnResetAdventure = document.getElementById('btnResetAdventure');
+if(btnResetAdventure){
+  btnResetAdventure.addEventListener('click', () => {
+    if(confirm('確定要重新開始植物闖關地圖嗎？')){
+      localStorage.removeItem('plantAdventureState');
+      renderAdventureMap();
+    }
+  });
+}
 
 document.querySelectorAll('#schoolRankTabs span').forEach(tab => {
   tab.addEventListener('click', () => {
