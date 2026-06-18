@@ -184,7 +184,14 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
 .rank li{display:grid;grid-template-columns:32px 1fr auto;gap:8px;align-items:center;border-bottom:1px solid #edf2e7;padding-bottom:8px;font-weight:900}
 .rank li:last-child{border:0}
 .no{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#f3f4f6;font-weight:1000}
-.rank li:nth-child(1) .no{background:#fbbf24;color:#fff}.rank li:nth-child(2) .no{background:#cbd5e1;color:#fff}.rank li:nth-child(3) .no{background:#b45309;color:#fff}
+.rank li:nth-child(1) .no{
+  background:#fbbf24;
+  color:#fff;
+
+  animation: glowGold 2s infinite;
+}
+.rank li:nth-child(2) .no{background:#cbd5e1;color:#fff}
+.rank li:nth-child(3) .no{background:#b45309;color:#fff}
 .tabs{display:flex;gap:6px;padding:12px 12px 0}
 .tabs span{flex:1;text-align:center;background:#eef9e9;border-radius:999px;padding:6px;font-size:13px;font-weight:1000;color:#14532d}
 .tabs span.active{background:#15803d;color:white}
@@ -499,7 +506,15 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
 
 .full-rank-grid li:nth-child(1){
   border-color:#fbbf24;
-  background:linear-gradient(180deg,#fff7d6,#ffffff);
+  background:linear-gradient(
+      180deg,
+      #fff8c4,
+      #ffffff
+  );
+
+  animation: glowGold 2s infinite;
+
+  transform:scale(1.02);
 }
 
 .full-rank-grid li:nth-child(2){
@@ -512,6 +527,29 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
   background:linear-gradient(180deg,#fff7ed,#ffffff);
 }
 
+/* ===== 第一名發光效果 ===== */
+
+@keyframes glowGold {
+  0%{
+    box-shadow:
+      0 0 5px rgba(251,191,36,.4),
+      0 0 10px rgba(251,191,36,.3);
+  }
+
+  50%{
+    box-shadow:
+      0 0 15px rgba(251,191,36,.8),
+      0 0 30px rgba(251,191,36,.6);
+  }
+
+  100%{
+    box-shadow:
+      0 0 5px rgba(251,191,36,.4),
+      0 0 10px rgba(251,191,36,.3);
+  }
+}
+
+
 @media(max-width:760px){
   .ranking-summary{
     grid-template-columns:1fr;
@@ -521,6 +559,38 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
     grid-template-columns:1fr;
   }
 }
+
+.player-title{
+  display:inline-block;
+  margin-top:4px;
+  padding:3px 9px;
+  border-radius:999px;
+  background:#fff7d6;
+  color:#92400e;
+  font-size:12px;
+  font-weight:1000;
+  border:1px solid #fbbf24;
+}
+
+.achievement-badges{
+  margin-top:8px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+}
+
+.achievement-badge{
+  display:inline-block;
+  padding:5px 10px;
+  border-radius:999px;
+  background:#ecfdf5;
+  color:#166534;
+  border:1px solid #86efac;
+  font-size:13px;
+  font-weight:1000;
+}
+
+
 
 </style>
 <script data-goatcounter="https://ai-agri-education.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
@@ -1339,6 +1409,22 @@ function titleByScore(score){
   return '植物新手';
 }
 
+function badgesByScore(score, streak = 0){
+  const badges = [];
+
+  if(score >= 100) badges.push('👑 滿分植物王');
+  if(score >= 95) badges.push('🏆 植物王');
+  if(score >= 85) badges.push('🌿 植物博士');
+  if(score >= 75) badges.push('🔍 植物達人');
+  if(score >= 60) badges.push('🌱 植物學徒');
+
+  if(streak >= 7) badges.push('🔥 七日連勝');
+  else if(streak >= 3) badges.push('🔥 三日連勝');
+
+  return badges;
+}
+
+
 function loadGameState(){
   try{
     return JSON.parse(localStorage.getItem('plantKingState') || '{}') || {};
@@ -1675,7 +1761,11 @@ function updatePersonalRanking(personal){
   list.innerHTML = personal.slice(0,10).map((r, i) => `
     <li>
       <span class="no">${rankNo(i)}</span>
-      <span>${r.name || '植物挑戰者'}<br><small>${r.school || '未填學校'}</small></span>
+      <span>
+       ${r.name || '植物挑戰者'}<br>
+       <small>${r.school || '未填學校'}</small><br>
+         <span class="player-title">👑 ${titleByScore(Number(r.score || 0))}</span>
+      </span>
       <b>${Number(r.score || 0)}分</b>
     </li>
   `).join('');
@@ -1708,7 +1798,11 @@ function updateFullPersonalRanking(personal){
   list.innerHTML = personal.slice(0,50).map((r, i) => `
     <li>
       <span class="no">${rankNo(i)}</span>
-      <span>${r.name || '植物挑戰者'}<br><small>${r.school || '未填學校'}</small></span>
+      <span>
+        ${r.name || '植物挑戰者'}<br>
+        <small>${r.school || '未填學校'}</small><br>
+        <span class="player-title">👑 ${titleByScore(Number(r.score || 0))}</span>
+      </span>
       <b>${Number(r.score || 0)}分</b>
     </li>
   `).join('');
@@ -2220,12 +2314,21 @@ if(btnSearchMyRank){
 
     const r = FULL_PERSONAL_DATA[index];
 
-    resultBox.innerHTML = `
-      🎉 找到了！<br>
-      ${r.name || '植物挑戰者'} 目前排名第 <b>${index + 1}</b> 名，
-      分數 <b>${Number(r.score || 0)}</b> 分，
-      學校／身分：${r.school === '未填學校' ? '自由挑戰者' : (r.school || '未填學校')}。
-    `;
+    const score = Number(r.score || 0);
+const streak = Number(r.streak || 0);
+const title = titleByScore(score);
+const badges = badgesByScore(score, streak);
+
+resultBox.innerHTML = `
+  🎉 找到了！<br>
+  <b>${r.name || '植物挑戰者'}</b> 目前排名第 <b>${index + 1}</b> 名，
+  分數 <b>${score}</b> 分。<br>
+  學校／身分：${r.school === '未填學校' ? '自由挑戰者' : (r.school || '未填學校')}。<br>
+  <span class="player-title">👑 稱號：${title}</span>
+  <div class="achievement-badges">
+    ${badges.length ? badges.map(b => `<span class="achievement-badge">${b}</span>`).join('') : '<span class="achievement-badge">🌱 挑戰新星</span>'}
+  </div>
+`;
   });
 }
 
