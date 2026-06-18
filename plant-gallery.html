@@ -242,14 +242,14 @@ button:hover,.btn:hover{transform:translateY(-2px);filter:brightness(1.04)}
 <body>
 <nav class="main-nav">
   <div class="nav-wrap">
-    <a href="../" class="nav-logo">
+    <a href="index.html" class="nav-logo">
       <span class="logo-mark">🌱</span>
       <span>AI植物探索王 <span class="version">v1.1</span><small>認識植物・探索自然・挑戰自我</small></span>
     </a>
     <div class="nav-links">
-      <a href="../">首頁</a>
+      <a href="index.html">首頁</a>
       <a href="plant-gallery.html" class="active">園藝植物圖鑑</a>
-      <a href="../#practice">練習區</a>
+      <a href="index.html#practice">練習區</a>
     </div>
   </div>
 </nav>
@@ -603,7 +603,7 @@ document.addEventListener('keydown', (e) => {
 
 async function init(){
   try{
-    const res = await fetch('../questions.json?t=' + Date.now(), {cache:'no-store'});
+    const res = await fetch('questions.json?t=' + Date.now(), {cache:'no-store'});
     RAW = await res.json();
     const first = (RAW.categories && RAW.categories[0] && RAW.categories[0].key) || 'A';
     currentKey = first;

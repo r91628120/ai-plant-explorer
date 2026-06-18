@@ -204,6 +204,51 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
   #rTable{display:block;overflow-x:auto;white-space:nowrap}
   .site-footer{margin:18px -10px -16px;font-size:13px}
 }
+
+.solid-title{
+  position:relative;
+  display:inline-block;
+  margin:10px auto 14px;
+  padding:18px 34px;
+  border-radius:34px;
+  background:linear-gradient(180deg,#ffffff,#eaffd8);
+  border:6px solid #16813a;
+  box-shadow:0 10px 0 #0b6b2b,0 18px 30px rgba(0,0,0,.18);
+}
+
+.title-line-1{
+  font-size:64px;
+  line-height:1;
+  font-weight:1000;
+  color:#12843a;
+  letter-spacing:3px;
+}
+
+.title-line-2{
+  font-size:92px;
+  line-height:1;
+  font-weight:1000;
+  color:#f4b400;
+  letter-spacing:6px;
+  text-shadow:2px 3px 0 #8a5a00;
+}
+
+.title-crown{
+  position:absolute;
+  right:-20px;
+  top:-28px;
+  font-size:58px;
+  transform:rotate(12deg);
+}
+
+.hero-mascot-img{
+  width:180px;
+  max-width:100%;
+  display:block;
+  margin:8px auto 0;
+  filter:drop-shadow(0 12px 12px rgba(0,0,0,.18));
+}
+
 </style>
 <script data-goatcounter="https://ai-agri-education.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
@@ -215,7 +260,7 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
       <span>AI植物探索王 <span class="version">v2.0</span><small>全台植物識別挑戰賽</small></span>
     </a>
     <div class="nav-links">
-      <a href="/home" class="active">首頁</a>
+      <a href="index.html" class="active">首頁</a>
       <a href="plant-gallery.html">植物圖鑑</a>
       <a href="#dailyChallenge">每日挑戰</a>
       <a href="#ranking">排行榜</a>
@@ -245,15 +290,17 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
       </aside>
 
       <main class="hero">
-        <div class="logo-title">
-          <span class="ai">AI植物</span>
-          <span class="king">探索王</span>
-          <span class="crown">👑</span>
+        
+        <div class="solid-title">
+          <div class="title-line-1">AI植物</div>
+          <div class="title-line-2">探索王</div>
+          <div class="title-crown">👑</div>
         </div>
+
         <div class="ribbon">全台植物識別挑戰賽</div>
         <div class="subtitle">認識植物 × 挑戰排行榜 × 成為植物王</div>
         <p class="goal">從國小到高中職都能參與的植物識別競賽平台：用每日挑戰、連勝紀錄、學校積分與闖關地圖，讓學生從「猜植物」開始走進自然與農業。</p>
-
+        <img class="hero-mascot-img" src="assets/plant-mascot.png" alt="AI植物探索王公仔">
 
         <div class="hero-stats" aria-label="平台重點數據">
           <div class="stat-card">🌿 題庫照片 <b id="totalPhotoCount">2003</b><small>八大類植物識別</small></div>
