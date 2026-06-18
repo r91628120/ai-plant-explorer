@@ -446,6 +446,81 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
   }
 }
 
+.ranking-summary{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin:16px 0 20px;
+}
+
+.ranking-summary-card{
+  background:linear-gradient(180deg,#f0fdf4,#ffffff);
+  border:2px solid #bbf7d0;
+  border-radius:18px;
+  padding:14px;
+  text-align:center;
+  font-weight:1000;
+  box-shadow:0 8px 18px rgba(22,129,58,.10);
+}
+
+.ranking-summary-card b{
+  display:block;
+  font-size:28px;
+  color:#15803d;
+  margin-top:6px;
+}
+
+.rank-search-box{
+  background:#f8fff4;
+  border:2px dashed #86efac;
+  border-radius:18px;
+  padding:14px;
+  margin:14px 0 18px;
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:10px;
+}
+
+.rank-search-result{
+  grid-column:1 / -1;
+  font-weight:900;
+  color:#166534;
+  line-height:1.7;
+}
+
+.full-rank-grid li{
+  background:linear-gradient(180deg,#ffffff,#f8fff4);
+  border:1px solid #e5f3df;
+  border-radius:16px;
+  margin-bottom:10px;
+  padding:12px;
+  box-shadow:0 6px 14px rgba(22,129,58,.08);
+}
+
+.full-rank-grid li:nth-child(1){
+  border-color:#fbbf24;
+  background:linear-gradient(180deg,#fff7d6,#ffffff);
+}
+
+.full-rank-grid li:nth-child(2){
+  border-color:#cbd5e1;
+  background:linear-gradient(180deg,#f8fafc,#ffffff);
+}
+
+.full-rank-grid li:nth-child(3){
+  border-color:#fdba74;
+  background:linear-gradient(180deg,#fff7ed,#ffffff);
+}
+
+@media(max-width:760px){
+  .ranking-summary{
+    grid-template-columns:1fr;
+  }
+
+  .rank-search-box{
+    grid-template-columns:1fr;
+  }
+}
 
 </style>
 <script data-goatcounter="https://ai-agri-education.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
@@ -648,7 +723,7 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
           
           <div class="note">個人排名成績：已開始正式登入排行榜資料庫。</div>
            <div class="rank-more">
-             <button id="btnFullPersonalRank" type="button">查看完整排行榜 ➜</button>
+             <button id="btnFullPersonalRank" type="button">查看完整排行榜與我的排名 ➜</button>
            </div>
 
         </div>
@@ -670,7 +745,7 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
           <div class="note">本站遊戲依國小組、國中組、高中職組分開計算，並加入最低參與人數門檻。</div>
 
           <div class="rank-more">
-            <button id="btnFullSchoolRank" type="button">查看完整排行榜 ➜</button>
+            <button id="btnFullSchoolRank" type="button">查看完整排行榜與我的排名 ➜</button>
           </div>
 
         </div>
@@ -686,6 +761,27 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
   <section id="fullRankingPage" class="panel full-rank-page hide">
        <h2>🏆 完整排行榜</h2>
         <p>目前顯示 Google Sheet 正式排行榜資料。</p>
+
+    <div class="ranking-summary">
+       <div class="ranking-summary-card">
+           🏆 參賽人次
+         <b id="summaryPlayerCount">0</b>
+       </div>
+       <div class="ranking-summary-card">
+           🏫 參與學校
+         <b id="summarySchoolCount">0</b>
+       </div>
+       <div class="ranking-summary-card">
+           🌱 累積積分
+         <b id="summaryTotalPoints">0</b>
+       </div>
+    </div>
+
+       <div class="rank-search-box">
+         <input id="rankSearchInput" type="text" placeholder="輸入暱稱，搜尋我的排名">
+         <button id="btnSearchMyRank" type="button">🔍 搜尋</button>
+        <div id="rankSearchResult" class="rank-search-result"></div>
+       </div>
 
     <div class="full-rank-grid">
       <div>
@@ -843,6 +939,8 @@ let SCHOOL_RANK_DATA = {
   junior: [],
   senior: []
 };
+
+let FULL_PERSONAL_DATA = [];
 
 let SCHOOL_LIST = [];
 
@@ -1543,8 +1641,11 @@ async function loadRankingsFromGoogleSheet(){
       return;
     }
 
-    updatePersonalRanking(data.personal || []);
-    updateFullPersonalRanking(data.personal || []);
+    FULL_PERSONAL_DATA = data.personal || [];
+
+     updatePersonalRanking(FULL_PERSONAL_DATA);
+     updateFullPersonalRanking(FULL_PERSONAL_DATA);
+     updateRankingSummary(FULL_PERSONAL_DATA, data.schoolsByGroup || {});
 
     SCHOOL_RANK_DATA = data.schoolsByGroup || {
      elementary: [],
@@ -1626,7 +1727,32 @@ function updateFullSchoolRanking(schools){
   `).join('');
 }
 
+function updateRankingSummary(personal, schoolsByGroup){
+  const playerCount = personal.length;
 
+  const allSchools = [];
+
+  Object.values(schoolsByGroup || {}).forEach(groupSchools => {
+    (groupSchools || []).forEach(s => {
+      if(s.school && s.school !== '未填學校'){
+        allSchools.push(s.school);
+      }
+    });
+  });
+
+  const schoolCount = new Set(allSchools).size;
+
+  const totalPoints = Object.values(schoolsByGroup || {}).flat()
+    .reduce((sum, s) => sum + Number(s.points || 0), 0);
+
+  const p = document.getElementById('summaryPlayerCount');
+  const sc = document.getElementById('summarySchoolCount');
+  const tp = document.getElementById('summaryTotalPoints');
+
+  if(p) p.textContent = playerCount.toLocaleString();
+  if(sc) sc.textContent = schoolCount.toLocaleString();
+  if(tp) tp.textContent = totalPoints.toLocaleString();
+}
 
 function setupDailyPreview(){
   loadQuestions().then(({pools}) => {
@@ -2062,6 +2188,37 @@ document.querySelectorAll('#fullSchoolRankTabs span').forEach(tab => {
     updateFullSchoolRanking(SCHOOL_RANK_DATA[group] || []);
   });
 });
+
+const btnSearchMyRank = document.getElementById('btnSearchMyRank');
+if(btnSearchMyRank){
+  btnSearchMyRank.addEventListener('click', () => {
+    const keyword = document.getElementById('rankSearchInput').value.trim();
+    const resultBox = document.getElementById('rankSearchResult');
+
+    if(!keyword){
+      resultBox.textContent = '請先輸入暱稱或代號喔！';
+      return;
+    }
+
+    const index = FULL_PERSONAL_DATA.findIndex(r =>
+      String(r.name || '').includes(keyword)
+    );
+
+    if(index === -1){
+      resultBox.textContent = `目前沒有找到「${keyword}」的排行榜資料。`;
+      return;
+    }
+
+    const r = FULL_PERSONAL_DATA[index];
+
+    resultBox.innerHTML = `
+      🎉 找到了！<br>
+      ${r.name || '植物挑戰者'} 目前排名第 <b>${index + 1}</b> 名，
+      分數 <b>${Number(r.score || 0)}</b> 分，
+      學校：${r.school || '未填學校'}。
+    `;
+  });
+}
 
 
 </script>
