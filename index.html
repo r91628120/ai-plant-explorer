@@ -1104,6 +1104,8 @@ let LAST_PAPER_MODE = 'mix';
 let LAST_WHO = '—';
 let LAST_CHALLENGE_LABEL = '正式挑戰';
 let LAST_IS_RANKABLE = true;
+let LOCKED_EXAM_GROUP = 'junior';
+let LOCKED_EXAM_SCHOOL = '未填學校';
 let CURRENT_SCHOOL_RANK_GROUP = 'junior';
 
 let SCHOOL_RANK_DATA = {
@@ -1871,8 +1873,8 @@ function saveLocalScore(score, correct, total){
   const scores = getLocalScores();
   scores.push({
     name: $('#uname').value.trim() || '植物挑戰者',
-    school: getSelectedSchoolName(),
-    group: $('#groupSel').value || 'junior',
+    school: LOCKED_EXAM_SCHOOL,
+    group: LOCKED_EXAM_GROUP,
     score, correct, total,
     mode: LAST_CHALLENGE_LABEL,
     ts: Date.now()
@@ -1888,8 +1890,8 @@ function submitScoreToGoogleSheet(score, correct, total){
 
   const payload = {
     name: $('#uname').value.trim() || '植物挑戰者',
-    school: getSelectedSchoolName(),
-    group: $('#groupSel').value || 'junior',
+    school: LOCKED_EXAM_SCHOOL,
+    group: LOCKED_EXAM_GROUP,
     score,
     correct,
     total,
@@ -2250,6 +2252,8 @@ async function startNormalExam({quick=false} = {}){
   LAST_PAPER_MODE = $('#bankSel').value;
   LAST_CHALLENGE_LABEL = quick ? '快速體驗' : '正式挑戰';
   LAST_IS_RANKABLE = true;
+  LOCKED_EXAM_GROUP = $('#groupSel').value || 'junior';
+  LOCKED_EXAM_SCHOOL = getSelectedSchoolName();
 
   if(!quick){
     incrementCounterOptimistic();
@@ -2428,9 +2432,17 @@ function setGroup(groupValue){
 
 document.querySelectorAll('.js-group-start').forEach(btn => {
   btn.addEventListener('click', async () => {
-    setGroup(btn.dataset.group || 'junior');
+    const selectedGroup = $('#groupSel').value || 'junior';
+    const buttonGroup = btn.dataset.group || 'junior';
+
+    if(selectedGroup !== buttonGroup){
+      alert('⚠️ 您目前選擇的身分組別，與入口測驗組別不同。\n請先切換正確組別後再開始挑戰。');
+      return;
+    }
+
     const bankSel = document.getElementById('bankSel');
     if(bankSel) bankSel.value = 'mix';
+
     updateQuestionCountUI();
     await startNormalExam({quick:false});
   });
