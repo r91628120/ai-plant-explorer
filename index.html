@@ -360,7 +360,9 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
         <div class="start-box">
           <div class="form-grid">
             <input id="uname" type="text" placeholder="輸入暱稱 / 代號（不需真實姓名）">
-            <input id="schoolName" type="text" placeholder="輸入學校名稱（例：潮州國中）">
+            <select id="schoolName">
+               <option value="">請先選擇組別，再選擇學校</option>
+            </select>
             <select id="groupSel" title="組別">
               <option value="elementary">國小組</option>
               <option value="junior" selected>國中組</option>
@@ -457,7 +459,12 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
         </div>
         <div class="panel rank">
           <h3 class="blue">🏫 學校積分排行榜</h3>
-          <div class="tabs"><span class="active">國小組</span><span>國中組</span><span>高中職組</span></div>
+          <div class="tabs" id="schoolRankTabs">
+              <span class="active" data-group="elementary">國小組</span>
+              <span data-group="junior">國中組</span>
+              <span data-group="senior">高中職組</span>
+          </div>
+
           <ol id="schoolRankList">
             <li><span class="no">1</span><span>潮州國中</span><b>12,560分</b></li>
             <li><span class="no">2</span><span>明正國中</span><b>11,820分</b></li>
@@ -566,6 +573,15 @@ let LAST_PAPER_MODE = 'mix';
 let LAST_WHO = '—';
 let LAST_CHALLENGE_LABEL = '正式挑戰';
 let LAST_IS_RANKABLE = true;
+let CURRENT_SCHOOL_RANK_GROUP = 'elementary';
+
+let SCHOOL_RANK_DATA = {
+  elementary: [],
+  junior: [],
+  senior: []
+};
+
+let SCHOOL_LIST = [];
 
 const $  = s => document.querySelector(s);
 const $$ = s => document.querySelectorAll(s);
@@ -980,6 +996,35 @@ function renderStreak(){
   const todayDone = $('#todayDoneLabel'); if(todayDone) todayDone.textContent = done ? '已完成' : '未完成';
 }
 
+async function loadSchools(){
+  try{
+    const res = await fetch('schools.json?t=' + Date.now(), {
+      cache: 'no-store'
+    });
+
+    SCHOOL_LIST = await res.json();
+    renderSchoolOptions();
+
+  }catch(err){
+    console.warn('schools.json 載入失敗：', err);
+  }
+}
+
+function renderSchoolOptions(){
+  const schoolSel = document.getElementById('schoolName');
+  const group = document.getElementById('groupSel').value;
+
+  if(!schoolSel) return;
+
+  const schools = SCHOOL_LIST.filter(s => s.group === group);
+
+  schoolSel.innerHTML = `
+    <option value="">請選擇學校</option>
+    ${schools.map(s => `<option value="${s.name}">${s.name}</option>`).join('')}
+  `;
+}
+
+
 function getLocalScores(){
   try{return JSON.parse(localStorage.getItem('plantKingScores') || '[]') || [];}catch(_){return []}
 }
@@ -1067,7 +1112,13 @@ async function loadRankingsFromGoogleSheet(){
     }
 
     updatePersonalRanking(data.personal || []);
-    updateSchoolRanking(data.schools || []);
+    SCHOOL_RANK_DATA = data.schoolsByGroup || {
+     elementary: [],
+     junior: [],
+     senior: []
+    };
+
+updateSchoolRanking(SCHOOL_RANK_DATA[CURRENT_SCHOOL_RANK_GROUP] || []);
 
   }catch(err){
     console.warn('Google Sheet 排行榜讀取失敗：', err);
@@ -1416,6 +1467,7 @@ document.querySelectorAll('.practice-start').forEach(btn => {
 });
 
 $('#bankSel').addEventListener('change', updateQuestionCountUI);
+$('#groupSel').addEventListener('change', renderSchoolOptions);
 
 /* ----------------------- 5) 啟動 ----------------------- */
 document.getElementById('sourceLabel').textContent = 'R2 + Cloudflare CDN';
@@ -1426,6 +1478,7 @@ loadCounter();
 renderStreak();
 renderRankings();
 loadRankingsFromGoogleSheet();
+loadSchools();
 setupDailyPreview();
 
 /* ----------------------- 6) AI植物探索王首頁入口 ----------------------- */
@@ -1473,6 +1526,21 @@ document.querySelectorAll('.js-king-start').forEach(btn => {
     await startNormalExam({quick:false});
   });
 });
+
+document.querySelectorAll('#schoolRankTabs span').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('#schoolRankTabs span').forEach(t => {
+      t.classList.remove('active');
+    });
+
+    tab.classList.add('active');
+    CURRENT_SCHOOL_RANK_GROUP = tab.dataset.group || 'elementary';
+
+    updateSchoolRanking(SCHOOL_RANK_DATA[CURRENT_SCHOOL_RANK_GROUP] || []);
+  });
+});
+
+
 const btnClearLocalRank = document.getElementById('btnClearLocalRank');
 if(btnClearLocalRank) btnClearLocalRank.addEventListener('click', () => {
   localStorage.removeItem('plantKingScores');

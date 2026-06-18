@@ -1,0 +1,20 @@
+[
+  {
+    "id": "ccjh",
+    "name": "潮州國中",
+    "group": "junior",
+    "aliases": ["潮中", "潮州國民中學"]
+  },
+  {
+    "id": "mjjh",
+    "name": "明正國中",
+    "group": "junior",
+    "aliases": ["明正", "明正國民中學"]
+  },
+  {
+    "id": "ctavs",
+    "name": "佳冬高農",
+    "group": "senior",
+    "aliases": ["佳冬農工", "國立佳冬高農", "佳冬高級農業職業學校"]
+  }
+]
