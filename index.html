@@ -408,6 +408,45 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
   filter:drop-shadow(0 12px 12px rgba(0,0,0,.18));
 }
 
+.full-rank-page{
+  margin-top:20px;
+}
+
+.full-rank-page h2{
+  margin-top:0;
+  color:#065f2b;
+  font-size:28px;
+}
+
+.full-rank-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+
+.full-rank-grid ol{
+  margin:12px 0 0;
+  padding:0;
+  list-style:none;
+}
+
+.full-rank-grid li{
+  display:grid;
+  grid-template-columns:42px 1fr auto;
+  gap:10px;
+  align-items:center;
+  padding:10px 0;
+  border-bottom:1px solid #e5e7eb;
+  font-weight:900;
+}
+
+@media(max-width:760px){
+  .full-rank-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+
 </style>
 <script data-goatcounter="https://ai-agri-education.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <meta name="google-site-verification" content="wLQnbGi0252et4Q2FGCubos4FZW1tLeOlk8eGrW8YYI" />
@@ -643,6 +682,30 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
              每日挑戰、神秘植物、闖關地圖皆沿用同一份題庫與測驗邏輯。
       <br><span class="pill" style="margin-top:8px">題庫版本：<b id="ver">載入中</b></span>
   </section>
+
+  <section id="fullRankingPage" class="panel full-rank-page hide">
+       <h2>🏆 完整排行榜</h2>
+        <p>目前顯示 Google Sheet 正式排行榜資料。</p>
+
+    <div class="full-rank-grid">
+      <div>
+         <h3>🏆 個人排行榜</h3>
+          <ol id="fullPersonalRankList"></ol>
+      </div>
+
+      <div>
+          <h3>🏫 學校排行榜</h3>
+          <div class="tabs" id="fullSchoolRankTabs">
+            <span data-group="elementary">國小組</span>
+            <span class="active" data-group="junior">國中組</span>
+            <span data-group="senior">高中職組</span>
+          </div>
+            <ol id="fullSchoolRankList"></ol>
+      </div>
+    </div>
+
+</section>
+   
 
    <footer class="site-footer">
 
@@ -1052,11 +1115,15 @@ function show(id){
   for(const sec of ['home','exam','result']){
     $('#' + sec).classList.toggle('hide', sec !== id);
   }
+
+  setTimeout(() => {
+  document.getElementById(id)?.scrollIntoView({ behavior:'smooth', block:'start' });
+  }, 50);
+
+
 }
 
-setTimeout(() => {
-  document.getElementById(id)?.scrollIntoView({ behavior:'smooth', block:'start' });
-}, 50);
+
 
 function renderQuestion(){
   const q = QUESTIONS[CUR];
@@ -1477,13 +1544,16 @@ async function loadRankingsFromGoogleSheet(){
     }
 
     updatePersonalRanking(data.personal || []);
+    updateFullPersonalRanking(data.personal || []);
+
     SCHOOL_RANK_DATA = data.schoolsByGroup || {
      elementary: [],
      junior: [],
      senior: []
     };
 
-updateSchoolRanking(SCHOOL_RANK_DATA[CURRENT_SCHOOL_RANK_GROUP] || []);
+    updateSchoolRanking(SCHOOL_RANK_DATA[CURRENT_SCHOOL_RANK_GROUP] || []);
+    updateFullSchoolRanking(SCHOOL_RANK_DATA[CURRENT_SCHOOL_RANK_GROUP] || []);
 
   }catch(err){
     console.warn('Google Sheet 排行榜讀取失敗：', err);
@@ -1529,6 +1599,33 @@ function updateSchoolRanking(schools){
     </li>
   `).join('');
 }
+
+function updateFullPersonalRanking(personal){
+  const list = document.getElementById('fullPersonalRankList');
+  if(!list) return;
+
+  list.innerHTML = personal.slice(0,50).map((r, i) => `
+    <li>
+      <span class="no">${rankNo(i)}</span>
+      <span>${r.name || '植物挑戰者'}<br><small>${r.school || '未填學校'}</small></span>
+      <b>${Number(r.score || 0)}分</b>
+    </li>
+  `).join('');
+}
+
+function updateFullSchoolRanking(schools){
+  const list = document.getElementById('fullSchoolRankList');
+  if(!list) return;
+
+  list.innerHTML = schools.slice(0,50).map((r, i) => `
+    <li>
+      <span class="no">${rankNo(i)}</span>
+      <span>${r.school || '未填學校'}</span>
+      <b>${Number(r.points || 0).toLocaleString()}分</b>
+    </li>
+  `).join('');
+}
+
 
 
 function setupDailyPreview(){
@@ -1923,6 +2020,8 @@ document.querySelectorAll('#schoolRankTabs span').forEach(tab => {
     CURRENT_SCHOOL_RANK_GROUP = tab.dataset.group || 'elementary';
 
     updateSchoolRanking(SCHOOL_RANK_DATA[CURRENT_SCHOOL_RANK_GROUP] || []);
+    updateFullSchoolRanking(SCHOOL_RANK_DATA[CURRENT_SCHOOL_RANK_GROUP] || []);
+
   });
 });
 
@@ -1937,16 +2036,32 @@ if(btnClearLocalRank) btnClearLocalRank.addEventListener('click', () => {
 const btnFullPersonalRank = document.getElementById('btnFullPersonalRank');
 if(btnFullPersonalRank){
   btnFullPersonalRank.addEventListener('click', () => {
-    alert('🏆 完整個人排行榜功能規劃中，目前首頁先顯示 TOP10。');
+  document.getElementById('fullRankingPage').classList.remove('hide');
+  document.getElementById('fullRankingPage').scrollIntoView({ behavior:'smooth' });
+
   });
 }
 
 const btnFullSchoolRank = document.getElementById('btnFullSchoolRank');
 if(btnFullSchoolRank){
   btnFullSchoolRank.addEventListener('click', () => {
-    alert('🏫 完整學校排行榜功能規劃中，目前首頁先顯示各組 TOP10。');
+  document.getElementById('fullRankingPage').classList.remove('hide');
+  document.getElementById('fullRankingPage').scrollIntoView({ behavior:'smooth' });
+
   });
 }
+
+document.querySelectorAll('#fullSchoolRankTabs span').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('#fullSchoolRankTabs span').forEach(t => {
+      t.classList.remove('active');
+    });
+
+    tab.classList.add('active');
+    const group = tab.dataset.group || 'junior';
+    updateFullSchoolRanking(SCHOOL_RANK_DATA[group] || []);
+  });
+});
 
 
 </script>
