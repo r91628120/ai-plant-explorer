@@ -1050,6 +1050,71 @@ function renderRankings(){
   }
 }
 
+async function loadRankingsFromGoogleSheet(){
+  if(!RANKING_URL) return;
+
+  try{
+    const res = await fetch(RANKING_URL + '?action=rank&t=' + Date.now(), {
+      method: 'GET',
+      cache: 'no-store'
+    });
+
+    const data = await res.json();
+
+    if(!data || data.ok !== true){
+      console.warn('排行榜讀取失敗：', data);
+      return;
+    }
+
+    updatePersonalRanking(data.personal || []);
+    updateSchoolRanking(data.schools || []);
+
+  }catch(err){
+    console.warn('Google Sheet 排行榜讀取失敗：', err);
+  }
+}
+
+function updatePersonalRanking(personal){
+  const list = document.getElementById('personalRankList');
+  if(!list) return;
+
+  if(personal.length === 0){
+    list.innerHTML = `
+      <li><span class="no">1</span><span>尚無成績<br><small>等待第一位植物王</small></span><b>0分</b></li>
+    `;
+    return;
+  }
+
+  list.innerHTML = personal.slice(0,5).map((r, i) => `
+    <li>
+      <span class="no">${i + 1}</span>
+      <span>${r.name || '植物挑戰者'}<br><small>${r.school || '未填學校'}</small></span>
+      <b>${Number(r.score || 0)}分</b>
+    </li>
+  `).join('');
+}
+
+function updateSchoolRanking(schools){
+  const list = document.getElementById('schoolRankList');
+  if(!list) return;
+
+  if(schools.length === 0){
+    list.innerHTML = `
+      <li><span class="no">1</span><span>尚無學校成績</span><b>0分</b></li>
+    `;
+    return;
+  }
+
+  list.innerHTML = schools.slice(0,5).map((r, i) => `
+    <li>
+      <span class="no">${i + 1}</span>
+      <span>${r.school || '未填學校'}</span>
+      <b>${Number(r.points || 0).toLocaleString()}分</b>
+    </li>
+  `).join('');
+}
+
+
 function setupDailyPreview(){
   loadQuestions().then(({pools}) => {
     const all = getAllItemsWithCategory(pools);
@@ -1165,6 +1230,7 @@ function renderResult({correct, wrong, rows}){
 
     const rankTitle = $('#rankTitle'); if(rankTitle) rankTitle.textContent = titleByScore(finalScore);
     renderRankings();
+    setTimeout(loadRankingsFromGoogleSheet, 1200);
   }
 
   updateSummary(QUESTIONS.length, correct, wrong);
@@ -1359,6 +1425,7 @@ updateQuestionCountUI();
 loadCounter();
 renderStreak();
 renderRankings();
+loadRankingsFromGoogleSheet();
 setupDailyPreview();
 
 /* ----------------------- 6) AI植物探索王首頁入口 ----------------------- */
@@ -1410,6 +1477,7 @@ const btnClearLocalRank = document.getElementById('btnClearLocalRank');
 if(btnClearLocalRank) btnClearLocalRank.addEventListener('click', () => {
   localStorage.removeItem('plantKingScores');
   renderRankings();
+  
 });
 
 </script>
