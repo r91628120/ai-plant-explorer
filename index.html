@@ -547,6 +547,7 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
 
 // ✅ 修正 subject=horti
 const COUNTER_URL = 'https://script.google.com/macros/s/AKfycbxtY_zohVsck_4dnPvXnUaml9grxRm6C_3K6RML44s5yJIHAQXoKX222Hoii34LcKpf/exec?subject=horti';
+const RANKING_URL = 'https://script.google.com/macros/s/AKfycbywLkAxt9yTUL5a2ksX9nsMT3aJKDu3ya4r2YWFKaUj1JSPxMOYuu6-CPHeZPOgqOu3/exec';
 
 const QUOTA_100 = { B:20, G:20, A:4, H:6, C:20, E:10, F:10, D:10 };
 const LABELS = ['A','B','C','D'];
@@ -998,6 +999,31 @@ function saveLocalScore(score, correct, total){
   localStorage.setItem('plantKingScores', JSON.stringify(scores.slice(0,30)));
 }
 
+function submitScoreToGoogleSheet(score, correct, total){
+  if(!RANKING_URL) return;
+
+  const state = loadGameState();
+
+  const payload = {
+    name: $('#uname').value.trim() || '植物挑戰者',
+    school: $('#schoolName').value.trim() || '未填學校',
+    group: $('#groupSel').value || 'junior',
+    score,
+    correct,
+    total,
+    mode: LAST_CHALLENGE_LABEL,
+    streak: Number(state.streak || 0)
+  };
+
+  fetch(RANKING_URL, {
+    method: 'POST',
+    body: JSON.stringify(payload)
+  }).catch(err => {
+    console.warn('排行榜送出失敗：', err);
+  });
+}
+
+
 function renderRankings(){
   const demo = [
     {name:'植物王', school:'潮州國中', score:98},
@@ -1132,8 +1158,11 @@ function renderResult({correct, wrong, rows}){
 
   const finalScore = QUESTIONS.length ? Math.round((correct / QUESTIONS.length) * 100) : 0;
   if(LAST_MODE !== 'review'){
-    saveLocalScore(finalScore, correct, QUESTIONS.length);
-    markTodayDone();
+    
+     saveLocalScore(finalScore, correct, QUESTIONS.length);
+     submitScoreToGoogleSheet(finalScore, correct, QUESTIONS.length);
+     markTodayDone();
+
     const rankTitle = $('#rankTitle'); if(rankTitle) rankTitle.textContent = titleByScore(finalScore);
     renderRankings();
   }
