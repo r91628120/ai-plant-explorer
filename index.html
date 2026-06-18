@@ -590,6 +590,88 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
   font-weight:1000;
 }
 
+/* ===== v3.0 成就櫃＋等級系統 ===== */
+
+.level-panel{
+  margin:16px auto;
+  padding:16px;
+  border-radius:24px;
+  background:linear-gradient(180deg,#fffdf0,#ffffff);
+  border:3px solid #facc15;
+  box-shadow:var(--shadow);
+  text-align:left;
+}
+
+.level-title{
+  font-size:22px;
+  font-weight:1000;
+  color:#92400e;
+  margin-bottom:10px;
+}
+
+.level-row{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  font-weight:1000;
+}
+
+.exp-bar{
+  margin-top:12px;
+  height:14px;
+  background:#fef3c7;
+  border-radius:999px;
+  overflow:hidden;
+  border:1px solid #fbbf24;
+}
+
+.exp-bar i{
+  display:block;
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,#f59e0b,#facc15);
+  transition:.4s;
+}
+
+.achievement-panel{
+  margin:16px 0;
+  padding:16px;
+  border-radius:24px;
+  background:linear-gradient(180deg,#ffffff,#f0fdf4);
+  border:3px solid #86efac;
+  box-shadow:var(--shadow);
+  text-align:left;
+}
+
+.achievement-panel h3{
+  margin:0 0 12px;
+  color:#065f2b;
+  font-size:22px;
+}
+
+.achievement-grid{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.achievement-item{
+  padding:8px 13px;
+  border-radius:999px;
+  background:#ecfdf5;
+  color:#166534;
+  border:1px solid #86efac;
+  font-weight:1000;
+  font-size:14px;
+}
+
+.legend-king{
+  animation: glowGold 2s infinite;
+  background:linear-gradient(180deg,#fff7cc,#fbbf24);
+  color:#78350f;
+  border-color:#f59e0b;
+}
 
 
 </style>
@@ -651,6 +733,26 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
           <div class="stat-card">🔥 我的連勝 <b id="streakDays">0 天</b><small>每天挑戰不中斷</small></div>
           <div class="stat-card">🏆 今日挑戰 <b id="todayDoneLabel">未完成</b><small>完成後累積連勝</small></div>
         </div>
+
+    <section class="level-panel">
+      <div class="level-title">⭐ 我的植物等級</div>
+
+         <div class="level-row">
+           <span>目前等級：<b id="playerLevelTitle">🌱 植物新手</b></span>
+           <span>經驗值：<b id="playerExp">0</b> EXP</span>
+         </div>
+
+         <div class="exp-bar">
+           <i id="playerExpBar"></i>
+           </div>
+    </section>
+
+    <section class="achievement-panel">
+           <h3>🏅 我的成就櫃</h3>
+         <div id="achievementCabinet" class="achievement-grid">
+           <span class="achievement-item">尚未獲得成就</span>
+         </div>
+    </section>
 
         <div class="feature-grid">
           <section id="dailyChallenge" class="daily-card">
@@ -1409,6 +1511,131 @@ function titleByScore(score){
   return '植物新手';
 }
 
+const PLAYER_LEVELS = [
+  { level:1, title:'🌱 植物新手', exp:0 },
+  { level:2, title:'🍀 植物學徒', exp:100 },
+  { level:3, title:'🌿 植物達人', exp:300 },
+  { level:4, title:'🌳 植物博士', exp:600 },
+  { level:5, title:'🏆 植物王', exp:1000 },
+  { level:6, title:'👑 傳奇植物王', exp:2000 }
+];
+
+function loadPlayerState(){
+  try{
+    return JSON.parse(localStorage.getItem('plantPlayerState') || '{"exp":0,"achievements":[]}');
+  }catch(_){
+    return { exp:0, achievements:[] };
+  }
+}
+
+function savePlayerState(state){
+  localStorage.setItem('plantPlayerState', JSON.stringify(state));
+}
+
+function getPlayerLevel(exp){
+  let current = PLAYER_LEVELS[0];
+
+  PLAYER_LEVELS.forEach(lv => {
+    if(exp >= lv.exp) current = lv;
+  });
+
+  return current;
+}
+
+function addAchievement(name){
+  const state = loadPlayerState();
+
+  if(!state.achievements.includes(name)){
+    state.achievements.push(name);
+    savePlayerState(state);
+  }
+}
+
+function addPlayerExp(amount){
+  const state = loadPlayerState();
+  state.exp = Number(state.exp || 0) + Number(amount || 0);
+  savePlayerState(state);
+}
+
+function renderPlayerLevel(){
+  const state = loadPlayerState();
+  const exp = Number(state.exp || 0);
+  const level = getPlayerLevel(exp);
+  const next = PLAYER_LEVELS.find(lv => lv.exp > exp);
+
+  const titleEl = document.getElementById('playerLevelTitle');
+  const expEl = document.getElementById('playerExp');
+  const barEl = document.getElementById('playerExpBar');
+
+  if(titleEl) titleEl.textContent = level.title;
+  if(expEl) expEl.textContent = exp.toLocaleString();
+
+  if(barEl){
+    if(next){
+      const prevExp = level.exp;
+      const need = next.exp - prevExp;
+      const now = exp - prevExp;
+      barEl.style.width = Math.min(100, Math.round(now / need * 100)) + '%';
+    }else{
+      barEl.style.width = '100%';
+    }
+  }
+}
+
+function renderAchievementCabinet(){
+  const state = loadPlayerState();
+  const box = document.getElementById('achievementCabinet');
+  if(!box) return;
+
+  const achievements = state.achievements || [];
+
+  if(achievements.length === 0){
+    box.innerHTML = `<span class="achievement-item">尚未獲得成就</span>`;
+    return;
+  }
+
+  box.innerHTML = achievements.map(a => {
+    const cls = a.includes('傳奇植物王') ? 'achievement-item legend-king' : 'achievement-item';
+    return `<span class="${cls}">${a}</span>`;
+  }).join('');
+}
+
+function updatePlayerAchievements(score, correct){
+  const state = loadGameState();
+  const adventure = loadAdventureState();
+  const player = loadPlayerState();
+
+  addAchievement('🌱 第一次挑戰');
+
+  if(score >= 100) addAchievement('👑 滿分植物王');
+  if(score >= 95) addAchievement('🏆 植物王');
+  if(score >= 85) addAchievement('🌿 植物博士');
+  if(score >= 75) addAchievement('🔍 植物達人');
+
+  if(Number(state.streak || 0) >= 3) addAchievement('🔥 三日連勝');
+  if(Number(state.streak || 0) >= 7) addAchievement('🔥 七日連勝');
+  if(Number(state.streak || 0) >= 30) addAchievement('🔥 三十日連勝');
+
+  if((adventure.badges || []).length){
+    adventure.badges.forEach(b => addAchievement('🏅 ' + b));
+  }
+
+  const latestPlayer = loadPlayerState();
+  const latestLevel = getPlayerLevel(Number(latestPlayer.exp || 0));
+
+  if(
+    latestLevel.level >= 6 &&
+    Number(state.streak || 0) >= 30 &&
+    Number(adventure.level || 0) >= ADVENTURE_STAGES.length
+  ){
+    addAchievement('👑 傳奇植物王');
+  }
+
+  renderPlayerLevel();
+  renderAchievementCabinet();
+}
+
+
 function badgesByScore(score, streak = 0){
   const badges = [];
 
@@ -1971,6 +2198,10 @@ function renderResult({correct, wrong, rows}){
      markTodayDone();
      checkAdventurePass(correct, QUESTIONS.length);
 
+     /* v3.0：增加經驗值與成就 */
+     addPlayerExp(correct * 10);
+     updatePlayerAchievements(finalScore, correct);
+
     const rankTitle = $('#rankTitle'); if(rankTitle) rankTitle.textContent = titleByScore(finalScore);
     renderRankings();
     setTimeout(loadRankingsFromGoogleSheet, 1200);
@@ -2186,6 +2417,8 @@ loadRankingsFromGoogleSheet();
 loadSchools();
 setupDailyPreview();
 renderAdventureMap();
+renderPlayerLevel();
+renderAchievementCabinet();
 
 /* ----------------------- 6) AI植物探索王首頁入口 ----------------------- */
 function setGroup(groupValue){
