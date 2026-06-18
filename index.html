@@ -315,7 +315,22 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
 }
 
 .shortcut-dock{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;margin:14px 0 4px;padding:12px}.shortcut-dock a,.shortcut-dock button{display:block;text-align:center;background:#fff;color:#12462a;border:2px solid #d8edc8;border-radius:16px;box-shadow:0 6px 0 rgba(31,109,46,.08);padding:10px 6px;font-size:13px;font-weight:1000}.shortcut-dock b{display:block;font-size:22px}.shortcut-dock button{cursor:pointer}
-.rank-actions{padding:0 16px 14px}.rank-actions button{width:100%;font-size:14px;padding:10px}.rank li small{color:#66785f}
+.rank-actions{padding:0 16px 14px}
+.rank-more{
+  padding:0 16px 14px;
+}
+
+.rank-more button{
+  width:100%;
+  font-size:14px;
+  padding:10px;
+  background:#eef2ff;
+  color:#1d4ed8;
+  box-shadow:none;
+}
+
+.rank-actions button{width:100%;font-size:14px;padding:10px}
+.rank li small{color:#66785f}
 
 @media(max-width:1040px){
   .home-grid{grid-template-columns:1fr}
@@ -583,7 +598,7 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
 
       <aside class="side-right" id="ranking">
         <div class="panel rank">
-          <h3>🏆 個人排行榜 TOP5</h3>
+          <h3>🏆 個人排行榜 TOP10</h3>
           <ol id="personalRankList">
             <li><span class="no">1</span><span>植物王<br><small>潮州國中</small></span><b>98分</b></li>
             <li><span class="no">2</span><span>植物博士<br><small>明正國中</small></span><b>95分</b></li>
@@ -593,9 +608,13 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
           </ol>
           
           <div class="note">個人排名成績：已開始正式登入排行榜資料庫。</div>
+           <div class="rank-more">
+             <button id="btnFullPersonalRank" type="button">查看完整排行榜 ➜</button>
+           </div>
+
         </div>
         <div class="panel rank">
-          <h3 class="blue">🏫 學校積分排行榜</h3>
+          <h3 class="blue">🏫 學校積分排行榜 TOP10</h3>
           <div class="tabs" id="schoolRankTabs">
               <span data-group="elementary">國小組</span>
               <span class="active" data-group="junior">國中組</span>
@@ -610,6 +629,11 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
             <li><span class="no">5</span><span>長治國中</span><b>8,920分</b></li>
           </ol>
           <div class="note">本站遊戲依國小組、國中組、高中職組分開計算，並加入最低參與人數門檻。</div>
+
+          <div class="rank-more">
+            <button id="btnFullSchoolRank" type="button">查看完整排行榜 ➜</button>
+          </div>
+
         </div>
       </aside>
     </div>
@@ -1403,6 +1427,12 @@ function submitScoreToGoogleSheet(score, correct, total){
   });
 }
 
+function rankNo(i){
+  if(i === 0) return '🥇';
+  if(i === 1) return '🥈';
+  if(i === 2) return '🥉';
+  return i + 1;
+}
 
 function renderRankings(){
   const demo = [
@@ -1413,7 +1443,7 @@ function renderRankings(){
     {name:'校園小偵探', school:'長治國中', score:90}
   ];
   const scores = getLocalScores().map(s => ({name:s.name, school:s.school, score:s.score}));
-  const merged = scores.concat(demo).sort((a,b) => b.score - a.score).slice(0,5);
+  const merged = scores.concat(demo).sort((a,b) => b.score - a.score).slice(0,10);
   const list = $('#personalRankList');
   if(list){
     list.innerHTML = merged.map((r,i) => `<li><span class="no">${i+1}</span><span>${r.name}<br><small>${r.school}</small></span><b>${r.score}分</b></li>`).join('');
@@ -1423,7 +1453,7 @@ function renderRankings(){
     ['潮州國中',12560],['明正國中',11820],['佳冬高農',10750],['萬丹國中',9680],['長治國中',8920]
   ]);
   getLocalScores().forEach(s => schoolMap.set(s.school, (schoolMap.get(s.school)||0) + Math.round(s.score * 10)));
-  const schools = Array.from(schoolMap.entries()).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  const schools = Array.from(schoolMap.entries()).sort((a,b)=>b[1]-a[1]).slice(0,10);
   const schoolList = $('#schoolRankList');
   if(schoolList){
     schoolList.innerHTML = schools.map((r,i) => `<li><span class="no">${i+1}</span><span>${r[0]}</span><b>${r[1].toLocaleString()}分</b></li>`).join('');
@@ -1471,9 +1501,9 @@ function updatePersonalRanking(personal){
     return;
   }
 
-  list.innerHTML = personal.slice(0,5).map((r, i) => `
+  list.innerHTML = personal.slice(0,10).map((r, i) => `
     <li>
-      <span class="no">${i + 1}</span>
+      <span class="no">${rankNo(i)}</span>
       <span>${r.name || '植物挑戰者'}<br><small>${r.school || '未填學校'}</small></span>
       <b>${Number(r.score || 0)}分</b>
     </li>
@@ -1491,9 +1521,9 @@ function updateSchoolRanking(schools){
     return;
   }
 
-  list.innerHTML = schools.slice(0,5).map((r, i) => `
+  list.innerHTML = schools.slice(0,10).map((r, i) => `
     <li>
-      <span class="no">${i + 1}</span>
+      <span class="no">${rankNo(i)}</span>
       <span>${r.school || '未填學校'}</span>
       <b>${Number(r.points || 0).toLocaleString()}分</b>
     </li>
@@ -1903,6 +1933,21 @@ if(btnClearLocalRank) btnClearLocalRank.addEventListener('click', () => {
   renderRankings();
   
 });
+
+const btnFullPersonalRank = document.getElementById('btnFullPersonalRank');
+if(btnFullPersonalRank){
+  btnFullPersonalRank.addEventListener('click', () => {
+    alert('🏆 完整個人排行榜功能規劃中，目前首頁先顯示 TOP10。');
+  });
+}
+
+const btnFullSchoolRank = document.getElementById('btnFullSchoolRank');
+if(btnFullSchoolRank){
+  btnFullSchoolRank.addEventListener('click', () => {
+    alert('🏫 完整學校排行榜功能規劃中，目前首頁先顯示各組 TOP10。');
+  });
+}
+
 
 </script>
 
