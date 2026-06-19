@@ -132,7 +132,12 @@ input[type=text],select{
 .badge-dot{width:8px;height:8px;border-radius:50%}
 .dot-spinning{background:var(--amber);animation:blink 1s infinite}.dot-ok{background:var(--ok)}.dot-off{background:#999}
 @keyframes blink{50%{opacity:.25}}
-.group-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:16px 0}
+.group-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+  margin:16px 0;
+}
 .group-card{
   background:linear-gradient(180deg,#ffffff,#f7fff2);border:4px solid #9bdc80;border-radius:24px;padding:15px;
   box-shadow:0 12px 0 rgba(31,109,46,.1),0 12px 26px rgba(6,95,42,.12);text-align:center;
@@ -161,6 +166,22 @@ input[type=text],select{
     linear-gradient(rgba(255,255,255,.08),rgba(124,58,237,.18)),
     url("assets/card-senior.png");
 }
+
+.pic4{
+  background-image:
+    linear-gradient(rgba(255,255,255,.08),rgba(249,115,22,.18)),
+    url("assets/card-free.png");
+}
+
+.group-card.orange{
+  border-color:#fb923c;
+  background:linear-gradient(180deg,#fff,#fff7ed);
+}
+
+.group-card.orange h2{
+  color:#c2410c;
+}
+
 
 .pic-label{margin-bottom:8px;background:rgba(255,255,255,.9);border-radius:999px;padding:5px 10px;font-size:13px;font-weight:1000;color:#14532d}
 .list{list-style:none;margin:0 0 12px;padding:0;display:grid;gap:6px;text-align:left;font-weight:850}
@@ -673,6 +694,23 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
   border-color:#f59e0b;
 }
 
+.step-title{
+  margin:18px auto 6px;
+  font-size:24px;
+  color:#065f2b;
+  font-weight:1000;
+  text-align:left;
+  max-width:720px;
+}
+
+.step-desc{
+  max-width:720px;
+  margin:0 auto 12px;
+  color:#4b6b54;
+  font-weight:900;
+  line-height:1.7;
+  text-align:left;
+}
 
 </style>
 <script data-goatcounter="https://ai-agri-education.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
@@ -734,25 +772,8 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
           <div class="stat-card">🏆 今日挑戰 <b id="todayDoneLabel">未完成</b><small>完成後累積連勝</small></div>
         </div>
 
-    <section class="level-panel">
-      <div class="level-title">⭐ 我的植物等級</div>
-
-         <div class="level-row">
-           <span>目前等級：<b id="playerLevelTitle">🌱 植物新手</b></span>
-           <span>經驗值：<b id="playerExp">0</b> EXP</span>
-         </div>
-
-         <div class="exp-bar">
-           <i id="playerExpBar"></i>
-           </div>
-    </section>
-
-    <section class="achievement-panel">
-           <h3>🏅 我的成就櫃</h3>
-         <div id="achievementCabinet" class="achievement-grid">
-           <span class="achievement-item">尚未獲得成就</span>
-         </div>
-    </section>
+         <h2 class="step-title">👤 第一步：請先選擇您的身分</h2>
+         <p class="step-desc">請先輸入暱稱、選擇學校與組別，系統會依照您的身分記錄排行榜。</p>
 
         <div class="feature-grid">
           <section id="dailyChallenge" class="daily-card">
@@ -790,11 +811,33 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
             <input id="otherSchoolName" class="hide" type="text" placeholder="請輸入其他學校名稱">
 
             <select id="groupSel" title="組別">
+              <option value="free" selected>自由組</option>
               <option value="elementary">國小組</option>
-              <option value="junior" selected>國中組</option>
+              <option value="junior">國中組</option>
               <option value="senior">高中職組</option>
             </select>
             
+            <section class="level-panel">
+               <div class="level-title">⭐ 我的植物等級</div>
+
+                 <div class="level-row">
+                   <span>目前等級：<b id="playerLevelTitle">🌱 植物新手</b></span>
+                   <span>經驗值：<b id="playerExp">0</b> EXP</span>
+                 </div>
+
+               <div class="exp-bar">
+                  <i id="playerExpBar"></i>
+               </div>
+            </section>
+
+            <section class="achievement-panel">
+                 <h3>🏅 我的成就櫃</h3>
+                  <div id="achievementCabinet" class="achievement-grid">
+                    <span class="achievement-item">尚未獲得成就</span>
+                  </div>
+            </section>
+
+
             <input type="hidden" id="bankSel" value="mix">
 
           </div>
@@ -810,6 +853,9 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
           </div>
         </div>
 
+        <h2 class="step-title">🌱 第二步：選擇挑戰模式</h2>
+         <p class="step-desc">請點選與您身分相同的組別，開始正式挑戰排行榜。</p>
+      
         <div class="group-grid">
           <article class="group-card">
             <h2>國小組</h2><div class="age">四～六年級適用</div>
@@ -829,6 +875,27 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
             <ul class="list"><li>丙級檢定模式</li><li>正式100題挑戰</li><li>全國排行榜規劃</li></ul>
             <button type="button" class="js-group-start" data-group="senior">立即挑戰<br>排行榜 ➜</button>
           </article>
+          
+           <article class="group-card orange">
+              <h2>自由組</h2>
+               <div class="age">全民植物探索適用</div>
+
+               <div class="card-pic pic4">
+                <span class="pic-label">全民植物探索</span>
+               </div>
+
+               <ul class="list">
+                 <li>自由參加模式</li>
+                 <li>教師家長皆可挑戰</li>
+                 <li>植物愛好者適用</li>
+               </ul>
+
+              <button type="button" class="js-group-start" data-group="free">
+                 立即挑戰<br>排行榜 ➜
+              </button>
+           </article>
+
+
         </div>
 
 
@@ -902,8 +969,9 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
         <div class="panel rank">
           <h3 class="blue">🏫 學校積分排行榜 TOP10</h3>
           <div class="tabs" id="schoolRankTabs">
+              <span class="active" data-group="free">自由組</span>
               <span data-group="elementary">國小組</span>
-              <span class="active" data-group="junior">國中組</span>
+              <span data-group="junior">國中組</span>
               <span data-group="senior">高中職組</span>
           </div>
 
@@ -1094,7 +1162,7 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
 
 // ✅ 修正 subject=horti
 const COUNTER_URL = 'https://script.google.com/macros/s/AKfycbxtY_zohVsck_4dnPvXnUaml9grxRm6C_3K6RML44s5yJIHAQXoKX222Hoii34LcKpf/exec?subject=horti';
-const RANKING_URL = 'https://script.google.com/macros/s/AKfycbxryciOwxnVOVTp5sc4tPxEgbkfdlBz2wOAZLT3Tx2VB2-zT5hOJWhucL1mrnWXyqRG/exec';
+const RANKING_URL = 'https://script.google.com/macros/s/AKfycbyeG7hZs2Ri2pyRdQVxs_d62asWvGGRlESQ3A8qwKk1WuqoiAgHyyGPaDcAuiVGH-HT/exec';
 
 const QUOTA_100 = { B:20, G:20, A:4, H:6, C:20, E:10, F:10, D:10 };
 const LABELS = ['A','B','C','D'];
@@ -1113,11 +1181,12 @@ let LAST_PAPER_MODE = 'mix';
 let LAST_WHO = '—';
 let LAST_CHALLENGE_LABEL = '正式挑戰';
 let LAST_IS_RANKABLE = true;
-let LOCKED_EXAM_GROUP = 'junior';
+let LOCKED_EXAM_GROUP = 'free';
 let LOCKED_EXAM_SCHOOL = '未填學校';
-let CURRENT_SCHOOL_RANK_GROUP = 'junior';
+let CURRENT_SCHOOL_RANK_GROUP = 'free';
 
 let SCHOOL_RANK_DATA = {
+  free: [],
   elementary: [],
   junior: [],
   senior: []
@@ -1845,6 +1914,19 @@ function renderSchoolOptions(){
   const schoolSel = document.getElementById('schoolName');
   const otherInput = document.getElementById('otherSchoolName');
   const group = document.getElementById('groupSel').value;
+  
+  if(group === 'free'){
+  schoolSel.innerHTML = `
+    <option value="自由參加者" selected>自由參加者</option>
+  `;
+
+  if(otherInput){
+    otherInput.classList.add('hide');
+    otherInput.value = '';
+  }
+
+  return;
+}
 
   if(!schoolSel) return;
 
@@ -1870,7 +1952,13 @@ function getSelectedSchoolName(){
     return otherInput.value.trim() || '其他學校';
   }
 
-  return schoolSel.value.trim() || '未填學校';
+  const group = document.getElementById('groupSel').value;
+
+if(group === 'free'){
+  return '自由參加者';
+}
+
+return schoolSel.value.trim() || '未填學校';
 }
 
 function getLocalScores(){
