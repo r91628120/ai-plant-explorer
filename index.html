@@ -775,7 +775,59 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
          <h2 class="step-title">👤 第一步：請先選擇您的身分</h2>
          <p class="step-desc">請先輸入暱稱、選擇學校與組別，系統會依照您的身分記錄排行榜。</p>
 
-        <div class="feature-grid">
+        <div class="start-box">
+          <div class="form-grid">
+            <input id="uname" type="text" placeholder="輸入暱稱 / 代號（不需真實姓名）">
+            <select id="schoolName">
+               <option value="">請先選擇組別，再選擇學校</option>
+            </select>
+
+            <input id="otherSchoolName" class="hide" type="text" placeholder="請輸入其他學校名稱">
+
+            <select id="groupSel" title="組別">
+              <option value="free" selected>自由組</option>
+              <option value="elementary">國小組</option>
+              <option value="junior">國中組</option>
+              <option value="senior">高中職組</option>
+            </select>
+            
+            
+            <input type="hidden" id="bankSel" value="mix">
+
+          </div>
+          <div class="helper-row">
+            <span id="qCountHint" class="question-hint">（目前題數：100 題）</span>
+            <span class="pill">來源：<b id="sourceLabel">R2 + Cloudflare CDN</b></span>
+            <span class="counter-badge" id="cloudBadge" title="雲端連線狀態"><span class="badge-dot dot-off" id="cloudDot"></span><span id="cloudText" class="muted">雲端：離線</span></span>
+            <span class="pill">累計挑戰：<b id="globalCount">000000 人</b></span>
+          </div>
+          <div style="margin-top:14px;text-align:center">
+           
+            <button id="btnQuick" class="ghost" type="button">⚡ 快速體驗 10 題</button>
+          </div>
+        </div>
+
+       <section class="level-panel">
+        <div class="level-title">⭐ 我的植物等級</div>
+
+        <div class="level-row">
+           <span>目前等級：<b id="playerLevelTitle">🌱 植物新手</b></span>
+          <span>經驗值：<b id="playerExp">0</b> EXP</span>
+        </div>
+
+        <div class="exp-bar">
+            <i id="playerExpBar"></i>
+        </div>
+      </section>
+
+      <section class="achievement-panel">
+          <h3>🏅 我的成就櫃</h3>
+          <div id="achievementCabinet" class="achievement-grid">
+            <span class="achievement-item">尚未獲得成就</span>
+          </div>
+      </section>
+
+         <div class="feature-grid">
           <section id="dailyChallenge" class="daily-card">
             <div class="daily-head">
               <h3>🌟 每日植物挑戰</h3>
@@ -799,58 +851,6 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
             </div>
             <p class="note" style="padding:8px 0 0;margin:0">每天完成「每日挑戰」或正式挑戰，就能延續連勝。</p>
           </section>
-        </div>
-
-        <div class="start-box">
-          <div class="form-grid">
-            <input id="uname" type="text" placeholder="輸入暱稱 / 代號（不需真實姓名）">
-            <select id="schoolName">
-               <option value="">請先選擇組別，再選擇學校</option>
-            </select>
-
-            <input id="otherSchoolName" class="hide" type="text" placeholder="請輸入其他學校名稱">
-
-            <select id="groupSel" title="組別">
-              <option value="free" selected>自由組</option>
-              <option value="elementary">國小組</option>
-              <option value="junior">國中組</option>
-              <option value="senior">高中職組</option>
-            </select>
-            
-            <section class="level-panel">
-               <div class="level-title">⭐ 我的植物等級</div>
-
-                 <div class="level-row">
-                   <span>目前等級：<b id="playerLevelTitle">🌱 植物新手</b></span>
-                   <span>經驗值：<b id="playerExp">0</b> EXP</span>
-                 </div>
-
-               <div class="exp-bar">
-                  <i id="playerExpBar"></i>
-               </div>
-            </section>
-
-            <section class="achievement-panel">
-                 <h3>🏅 我的成就櫃</h3>
-                  <div id="achievementCabinet" class="achievement-grid">
-                    <span class="achievement-item">尚未獲得成就</span>
-                  </div>
-            </section>
-
-
-            <input type="hidden" id="bankSel" value="mix">
-
-          </div>
-          <div class="helper-row">
-            <span id="qCountHint" class="question-hint">（目前題數：100 題）</span>
-            <span class="pill">來源：<b id="sourceLabel">R2 + Cloudflare CDN</b></span>
-            <span class="counter-badge" id="cloudBadge" title="雲端連線狀態"><span class="badge-dot dot-off" id="cloudDot"></span><span id="cloudText" class="muted">雲端：離線</span></span>
-            <span class="pill">累計挑戰：<b id="globalCount">000000 人</b></span>
-          </div>
-          <div style="margin-top:14px;text-align:center">
-           
-            <button id="btnQuick" class="ghost" type="button">⚡ 快速體驗 10 題</button>
-          </div>
         </div>
 
         <h2 class="step-title">🌱 第二步：選擇挑戰模式</h2>
