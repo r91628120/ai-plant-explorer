@@ -1041,6 +1041,7 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
       <div>
           <h3>🏫 學校排行榜</h3>
           <div class="tabs" id="fullSchoolRankTabs">
+            <span class="active" data-group="free">自由組</span>
             <span data-group="elementary">國小組</span>
             <span class="active" data-group="junior">國中組</span>
             <span data-group="senior">高中職組</span>
@@ -2711,7 +2712,7 @@ document.querySelectorAll('#fullSchoolRankTabs span').forEach(tab => {
     });
 
     tab.classList.add('active');
-    const group = tab.dataset.group || 'junior';
+    const group = tab.dataset.group || 'free';
     updateFullSchoolRanking(SCHOOL_RANK_DATA[group] || []);
   });
 });
