@@ -712,6 +712,38 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
   text-align:left;
 }
 
+.school-help{
+  margin-top:10px;
+  border-radius:14px;
+  overflow:hidden;
+  background:#f8fff4;
+  border:2px solid #bbf7d0;
+}
+
+.school-help summary{
+  cursor:pointer;
+  padding:12px 14px;
+  font-weight:1000;
+  color:#166534;
+  list-style:none;
+}
+
+.school-help summary:hover{
+  background:#ecfdf5;
+}
+
+.school-help-content{
+  padding:0 14px 12px;
+  line-height:1.8;
+  color:#374151;
+  font-weight:700;
+}
+
+.school-help-content p{
+  margin:8px 0;
+}
+
+
 </style>
 <script data-goatcounter="https://ai-agri-education.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <meta name="google-site-verification" content="wLQnbGi0252et4Q2FGCubos4FZW1tLeOlk8eGrW8YYI" />
@@ -795,14 +827,54 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
               <option value="">請先選擇組別，再選擇學校</option>
             </select>
 
-             <input id="otherSchoolName"
-                    class="hide"
-                    type="text"
-                    placeholder="請輸入其他學校名稱">
-            
-            <input type="hidden" id="bankSel" value="mix">
+          <input id="otherSchoolName"
+                 class="hide"
+                 type="text"
+                 placeholder="請輸入其他學校名稱">
+
+            <details class="school-help">
+             <summary>ℹ️ 找不到自己的學校？點我查看說明</summary>
+
+              <div class="school-help-content">
+                 <p>
+                   1️⃣ 請先選擇您的組別
+                    （國小組／國中組／高中職組）
+                 </p>
+
+                 <p>
+                  2️⃣ 點選「學校名稱」下拉選單
+                 </p>
+
+                 <p>
+                  3️⃣ 若找不到您的學校，
+                     請選擇「其他學校」
+                 </p>
+
+                 <p>
+                  4️⃣ 右側會出現
+                     「請輸入其他學校名稱」
+                 </p>
+
+                 <p>
+                    5️⃣ 請輸入完整學校名稱
+                       <br>
+                         例如：
+                           佳冬高農、潮州國中、中山國小
+                 </p>
+
+                <p>
+                    6️⃣ 系統將自動記錄您輸入的學校名稱，
+                        管理者確認後會加入正式學校名單，
+                        未來其他同校學生即可直接選取。
+                </p>
+              </div>
+           </details>
+
+               <input type="hidden" id="bankSel" value="mix">
 
           </div>
+
+            
           <div class="helper-row">
             <span id="qCountHint" class="question-hint">（目前題數：100 題）</span>
             <span class="pill">來源：<b id="sourceLabel">R2 + Cloudflare CDN</b></span>
