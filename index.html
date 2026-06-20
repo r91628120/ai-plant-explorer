@@ -772,17 +772,17 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
           <div class="stat-card">🏆 今日挑戰 <b id="todayDoneLabel">未完成</b><small>完成後累積連勝</small></div>
         </div>
 
-         <h2 class="step-title">👤 第一步：請先選擇您的身分</h2>
-         <p class="step-desc">請先輸入暱稱、選擇學校與組別，系統會依照您的身分記錄排行榜。</p>
+         <h2 class="step-title">
+             👤 第一步：請選擇組別與學校
+         </h2>
+           <p class="step-desc">
+               請先輸入暱稱，再選擇您的組別與學校，系統將依照身分記錄排行榜。
+           </p>
 
         <div class="start-box">
           <div class="form-grid">
-            <input id="uname" type="text" placeholder="輸入暱稱 / 代號（不需真實姓名）">
-            <select id="schoolName">
-               <option value="">請先選擇組別，再選擇學校</option>
-            </select>
-
-            <input id="otherSchoolName" class="hide" type="text" placeholder="請輸入其他學校名稱">
+            <input id="uname" type="text"
+                placeholder="輸入暱稱 / 代號（不需真實姓名）">
 
             <select id="groupSel" title="組別">
               <option value="free" selected>自由組</option>
@@ -790,7 +790,15 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
               <option value="junior">國中組</option>
               <option value="senior">高中職組</option>
             </select>
-            
+
+            <select id="schoolName">
+              <option value="">請先選擇組別，再選擇學校</option>
+            </select>
+
+             <input id="otherSchoolName"
+                    class="hide"
+                    type="text"
+                    placeholder="請輸入其他學校名稱">
             
             <input type="hidden" id="bankSel" value="mix">
 
