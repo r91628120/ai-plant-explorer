@@ -16,5 +16,11 @@
     "name": "佳冬高農",
     "group": "senior",
     "aliases": ["佳冬農工", "國立佳冬高農", "佳冬高級農業職業學校"]
+  },
+  {
+    "id": "wdes",
+    "name": "文德國小",
+    "group": "elementary",
+    "aliases": ["文德國民小學"]
   }
 ]
