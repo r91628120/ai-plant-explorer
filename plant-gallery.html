@@ -517,6 +517,7 @@ $('#fullscreenBtn').addEventListener('click', () => {
 
 });
 
+
 $('#searchPlant').addEventListener('input', e => {
 
   const keyword = e.target.value.trim();
@@ -526,23 +527,45 @@ $('#searchPlant').addEventListener('input', e => {
   let foundKey = null;
   let foundIndex = -1;
 
-  Object.keys(CATEGORY_ZH).some(key => {
+  // ✅ 支援編號搜尋：B193、B-193、b193、b-193
+  const codeMatch = keyword
+    .toUpperCase()
+    .replace(/\s/g,'')
+    .match(/^([A-H])-?(\d+)$/);
 
+  if(codeMatch){
+
+    const key = codeMatch[1];
+    const number = parseInt(codeMatch[2], 10);
     const list = RAW[key] || [];
 
-    foundIndex = list.findIndex(item =>
-      cleanName(item.name).includes(keyword) ||
-      String(item.name || '').includes(keyword)
-    );
-
-    if(foundIndex >= 0){
+    if(number >= 1 && number <= list.length){
       foundKey = key;
-      return true;
+      foundIndex = number - 1;
     }
 
-    return false;
+  }else{
 
-  });
+    // ✅ 原本植物名稱搜尋
+    Object.keys(CATEGORY_ZH).some(key => {
+
+      const list = RAW[key] || [];
+
+      foundIndex = list.findIndex(item =>
+        cleanName(item.name).includes(keyword) ||
+        String(item.name || '').includes(keyword)
+      );
+
+      if(foundIndex >= 0){
+        foundKey = key;
+        return true;
+      }
+
+      return false;
+
+    });
+
+  }
 
   if(foundKey){
     currentKey = foundKey;
@@ -552,6 +575,7 @@ $('#searchPlant').addEventListener('input', e => {
   }
 
 });
+
 
 $('#clearSearchBtn').addEventListener('click', () => {
 
