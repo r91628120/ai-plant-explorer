@@ -1117,7 +1117,8 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
            <summary>🏆 排行榜計分方式</summary>
              <p>
                 排行榜採「累積積分制」，不是只看單次最高分。
-                正式挑戰、每日植物挑戰、神秘植物挑戰與闖關地圖，皆會列入排行榜積分。
+                個人排行榜採「累積積分制」，正式挑戰、每日植物挑戰、神秘植物挑戰與闖關地圖，皆會列入個人排行榜積分。
+                快速體驗與練習區只供熟悉玩法，不列入排行榜。
              </p>
              <p>
                 每次挑戰的積分計算方式為：測驗分數 × 10。
@@ -1130,6 +1131,7 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
              <p>
               學校排行榜依照組別分為自由組、國小組、國中組、高中職組。
               同一學校學生的正式挑戰積分會累加，形成學校積分排行榜。
+              每日植物挑戰、神秘植物挑戰、闖關地圖與練習區，不列入學校積分排行榜。
              </p>
              <p>
                若選擇「其他學校」並輸入學校名稱，系統會先記錄，管理者確認後再加入正式學校名單。
@@ -1338,7 +1340,7 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
 
 // ✅ 修正 subject=horti
 const COUNTER_URL = 'https://script.google.com/macros/s/AKfycbxtY_zohVsck_4dnPvXnUaml9grxRm6C_3K6RML44s5yJIHAQXoKX222Hoii34LcKpf/exec?subject=horti';
-const RANKING_URL = 'https://script.google.com/macros/s/AKfycbzFHtFa2s4wAXQbQXDG1us9z6b6rpOp-CP9FBAvlYZlXT7XqLBgVfUTZrBQbXR8TVVI/exec';
+const RANKING_URL = 'https://script.google.com/macros/s/AKfycbwH4KdHRz7poBsJfALojUKf6WOtONVjjk61CyGQI7D5NtW6M-OQD3gNE8ZAFGZw-f3N/exec';
 
 const QUOTA_100 = { B:20, G:20, A:4, H:6, C:20, E:10, F:10, D:10 };
 const LABELS = ['A','B','C','D'];
@@ -2169,7 +2171,16 @@ function submitScoreToGoogleSheet(score, correct, total){
     correct,
     total,
     mode: LAST_CHALLENGE_LABEL,
-    streak: Number(state.streak || 0)
+    streak: Number(state.streak || 0),
+
+    // 個人排行榜：正式挑戰、每日挑戰、神秘植物、闖關地圖
+    personalRankable: LAST_IS_RANKABLE,
+
+    // 學校排行榜：只採計正式挑戰
+    schoolRankable: LAST_CHALLENGE_LABEL === '正式挑戰',
+
+   // 統一積分：分數 × 10
+    points: score * 10
   };
 
   fetch(RANKING_URL, {
@@ -2606,7 +2617,7 @@ async function startNormalExam({quick=false} = {}){
   LAST_WHO = $('#uname').value.trim() || '—';
   LAST_PAPER_MODE = $('#bankSel').value;
   LAST_CHALLENGE_LABEL = quick ? '快速體驗' : '正式挑戰';
-  LAST_IS_RANKABLE = true;
+  LAST_IS_RANKABLE = !quick;
   LOCKED_EXAM_GROUP = $('#groupSel').value || 'junior';
   LOCKED_EXAM_SCHOOL = getSelectedSchoolName();
 
@@ -2805,10 +2816,20 @@ document.querySelectorAll('.js-group-start').forEach(btn => {
 
 document.querySelectorAll('.js-practice-start').forEach(btn => {
   btn.addEventListener('click', async () => {
-    const bankSel = document.getElementById('bankSel');
-    if(bankSel) bankSel.value = btn.dataset.bank || 'A';
-    updateQuestionCountUI();
-    await startNormalExam({quick:false});
+    const {pools} = await loadQuestions();
+    const key = btn.dataset.bank || 'A';
+
+    const bag = (pools[key] || []).map(item => ({
+      ...item,
+      categoryKey: key
+    }));
+
+    await startCustomExam({
+      items: pick(bag, Math.min(10, bag.length)),
+      label: '練習區',
+      minutes: 10,
+      rankable: false
+    });
   });
 });
 
