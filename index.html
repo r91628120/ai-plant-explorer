@@ -1078,7 +1078,7 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
             <li><span class="no">5</span><span>校園小偵探<br><small>長治國中</small></span><b>90分</b></li>
           </ol>
           
-          <div class="note">個人排名成績：已開始正式登入排行榜資料庫。</div>
+          <div class="note">個人排行榜採累積積分制，完成挑戰越多，積分越高。</div>
            <div class="rank-more">
              <button id="btnFullPersonalRank" type="button">查看完整排行榜與我的排名 ➜</button>
            </div>
@@ -1115,13 +1115,14 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
 
         <details open>
            <summary>🏆 排行榜計分方式</summary>
-            <p>
-             正式挑戰、每日植物挑戰、神秘植物挑戰與闖關地圖，皆會列入排行榜積分。
-             個人排行榜採「累積積分制」，每次測驗分數 × 10 後累加。
-            </p>
-            <p>
-             例如：一次正式挑戰得 99 分，即獲得 990 積分；累積挑戰越多，排行榜積分越高。
-            </p>
+             <p>
+                排行榜採「累積積分制」，不是只看單次最高分。
+                正式挑戰、每日植物挑戰、神秘植物挑戰與闖關地圖，皆會列入排行榜積分。
+             </p>
+             <p>
+                每次挑戰的積分計算方式為：測驗分數 × 10。
+                例如：正式挑戰得 99 分，即獲得 990 積分。
+             </p>
         </details>
 
         <details>
@@ -1337,7 +1338,7 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
 
 // ✅ 修正 subject=horti
 const COUNTER_URL = 'https://script.google.com/macros/s/AKfycbxtY_zohVsck_4dnPvXnUaml9grxRm6C_3K6RML44s5yJIHAQXoKX222Hoii34LcKpf/exec?subject=horti';
-const RANKING_URL = 'https://script.google.com/macros/s/AKfycbzCpOxBeQN3s-5wI_e2RTwP6hnmQxmc3_cC9yy-PtYA4iKof5RYi7JanW-ACLQc_oKB/exec';
+const RANKING_URL = 'https://script.google.com/macros/s/AKfycbzFHtFa2s4wAXQbQXDG1us9z6b6rpOp-CP9FBAvlYZlXT7XqLBgVfUTZrBQbXR8TVVI/exec';
 
 const QUOTA_100 = { B:20, G:20, A:4, H:6, C:20, E:10, F:10, D:10 };
 const LABELS = ['A','B','C','D'];
