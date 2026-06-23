@@ -743,6 +743,44 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
   margin:8px 0;
 }
 
+.rules{
+  text-align:left;
+  max-width:100%;
+}
+
+.rules h2{
+  margin:0 0 14px;
+  color:#065f2b;
+  text-align:center;
+}
+
+.rules details{
+  margin:10px 0;
+  background:#f8fff4;
+  border:2px solid #bbf7d0;
+  border-radius:16px;
+  overflow:hidden;
+}
+
+.rules summary{
+  cursor:pointer;
+  padding:12px 14px;
+  font-weight:1000;
+  color:#166534;
+}
+
+.rules summary:hover{
+  background:#ecfdf5;
+}
+
+.rules p{
+  margin:0;
+  padding:0 14px 12px;
+  line-height:1.8;
+  color:#374151;
+  font-weight:800;
+}
+
 
 </style>
 <script data-goatcounter="https://ai-agri-education.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
@@ -1073,10 +1111,62 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
     </div>
 
     <section id="rules" class="panel rules">
-      <b>🌱 平台規則：</b>正式挑戰採用原本園藝題庫「全部題庫依比例組卷」100題、40分鐘；<br>
-             每日挑戰、神秘植物、闖關地圖皆沿用同一份題庫與測驗邏輯。
-      <br><span class="pill" style="margin-top:8px">題庫版本：<b id="ver">載入中</b></span>
-  </section>
+       <h2>📘 AI植物探索王競賽規則說明</h2>
+
+        <details open>
+           <summary>🏆 排行榜計分方式</summary>
+            <p>
+             正式挑戰、每日植物挑戰、神秘植物挑戰與闖關地圖，皆會列入排行榜積分。
+             個人排行榜採「累積積分制」，每次測驗分數 × 10 後累加。
+            </p>
+            <p>
+             例如：一次正式挑戰得 99 分，即獲得 990 積分；累積挑戰越多，排行榜積分越高。
+            </p>
+        </details>
+
+        <details>
+           <summary>🏫 學校積分規則</summary>
+             <p>
+              學校排行榜依照組別分為自由組、國小組、國中組、高中職組。
+              同一學校學生的正式挑戰積分會累加，形成學校積分排行榜。
+             </p>
+             <p>
+               若選擇「其他學校」並輸入學校名稱，系統會先記錄，管理者確認後再加入正式學校名單。
+             </p>
+        </details>
+
+        <details>
+           <summary>🌱 組別說明</summary>
+             <p>
+              自由組：一般民眾、大學生、教師、家長、植物愛好者皆可參加。
+             </p>
+             <p>
+              國小組、國中組、高中職組：提供學生依照就學階段參與校園植物競賽。
+             </p>
+        </details>
+
+        <details>
+            <summary>📝 正式挑戰規則</summary>
+              <p>
+                正式挑戰採用園藝植物題庫「全部題庫依比例組卷」，共 100 題，作答時間 40 分鐘。
+              </p>
+              <p>
+                題目包含植物與園藝資材，皆屬於植物識別與農業學習範圍。
+              </p>
+        </details>
+
+        <details>
+           <summary>🔥 每日挑戰與連勝規則</summary>
+             <p>
+                每日植物挑戰每天更換一題。完成每日挑戰或正式挑戰後，可累積今日完成紀錄與連勝天數。
+             </p>
+        </details>
+
+         <br>
+           <span class="pill" style="margin-top:8px">
+             題庫版本：<b id="ver">載入中</b>
+           </span>
+     </section>
 
   <section id="fullRankingPage" class="panel full-rank-page hide">
        <h2>🏆 完整排行榜</h2>
@@ -1247,7 +1337,7 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
 
 // ✅ 修正 subject=horti
 const COUNTER_URL = 'https://script.google.com/macros/s/AKfycbxtY_zohVsck_4dnPvXnUaml9grxRm6C_3K6RML44s5yJIHAQXoKX222Hoii34LcKpf/exec?subject=horti';
-const RANKING_URL = 'https://script.google.com/macros/s/AKfycbyeG7hZs2Ri2pyRdQVxs_d62asWvGGRlESQ3A8qwKk1WuqoiAgHyyGPaDcAuiVGH-HT/exec';
+const RANKING_URL = 'https://script.google.com/macros/s/AKfycbzCpOxBeQN3s-5wI_e2RTwP6hnmQxmc3_cC9yy-PtYA4iKof5RYi7JanW-ACLQc_oKB/exec';
 
 const QUOTA_100 = { B:20, G:20, A:4, H:6, C:20, E:10, F:10, D:10 };
 const LABELS = ['A','B','C','D'];
@@ -2178,10 +2268,10 @@ function updatePersonalRanking(personal){
       <span class="no">${rankNo(i)}</span>
       <span>
        ${r.name || '植物挑戰者'}<br>
-       <small>${r.school || '未填學校'}</small><br>
-         <span class="player-title">👑 ${titleByScore(Number(r.score || 0))}</span>
+       <small>${r.school || '未填學校'}｜挑戰 ${Number(r.attempts || 0)} 次</small><br>
+       <span class="player-title">👑 ${titleByScore(Number(r.bestScore || 0))}</span>
       </span>
-      <b>${Number(r.score || 0)}分</b>
+      <b>${Number(r.score || 0).toLocaleString()}分</b>
     </li>
   `).join('');
 }
@@ -2215,10 +2305,10 @@ function updateFullPersonalRanking(personal){
       <span class="no">${rankNo(i)}</span>
       <span>
         ${r.name || '植物挑戰者'}<br>
-        <small>${r.school || '未填學校'}</small><br>
-        <span class="player-title">👑 ${titleByScore(Number(r.score || 0))}</span>
+        <small>${r.school || '未填學校'}｜挑戰 ${Number(r.attempts || 0)} 次｜最高 ${Number(r.bestScore || 0)} 分</small><br>
+        <span class="player-title">👑 ${titleByScore(Number(r.bestScore || 0))}</span>
       </span>
-      <b>${Number(r.score || 0)}分</b>
+      <b>${Number(r.score || 0).toLocaleString()}分</b>
     </li>
   `).join('');
 }
