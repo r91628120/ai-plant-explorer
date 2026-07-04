@@ -2775,6 +2775,51 @@ $('#schoolName').addEventListener('change', () => {
   }
 });
 
+
+const PROFILE_KEY = 'plantExplorerProfile';
+
+function saveUserProfile(){
+  const data = {
+    uname: $('#uname')?.value.trim() || '',
+    group: $('#groupSel')?.value || 'free',
+    school: $('#schoolName')?.value || '',
+    otherSchool: $('#otherSchoolName')?.value.trim() || ''
+  };
+  localStorage.setItem(PROFILE_KEY, JSON.stringify(data));
+}
+
+function loadUserProfile(){
+  const raw = localStorage.getItem(PROFILE_KEY);
+  if(!raw) return;
+
+  const data = JSON.parse(raw);
+
+  if($('#uname')) $('#uname').value = data.uname || '';
+  if($('#groupSel')) $('#groupSel').value = data.group || 'free';
+
+  renderSchoolOptions();
+
+  setTimeout(() => {
+    if($('#schoolName')) $('#schoolName').value = data.school || '';
+
+    if(data.school === '其他學校'){
+      $('#otherSchoolName')?.classList.remove('hide');
+      if($('#otherSchoolName')) $('#otherSchoolName').value = data.otherSchool || '';
+    }
+  }, 100);
+}
+
+['uname','groupSel','schoolName','otherSchoolName'].forEach(id => {
+  const el = document.getElementById(id);
+  if(el){
+    el.addEventListener('input', saveUserProfile);
+    el.addEventListener('change', saveUserProfile);
+  }
+});
+
+
+
+
 /* ----------------------- 5) 啟動 ----------------------- */
 document.getElementById('sourceLabel').textContent = 'R2 + Cloudflare CDN';
 updateSummary(0, 0, 0);
@@ -2784,7 +2829,9 @@ loadCounter();
 renderStreak();
 renderRankings();
 loadRankingsFromGoogleSheet();
-loadSchools();
+loadSchools().then(() => {
+  loadUserProfile();
+});
 setupDailyPreview();
 renderAdventureMap();
 renderPlayerLevel();
