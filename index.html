@@ -852,7 +852,11 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
         <div class="start-box">
           <div class="form-grid">
             <input id="uname" type="text"
-                placeholder="輸入暱稱 / 代號（不需真實姓名）">
+                   list="nameHistoryList"
+                   autocomplete="off"
+                   placeholder="輸入暱稱 / 代號（不需真實姓名）">
+
+               <datalist id="nameHistoryList"></datalist>
 
             <select id="groupSel" title="組別">
               <option value="free" selected>自由組</option>
@@ -2778,6 +2782,43 @@ $('#schoolName').addEventListener('change', () => {
 
 const PROFILE_KEY = 'plantExplorerProfile';
 
+const NAME_HISTORY_KEY = 'plantExplorerNameHistory';
+
+function getNameHistory(){
+  try{
+    return JSON.parse(localStorage.getItem(NAME_HISTORY_KEY) || '[]');
+  }catch(_){
+    return [];
+  }
+}
+
+function saveNameToHistory(name){
+  name = String(name || '').trim();
+  if(!name) return;
+
+  let names = getNameHistory();
+
+  names = names.filter(n => n !== name);
+  names.unshift(name);
+
+  names = names.slice(0, 10);
+
+  localStorage.setItem(NAME_HISTORY_KEY, JSON.stringify(names));
+  renderNameHistoryList();
+}
+
+function renderNameHistoryList(){
+  const list = document.getElementById('nameHistoryList');
+  if(!list) return;
+
+  const names = getNameHistory();
+
+  list.innerHTML = names
+    .map(name => `<option value="${name}"></option>`)
+    .join('');
+}
+
+
 function saveUserProfile(){
   const data = {
     uname: $('#uname')?.value.trim() || '',
@@ -2786,13 +2827,22 @@ function saveUserProfile(){
     otherSchool: $('#otherSchoolName')?.value.trim() || ''
   };
   localStorage.setItem(PROFILE_KEY, JSON.stringify(data));
+  saveNameToHistory(data.uname);
+
 }
 
 function loadUserProfile(){
-  const raw = localStorage.getItem(PROFILE_KEY);
-  if(!raw) return;
+  let data = null;
 
-  const data = JSON.parse(raw);
+  try{
+    const raw = localStorage.getItem(PROFILE_KEY);
+    if(!raw) return;
+    data = JSON.parse(raw);
+  }catch(err){
+    console.warn('使用者資料讀取失敗：', err);
+    localStorage.removeItem(PROFILE_KEY);
+    return;
+  }
 
   if($('#uname')) $('#uname').value = data.uname || '';
   if($('#groupSel')) $('#groupSel').value = data.group || 'free';
@@ -2836,6 +2886,7 @@ setupDailyPreview();
 renderAdventureMap();
 renderPlayerLevel();
 renderAchievementCabinet();
+renderNameHistoryList();
 
 /* ----------------------- 6) AI植物探索王首頁入口 ----------------------- */
 function setGroup(groupValue){
