@@ -1240,6 +1240,297 @@ button.ghost{
   }
 }
 
+/* =====================================================
+   第二階段｜森林動物舞會大橫幅
+   放在首頁第一屏，原本內容保留在下方
+===================================================== */
+
+.wrap{
+  max-width:100% !important;
+  padding:0 !important;
+}
+
+.home-stage{
+  padding:0 18px 34px !important;
+  border-radius:0 !important;
+  background:
+    linear-gradient(180deg,#dff8ff 0%,#ecffe0 45%,#c9f7b7 100%) !important;
+}
+
+.forest-party-hero{
+  position:relative;
+  max-width:1380px;
+  min-height:640px;
+  margin:0 auto 28px;
+  padding:72px 42px 34px;
+  overflow:hidden;
+  border-radius:0 0 44px 44px;
+  background:
+    radial-gradient(circle at 12% 22%,rgba(255,255,255,.36) 0 70px,transparent 72px),
+    radial-gradient(circle at 86% 18%,rgba(255,255,255,.34) 0 85px,transparent 88px),
+    linear-gradient(180deg,#49c8f5 0%,#8fe86f 65%,#3f8f38 100%);
+  border:6px solid rgba(255,255,255,.85);
+  box-shadow:0 22px 48px rgba(6,95,42,.22);
+}
+
+.forest-party-hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 5% 85%,#174d25 0 130px,transparent 132px),
+    radial-gradient(circle at 95% 88%,#174d25 0 150px,transparent 152px),
+    linear-gradient(90deg,rgba(6,78,59,.55),transparent 28%,transparent 72%,rgba(6,78,59,.55));
+  opacity:.75;
+  pointer-events:none;
+}
+
+.forest-party-hero::after{
+  content:"💡  💡  💡  💡  💡  💡  💡  💡  💡";
+  position:absolute;
+  top:16px;
+  left:0;
+  right:0;
+  text-align:center;
+  font-size:32px;
+  letter-spacing:24px;
+  filter:drop-shadow(0 0 10px #fff7b0);
+  animation:partyLights 2.4s infinite ease-in-out;
+}
+
+@keyframes partyLights{
+  0%,100%{opacity:.75;transform:translateY(0)}
+  50%{opacity:1;transform:translateY(6px)}
+}
+
+.party-bg-deco{
+  position:absolute;
+  top:78px;
+  left:0;
+  right:0;
+  z-index:2;
+  text-align:center;
+  font-size:30px;
+  letter-spacing:18px;
+  opacity:.9;
+  animation:partyFloat 4s infinite ease-in-out;
+}
+
+.party-board{
+  position:relative;
+  z-index:3;
+  width:min(620px,92%);
+  margin:0 auto 32px;
+  padding:26px 28px 28px;
+  text-align:center;
+  border-radius:38px;
+  background:linear-gradient(180deg,#fff8d9,#d89a4a);
+  border:8px solid #7c3f16;
+  box-shadow:
+    0 12px 0 #4b260c,
+    0 24px 38px rgba(0,0,0,.28);
+}
+
+.party-title-small{
+  display:inline-block;
+  margin-bottom:8px;
+  padding:8px 18px;
+  border-radius:999px;
+  background:#fff7d6;
+  color:#7c2d12;
+  font-weight:1000;
+}
+
+.party-title-main span,
+.party-title-main strong{
+  display:block;
+  line-height:.95;
+  font-weight:1000;
+}
+
+.party-title-main span{
+  font-size:64px;
+  color:#16813a;
+  text-shadow:3px 4px 0 #bbf7d0;
+}
+
+.party-title-main strong{
+  font-size:92px;
+  color:#facc15;
+  text-shadow:4px 6px 0 #92400e;
+}
+
+.party-title-ribbon{
+  display:inline-block;
+  margin-top:14px;
+  padding:10px 28px;
+  border-radius:999px;
+  background:linear-gradient(180deg,#fb7185,#e11d48);
+  color:white;
+  font-weight:1000;
+  font-size:22px;
+}
+
+.party-animals{
+  position:relative;
+  z-index:3;
+  display:flex;
+  justify-content:center;
+  align-items:end;
+  gap:18px;
+  margin:26px auto 20px;
+}
+
+.animal{
+  width:105px;
+  height:105px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  font-size:58px;
+  background:rgba(255,255,255,.82);
+  border:4px solid rgba(255,255,255,.95);
+  box-shadow:0 12px 24px rgba(0,0,0,.18);
+  animation:animalDance 1.8s infinite ease-in-out;
+}
+
+.animal:nth-child(2){animation-delay:.12s}
+.animal:nth-child(3){animation-delay:.24s}
+.animal:nth-child(4){animation-delay:.36s}
+.animal:nth-child(5){animation-delay:.48s}
+.animal:nth-child(6){animation-delay:.60s}
+
+@keyframes animalDance{
+  0%,100%{transform:translateY(0) rotate(-2deg)}
+  50%{transform:translateY(-13px) rotate(3deg)}
+}
+
+.party-actions{
+  position:relative;
+  z-index:4;
+  max-width:1180px;
+  margin:18px auto 18px;
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:14px;
+}
+
+.party-actions a{
+  display:block;
+  text-align:center;
+  padding:18px 12px;
+  border-radius:24px;
+  background:rgba(255,255,255,.92);
+  border:4px solid rgba(255,255,255,.98);
+  font-size:22px;
+  font-weight:1000;
+  color:#14532d;
+  box-shadow:0 10px 0 rgba(22,101,52,.18),0 18px 28px rgba(0,0,0,.16);
+  transition:.2s;
+}
+
+.party-actions a:hover{
+  transform:translateY(-6px) scale(1.03);
+  background:#fff7d6;
+}
+
+.party-stats{
+  position:relative;
+  z-index:4;
+  max-width:980px;
+  margin:18px auto 0;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+
+.party-stats span{
+  display:block;
+  text-align:center;
+  padding:16px;
+  border-radius:22px;
+  background:rgba(255,248,220,.94);
+  border:3px solid #fde68a;
+  font-weight:1000;
+  color:#78350f;
+}
+
+.party-stats b{
+  display:block;
+  margin-top:4px;
+  font-size:26px;
+  color:#15803d;
+}
+
+/* 讓原本內容變成第二區塊，保留但往下 */
+.home-grid{
+  max-width:1180px;
+  margin:0 auto;
+}
+
+/* 手機版 */
+@media(max-width:760px){
+  .home-stage{
+    padding:0 8px 24px !important;
+  }
+
+  .forest-party-hero{
+    min-height:auto;
+    padding:58px 14px 24px;
+    border-radius:0 0 28px 28px;
+  }
+
+  .forest-party-hero::after{
+    font-size:20px;
+    letter-spacing:8px;
+  }
+
+  .party-bg-deco{
+    font-size:20px;
+    letter-spacing:6px;
+    top:58px;
+  }
+
+  .party-board{
+    padding:18px 14px;
+    border-width:5px;
+  }
+
+  .party-title-main span{
+    font-size:42px;
+  }
+
+  .party-title-main strong{
+    font-size:58px;
+  }
+
+  .party-title-ribbon{
+    font-size:16px;
+  }
+
+  .party-animals{
+    gap:8px;
+    flex-wrap:wrap;
+  }
+
+  .animal{
+    width:70px;
+    height:70px;
+    font-size:40px;
+  }
+
+  .party-actions,
+  .party-stats{
+    grid-template-columns:1fr;
+  }
+
+  .party-actions a{
+    font-size:18px;
+    padding:15px 10px;
+  }
+}
+
+
 
 
 
@@ -1268,6 +1559,44 @@ button.ghost{
 
 <div class="wrap">
   <section id="home" class="home-stage">
+
+    <section class="forest-party-hero">
+  <div class="party-bg-deco">✨ 🎵 🌸 🦉 🐰 🦊 🐻 🦌 🍄 🎶 ✨</div>
+
+  <div class="party-board">
+    <div class="party-title-small">一起探索植物的奇妙世界！</div>
+    <div class="party-title-main">
+      <span>AI植物</span>
+      <strong>探索王</strong>
+    </div>
+    <div class="party-title-ribbon">森林動物舞會開演中！</div>
+  </div>
+
+  <div class="party-animals">
+    <div class="animal">🦉</div>
+    <div class="animal">🐰</div>
+    <div class="animal">🦊</div>
+    <div class="animal">🐻</div>
+    <div class="animal">🦌</div>
+    <div class="animal">🐿️</div>
+  </div>
+
+  <div class="party-actions">
+    <a href="#dailyChallenge">🌟 每日挑戰</a>
+    <a href="plant-gallery.html">📚 植物圖鑑</a>
+    <a href="#adventureMap">🗺️ 闖關地圖</a>
+    <a href="#ranking">🏆 排行榜</a>
+    <a href="#practice">🎓 練習區</a>
+  </div>
+
+  <div class="party-stats">
+    <span>🌱 題庫照片 <b id="partyPhotoCount">2,003</b></span>
+    <span>👦 探險玩家 <b id="partyPlayerCount">28,050</b></span>
+    <span>⭐ 累計積分 <b>335,600</b></span>
+  </div>
+</section>
+
+
     <div class="home-grid">
       <aside class="side-left">
         <div class="panel mascot">
