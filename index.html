@@ -781,6 +781,467 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
   font-weight:800;
 }
 
+/* =========================================================
+   AI植物探索王 v2.0｜Q版森林動物舞會首頁外觀覆蓋版
+   只改外觀，不動原本功能與 JavaScript
+========================================================= */
+
+:root{
+  --forest:#15803d;
+  --forest-dark:#064e3b;
+  --leaf:#22c55e;
+  --mint:#dcfce7;
+  --cream:#fff7d6;
+  --sun:#facc15;
+  --pink:#fb7185;
+  --sky2:#7dd3fc;
+  --wood:#92400e;
+  --soft-shadow:0 18px 38px rgba(21,128,61,.18);
+}
+
+/* 整體背景：森林派對感 */
+html,body{
+  background:
+    radial-gradient(circle at 8% 10%, rgba(255,255,255,.9) 0 70px, transparent 72px),
+    radial-gradient(circle at 90% 14%, rgba(255,255,255,.8) 0 90px, transparent 92px),
+    linear-gradient(180deg,#dff8ff 0%,#ecffe0 45%,#c9f7b7 100%) !important;
+}
+
+/* 導覽列變成遊戲選單 */
+.main-nav{
+  background:rgba(255,255,255,.92) !important;
+  border-bottom:4px solid #bbf7d0 !important;
+  box-shadow:0 10px 26px rgba(22,101,52,.16) !important;
+}
+
+.nav-logo{
+  color:#14532d !important;
+}
+
+.logo-mark{
+  background:linear-gradient(180deg,#f0fdf4,#86efac) !important;
+  border:3px solid #bbf7d0;
+  box-shadow:0 6px 0 rgba(22,101,52,.15);
+}
+
+.version{
+  background:linear-gradient(180deg,#4ade80,#15803d) !important;
+  box-shadow:0 3px 0 #166534;
+}
+
+.nav-links a{
+  border-radius:999px;
+  padding:9px 13px !important;
+  border-bottom:0 !important;
+}
+
+.nav-links a:hover,
+.nav-links a.active{
+  background:#dcfce7;
+  color:#166534 !important;
+  box-shadow:inset 0 -3px 0 #86efac;
+}
+
+/* 首頁舞台：森林舞會 */
+.home-stage{
+  position:relative;
+  overflow:hidden;
+  border-radius:0 0 42px 42px !important;
+  background:
+    radial-gradient(circle at 20% 18%, rgba(255,255,255,.78) 0 78px, transparent 80px),
+    radial-gradient(circle at 82% 20%, rgba(255,255,255,.65) 0 88px, transparent 90px),
+    linear-gradient(180deg,#82e7ff 0%,#dfffc7 45%,#8bd86b 100%) !important;
+  border:6px solid rgba(255,255,255,.55);
+  box-shadow:var(--soft-shadow) !important;
+}
+
+/* 森林燈串 */
+.home-stage::after{
+  content:"✨ 🌸 🦉 🎵 🐰 🌿 🦊 🎶 🐻 🍄 🦌 ✨";
+  position:absolute;
+  top:18px;
+  left:0;
+  width:100%;
+  text-align:center;
+  font-size:28px;
+  letter-spacing:14px;
+  opacity:.78;
+  pointer-events:none;
+  animation:partyFloat 5s ease-in-out infinite;
+}
+
+@keyframes partyFloat{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(8px)}
+}
+
+/* 下方草地 */
+.home-stage:before{
+  height:270px !important;
+  background:
+    radial-gradient(ellipse at 20% 100%, rgba(22,101,52,.65) 0 48%, transparent 50%),
+    radial-gradient(ellipse at 70% 100%, rgba(21,128,61,.55) 0 55%, transparent 57%) !important;
+  opacity:.55 !important;
+}
+
+/* 主標題：Q版招牌 */
+.solid-title{
+  background:linear-gradient(180deg,#fffef0,#eaffd8) !important;
+  border:7px solid #15803d !important;
+  border-radius:38px !important;
+  box-shadow:
+    0 10px 0 #0b6b2b,
+    0 20px 36px rgba(0,0,0,.18) !important;
+  transform:rotate(-1deg);
+}
+
+.title-line-1{
+  color:#15803d !important;
+  text-shadow:2px 3px 0 #bbf7d0;
+}
+
+.title-line-2{
+  color:#fbbf24 !important;
+  text-shadow:3px 5px 0 #92400e !important;
+}
+
+.title-crown{
+  animation:crownBounce 1.8s ease-in-out infinite;
+}
+
+@keyframes crownBounce{
+  0%,100%{transform:rotate(12deg) translateY(0)}
+  50%{transform:rotate(12deg) translateY(-8px)}
+}
+
+/* 標語 */
+.ribbon{
+  background:linear-gradient(180deg,#fff3b0,#fbbf24) !important;
+  border:4px solid #b45309 !important;
+  box-shadow:0 6px 0 rgba(146,64,14,.28);
+}
+
+.subtitle{
+  color:#047857 !important;
+  font-size:26px !important;
+}
+
+.goal{
+  background:rgba(255,255,255,.86) !important;
+  border:3px dashed #86efac;
+  box-shadow:0 10px 24px rgba(22,101,52,.12);
+}
+
+/* 左側吉祥物卡 */
+.panel,
+.card,
+.start-box,
+.level-panel,
+.achievement-panel,
+.daily-card,
+.streak-card,
+.adventure-map,
+.practice,
+.shortcut-dock{
+  border-radius:28px !important;
+  border:3px solid rgba(255,255,255,.9) !important;
+  box-shadow:0 14px 30px rgba(22,101,52,.16) !important;
+}
+
+.mascot{
+  background:linear-gradient(180deg,#ffffff,#ecfeff) !important;
+  border:4px solid #bae6fd !important;
+}
+
+.bubble{
+  background:#fff !important;
+  border:3px solid #d9f99d;
+  color:#166534 !important;
+}
+
+.sign{
+  background:linear-gradient(180deg,#b7793b,#78350f) !important;
+  border:2px solid #fde68a;
+}
+
+/* 最新消息 */
+.news{
+  background:linear-gradient(180deg,#fffdf2,#ffffff) !important;
+  border:4px solid #fde68a !important;
+}
+
+.news h3{
+  color:#b45309 !important;
+}
+
+/* 數據卡片像遊戲狀態欄 */
+.stat-card{
+  background:linear-gradient(180deg,#ffffff,#f0fdf4) !important;
+  border:3px solid #bbf7d0 !important;
+  border-radius:24px !important;
+}
+
+.stat-card b{
+  color:#15803d !important;
+  font-size:28px !important;
+}
+
+/* 輸入區變成任務卡 */
+.start-box{
+  background:linear-gradient(180deg,#ffffff,#f0fdf4) !important;
+  border:4px dashed #86efac !important;
+}
+
+input[type=text],
+select{
+  border:3px solid #bbf7d0 !important;
+  border-radius:18px !important;
+  background:#fffefc !important;
+}
+
+input[type=text]:focus,
+select:focus{
+  outline:none;
+  border-color:#22c55e !important;
+  box-shadow:0 0 0 4px rgba(34,197,94,.18);
+}
+
+/* 按鈕變成遊戲按鈕 */
+button,
+.btn{
+  border-radius:999px !important;
+  background:linear-gradient(180deg,#4ade80,#15803d) !important;
+  box-shadow:
+    0 7px 0 #166534,
+    0 12px 20px rgba(22,101,52,.18) !important;
+}
+
+button:hover,
+.btn:hover{
+  transform:translateY(-3px) scale(1.02) !important;
+}
+
+button.ghost{
+  background:linear-gradient(180deg,#eff6ff,#dbeafe) !important;
+  color:#1d4ed8 !important;
+  box-shadow:0 6px 0 #bfdbfe !important;
+}
+
+/* 等級與成就區 */
+.level-panel{
+  background:linear-gradient(180deg,#fffbea,#ffffff) !important;
+  border:4px solid #facc15 !important;
+}
+
+.level-title::before{
+  content:"🦊 ";
+}
+
+.achievement-panel{
+  background:linear-gradient(180deg,#ffffff,#ecfdf5) !important;
+  border:4px solid #86efac !important;
+}
+
+.achievement-item{
+  background:#fff7ed !important;
+  border:2px solid #fdba74 !important;
+  color:#9a3412 !important;
+}
+
+/* 每日挑戰與連勝 */
+.daily-card{
+  background:linear-gradient(180deg,#fff7d6,#ffffff) !important;
+  border:4px solid #fcd34d !important;
+}
+
+.streak-card{
+  background:linear-gradient(180deg,#fff1f2,#ffffff) !important;
+  border:4px solid #fda4af !important;
+}
+
+.daily-card h3::before{
+  content:"🐰 ";
+}
+
+.streak-card h3::before{
+  content:"🐿️ ";
+}
+
+/* 組別卡片：像入口牌 */
+.group-card{
+  border-radius:30px !important;
+  transition:.22s ease;
+  overflow:hidden;
+}
+
+.group-card:hover{
+  transform:translateY(-6px) rotate(-1deg);
+}
+
+.group-card h2{
+  font-size:34px !important;
+}
+
+.group-card:nth-child(1)::before{
+  content:"🐰";
+  display:block;
+  font-size:44px;
+}
+
+.group-card:nth-child(2)::before{
+  content:"🦊";
+  display:block;
+  font-size:44px;
+}
+
+.group-card:nth-child(3)::before{
+  content:"🦉";
+  display:block;
+  font-size:44px;
+}
+
+.group-card:nth-child(4)::before{
+  content:"🐻";
+  display:block;
+  font-size:44px;
+}
+
+/* 闖關地圖 */
+.adventure-map{
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.95),rgba(240,253,244,.96)),
+    radial-gradient(circle at 10% 10%,#bbf7d0 0 40px,transparent 42px) !important;
+  border:4px solid #86efac !important;
+}
+
+.adventure-map h3{
+  font-size:26px !important;
+}
+
+.stage-btn{
+  border-radius:22px !important;
+  border:3px solid #bbf7d0 !important;
+}
+
+.stage-btn.current{
+  animation:stagePulse 1.8s infinite;
+}
+
+@keyframes stagePulse{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.06)}
+}
+
+/* 練習區 */
+.practice{
+  background:linear-gradient(180deg,#fff,#f0f9ff) !important;
+  border:4px solid #bae6fd !important;
+}
+
+.practice-grid button{
+  background:linear-gradient(180deg,#fb923c,#ea580c) !important;
+  box-shadow:0 6px 0 #9a3412 !important;
+}
+
+/* 快速功能入口 */
+.shortcut-dock{
+  background:rgba(255,255,255,.9) !important;
+  border:4px solid #fde68a !important;
+}
+
+.shortcut-dock a,
+.shortcut-dock button{
+  border-radius:20px !important;
+  background:linear-gradient(180deg,#ffffff,#fef9c3) !important;
+  border:3px solid #fde68a !important;
+}
+
+/* 排行榜 */
+.rank{
+  background:linear-gradient(180deg,#ffffff,#f8fff4) !important;
+  border:4px solid #bbf7d0 !important;
+}
+
+.rank h3{
+  background:linear-gradient(180deg,#22c55e,#15803d) !important;
+  border-radius:22px 22px 0 0;
+}
+
+.rank h3.blue{
+  background:linear-gradient(180deg,#38bdf8,#2563eb) !important;
+}
+
+.rank li{
+  border-radius:16px;
+  padding:10px !important;
+  background:#ffffff;
+}
+
+.no{
+  background:#fef3c7 !important;
+  color:#92400e !important;
+}
+
+/* 頁尾森林草地 */
+.site-footer{
+  background:
+    linear-gradient(180deg,#22c55e,#166534) !important;
+  border-radius:32px 32px 0 0;
+}
+
+.site-footer::before{
+  content:"🌱 🌸 🍄 🐰 🦊 🐻 🦉 🐿️ 🌼 🌿";
+  display:block;
+  font-size:24px;
+  margin-bottom:12px;
+}
+
+/* 手機版：可愛但不擠 */
+@media(max-width:760px){
+  .home-stage::after{
+    font-size:20px;
+    letter-spacing:6px;
+    top:8px;
+  }
+
+  .solid-title{
+    padding:14px 20px !important;
+  }
+
+  .title-line-1{
+    font-size:42px !important;
+  }
+
+  .title-line-2{
+    font-size:58px !important;
+  }
+
+  .subtitle{
+    font-size:19px !important;
+  }
+
+  .home-grid{
+    gap:14px !important;
+  }
+
+  .hero-stats{
+    grid-template-columns:1fr !important;
+  }
+
+  .feature-grid,
+  .group-grid,
+  .map-line,
+  .shortcut-dock{
+    grid-template-columns:1fr !important;
+  }
+
+  .side-right{
+    margin-top:10px;
+  }
+}
+
+
+
 
 </style>
 <script data-goatcounter="https://ai-agri-education.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
