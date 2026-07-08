@@ -1395,6 +1395,19 @@ const $$ = s => document.querySelectorAll(s);
 const fmt = n => String(n).padStart(6,'0');
 const baseName = s => (s||'').replace(/_\d+$/,'');
 
+const PLAYER_ID_KEY = 'plantExplorerPlayerId';
+
+function getPlayerId(){
+  let id = localStorage.getItem(PLAYER_ID_KEY);
+
+  if(!id){
+    id = 'P-' + crypto.randomUUID();
+    localStorage.setItem(PLAYER_ID_KEY, id);
+  }
+
+  return id;
+}
+
 /* ----------------------- 0.5) 圖片最佳化（最終穩定簡化版） ----------------------- */
 const R2_IMAGE_ORIGIN = 'https://img.miracle-mind.org';
 
@@ -2168,6 +2181,7 @@ function submitScoreToGoogleSheet(score, correct, total){
   const state = loadGameState();
 
   const payload = {
+    playerId: getPlayerId(),
     name: $('#uname').value.trim() || '植物挑戰者',
     school: LOCKED_EXAM_SCHOOL,
     group: LOCKED_EXAM_GROUP,
