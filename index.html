@@ -2582,6 +2582,17 @@ function renderResult({correct, wrong, rows}){
   updateSummary(QUESTIONS.length, correct, wrong);
   updateReviewButton();
 
+   const retryBtn = document.getElementById('btnRetry');
+
+      if(retryBtn){
+      if(LAST_CHALLENGE_LABEL === '每日植物挑戰'){
+         retryBtn.classList.add('hide');
+      }else{
+       retryBtn.classList.remove('hide');
+      }
+    }
+
+
   const tb = $('#rBody');
   tb.innerHTML = '';
 
