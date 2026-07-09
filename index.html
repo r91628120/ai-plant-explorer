@@ -285,7 +285,7 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
 .question-hint{display:inline-block;color:#3a6b4b;font-size:14px;font-weight:900}
 
 
-/* v2.0 game widgets */
+/* v3.0 game widgets */
 .hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px auto 16px;max-width:720px}
 .stat-card{background:rgba(255,255,255,.92);border:2px solid rgba(255,255,255,.95);border-radius:18px;padding:12px 10px;box-shadow:0 10px 22px rgba(6,95,42,.1);font-weight:1000}
 .stat-card b{display:block;font-size:24px;color:#0b7a2c;margin-top:4px}.stat-card small{display:block;color:#577060;font-weight:900}
@@ -792,7 +792,7 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
   <div class="nav-wrap">
     <a href="#home" class="nav-logo">
       <span class="logo-mark">🌱</span>
-      <span>AI植物探索王 <span class="version">v2.0</span><small>全台植物識別挑戰賽</small></span>
+      <span>AI植物探索王 <span class="version">v3.0</span><small>全台植物識別挑戰賽</small></span>
     </a>
     <div class="nav-links">
       <a href="index.html" class="active">首頁</a>
@@ -817,7 +817,7 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
         <div class="panel news">
           <h3>📣 最新消息</h3>
           <ul>
-            <li>🏆 AI植物探索王 v2.0 開跑！<small>全台植物識別挑戰賽</small></li>
+            <li>🏆 AI植物探索王 v3.0 開跑！<small>全台植物識別挑戰賽</small></li>
             <li>🔥 新增連勝紀錄與每日挑戰<small>每天完成一次挑戰，連勝不中斷</small></li>
             <li>🗺️ 植物闖關地圖上線<small>從水生植物一路挑戰植物王</small></li>
           </ul>
@@ -1233,7 +1233,7 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
    <footer class="site-footer">
 
       <div class="footer-block">
-        <strong>🌱 AI植物探索王 v2.0</strong><br>
+        <strong>🌱 AI植物探索王 v3.0</strong><br>
          全台植物識別挑戰賽 × 植物圖鑑 × 校園植物學習平台
       </div>
 
@@ -1407,6 +1407,20 @@ function getPlayerId(){
 
   return id;
 }
+
+function requireNicknameForOfficialExam(){
+  const nameInput = document.getElementById('uname');
+  const name = nameInput.value.trim();
+
+  if(!name){
+    alert('請先輸入暱稱或代號，再開始正式排行榜挑戰。\n\n例如：小綠、植物小偵探、A01、小艾01');
+    nameInput.focus();
+    return false;
+  }
+
+  return true;
+}
+
 
 /* ----------------------- 0.5) 圖片最佳化（最終穩定簡化版） ----------------------- */
 const R2_IMAGE_ORIGIN = 'https://img.miracle-mind.org';
@@ -2642,7 +2656,12 @@ function submitExam(){
 }
 
 async function startNormalExam({quick=false} = {}){
+  if(!quick && !requireNicknameForOfficialExam()){
+    return;
+  }
+
   LAST_MODE = 'normal';
+
   LAST_WHO = $('#uname').value.trim() || '—';
   LAST_PAPER_MODE = $('#bankSel').value;
   LAST_CHALLENGE_LABEL = quick ? '快速體驗' : '正式挑戰';
