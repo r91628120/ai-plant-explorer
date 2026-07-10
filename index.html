@@ -1119,29 +1119,43 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
 
         <details open>
            <summary>🏆 排行榜計分方式</summary>
-             <p>
-                排行榜採「累積積分制」，不是只看單次最高分。
-                個人排行榜採「累積積分制」，正式挑戰、神秘植物挑戰與闖關地圖會列入個人排行榜積分；每日植物挑戰、快速體驗與練習區不列入排行榜。
-                快速體驗與練習區只供熟悉玩法，不列入排行榜。
-             </p>
-             <p>
-                每次挑戰的積分計算方式為：測驗分數 × 10。
-                例如：正式挑戰得 99 分，即獲得 990 積分。
-             </p>
+              <p>
+                 排行榜採「累積積分制」，不是只看單次最高分。
+                 目前只有正式100題挑戰會列入個人排行榜與學校排行榜。
+              </p>
+
+              <p>
+                  每日植物挑戰、植物闖關地圖、快速體驗、
+                  八大分類自由練習與錯題回顧，
+                  均屬於學習或練習功能，不列入任何排行榜。
+              </p>
+
+              <p>
+                   正式挑戰的積分計算方式為：測驗分數 × 10。
+                   例如：正式挑戰得99分，即獲得990積分。
+              </p>
         </details>
 
         <details>
-           <summary>🏫 學校積分規則</summary>
-             <p>
-              學校排行榜依照組別分為國小組、國中組、高中職組。
-              同一學校學生的正式挑戰積分會累加，形成學校積分排行榜。
-              每日植物挑戰、神秘植物挑戰、闖關地圖與練習區，不列入學校積分排行榜。
-             </p>
-             <p>
-               若選擇「其他學校」並輸入學校名稱，系統會先記錄，管理者確認後再加入正式學校名單。
-             </p>
-        </details>
+            <summary>🏫 學校積分規則</summary>
 
+              <p>
+                學校排行榜依照組別分為國小組、國中組與高中職組。
+                同一學校學生完成正式100題挑戰後，
+                積分會依學校與組別累加，形成各組的學校積分排行榜。
+              </p>
+
+              <p>
+                每日植物挑戰、植物闖關地圖、快速體驗、
+                八大分類自由練習與錯題回顧，
+                皆不列入學校積分排行榜。
+              </p>
+
+              <p>
+                若選擇「其他學校」並輸入學校名稱，系統會先記錄，
+                管理者確認後再加入正式學校名單。
+              </p>
+        </details>
         <details>
            <summary>🌱 組別說明</summary>
              <p>
@@ -1163,10 +1177,37 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
         </details>
 
         <details>
-           <summary>🔥 每日挑戰與連勝規則</summary>
+             <summary>🌟 每日挑戰、闖關地圖與練習區說明</summary>
+
+                 <p>
+                   每日植物挑戰每天提供一題植物或園藝資材辨識題，
+                   用於培養每日觀察與辨識習慣，不列入任何排行榜。
+                 </p>
+
+                 <p>
+                   植物闖關地圖每關10題，答對8題以上即可過關並解鎖下一關。
+                   闖關成果與徽章會保留在目前使用的裝置中，但不列入任何排行榜。
+                 </p>
+
+                 <p>
+                    八大分類自由練習提供水生植物、果樹、草本植物、資材、
+                    灌木、喬木、蔬菜與蔓性植物等分類練習，不列入任何排行榜。
+                 </p>
+        </details>
+
+
+        <details>
+            <summary>🔥 每日挑戰與連勝規則</summary>
+
              <p>
-                每日植物挑戰每天更換一題。完成每日挑戰或正式挑戰後，可累積今日完成紀錄與連勝天數。
+                每日植物挑戰每天更換一題。
+               完成每日植物挑戰或正式挑戰後，可累積今日完成紀錄與連勝天數。
              </p>
+
+            <p>
+                連勝紀錄屬於個人學習鼓勵功能，
+                不會增加個人排行榜或學校排行榜積分。
+            </p>
         </details>
 
          <br>
@@ -2061,7 +2102,7 @@ async function startAdventureStage(stageIndex){
       items: chosen,
       label: '闖關地圖',
       minutes: 8,
-      rankable: true
+      rankable: false
     });
     return;
   }
@@ -2071,7 +2112,7 @@ async function startAdventureStage(stageIndex){
     items: pick(bag, Math.min(10, bag.length)),
     label: '闖關地圖',
     minutes: 8,
-    rankable: true
+    rankable: false
   });
 }
 
@@ -2191,6 +2232,14 @@ function saveLocalScore(score, correct, total){
 
 function submitScoreToGoogleSheet(score, correct, total){
   if(!RANKING_URL) return;
+  // 每日挑戰、闖關地圖、練習區、快速體驗及錯題回顧
+  // 只有正式排行榜模式才送出成績
+  if(
+    LAST_CHALLENGE_LABEL !== '正式挑戰' ||
+    LAST_MODE === 'review'
+  ){
+    return;
+  }
 
   const state = loadGameState();
 
@@ -2526,13 +2575,23 @@ async function startDailyChallenge(){
 async function startMysteryChallenge(){
   const {pools} = await loadQuestions();
   const all = getAllItemsWithCategory(pools);
-  await startCustomExam({items:pick(all, Math.min(10, all.length)), label:'神秘植物挑戰', minutes:10, rankable:true});
+  await startCustomExam({items:pick(all, Math.min(10, all.length)), label:'神秘植物挑戰', minutes:10, rankable:false});
 }
 
 async function startStageChallenge(key){
   const {pools} = await loadQuestions();
-  const bag = (pools[key] || []).map(item => ({...item, categoryKey:key}));
-  await startCustomExam({items:pick(bag, Math.min(10, bag.length)), label:'闖關地圖', minutes:8, rankable:true});
+
+  const bag = (pools[key] || []).map(item => ({
+    ...item,
+    categoryKey: key
+  }));
+
+  await startCustomExam({
+    items: pick(bag, Math.min(10, bag.length)),
+    label: '闖關地圖',
+    minutes: 8,
+    rankable: false
+  });
 }
 
 function updateSummary(total, correct, wrong){
