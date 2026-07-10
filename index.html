@@ -953,7 +953,7 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
           <section id="dailyChallenge" class="daily-card">
             <div class="daily-head">
               <h3>🌟 每日植物挑戰</h3>
-              <span class="daily-tag">答對 +50 分</span>
+              <span class="daily-tag">我要挑戰</span>
             </div>
             <div class="daily-body">
               <img id="dailyPlantImg" alt="今日植物挑戰圖片" loading="lazy">
@@ -1121,7 +1121,7 @@ button.ghost{background:#eef2ff;color:#1d4ed8;box-shadow:none}
            <summary>🏆 排行榜計分方式</summary>
              <p>
                 排行榜採「累積積分制」，不是只看單次最高分。
-                個人排行榜採「累積積分制」，正式挑戰、每日植物挑戰、神秘植物挑戰與闖關地圖，皆會列入個人排行榜積分。
+                個人排行榜採「累積積分制」，正式挑戰、神秘植物挑戰與闖關地圖會列入個人排行榜積分；每日植物挑戰、快速體驗與練習區不列入排行榜。
                 快速體驗與練習區只供熟悉玩法，不列入排行榜。
              </p>
              <p>
@@ -2519,7 +2519,7 @@ async function startDailyChallenge(){
     items:[item],
     label:'每日植物挑戰',
     minutes:2,
-    rankable:true
+    rankable:false
   });
 }
 
