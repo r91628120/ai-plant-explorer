@@ -814,6 +814,329 @@ button.ghost{background:linear-gradient(180deg,#ffffff,#c0d5e6);color:var(--chro
   font-weight:800;
 }
 
+/* ===== soft green cute theme override ===== */
+:root{
+  --chrome:#d9f7cf;
+  --chrome-soft:#ecffe6;
+  --chrome-light:#f7fff1;
+  --chrome-edge:#8bcf78;
+  --chrome-muted:#b8ddb0;
+  --carbon:#14532d;
+  --signal:#f59e0b;
+  --nav-gold:#256d35;
+  --plate:#f2ffe9;
+  --surface:#ffffff;
+  --hairline:#a7d99a;
+  --shadow:0 4px 0 rgba(122,181,104,.42),0 12px 24px rgba(22,129,58,.12);
+}
+
+html,body{
+  background:
+    radial-gradient(circle at 10% 12%,rgba(255,255,255,.78) 0 42px,transparent 44px),
+    radial-gradient(circle at 88% 16%,rgba(255,255,255,.62) 0 58px,transparent 60px),
+    linear-gradient(90deg,rgba(142,207,120,.14) 1px,transparent 1px),
+    linear-gradient(180deg,#e9fff4 0%,#f7ffe8 46%,#d7f7cb 100%);
+  background-size:auto,auto,18px 18px,auto;
+}
+
+.main-nav{
+  background:linear-gradient(180deg,#fafff6,#dff7d3);
+  border-bottom:3px solid #8bcf78;
+  box-shadow:0 4px 0 rgba(255,255,255,.86),0 8px 18px rgba(22,129,58,.13);
+}
+
+.nav-logo{
+  color:#14532d;
+  text-shadow:0 1px 0 #fff;
+}
+
+.logo-mark{
+  background:linear-gradient(180deg,#ffffff,#e6ffd8);
+  border-color:#ffffff;
+  box-shadow:inset 0 -3px 0 #b7e69c,0 3px 0 rgba(122,181,104,.42);
+}
+
+.nav-logo small{
+  color:#16813a;
+}
+
+.version{
+  color:#14532d;
+  background:linear-gradient(180deg,#fff7bd,#facc15);
+  border-color:#f4c430;
+  border-radius:999px;
+  box-shadow:0 2px 0 rgba(180,128,0,.24);
+}
+
+.nav-links a{
+  color:#256d35;
+  background:rgba(255,255,255,.52);
+  border:1px solid rgba(139,207,120,.34);
+  border-radius:999px;
+  text-transform:none;
+  box-shadow:none;
+}
+
+.nav-links a:hover,
+.nav-links a.active{
+  color:#14532d;
+  background:linear-gradient(180deg,#fff7bd,#dcfce7);
+  border-color:#8bcf78;
+  box-shadow:0 3px 0 rgba(122,181,104,.35);
+}
+
+.home-stage{
+  border-color:#8bcf78;
+  border-radius:0 0 26px 26px;
+  background:
+    radial-gradient(circle at 12% 14%,rgba(255,255,255,.72) 0 64px,transparent 66px),
+    radial-gradient(circle at 88% 10%,rgba(255,255,255,.58) 0 82px,transparent 84px),
+    linear-gradient(135deg,rgba(255,255,255,.35) 0 14px,transparent 15px),
+    linear-gradient(180deg,#ccf7ee 0%,#eefbd0 54%,#bfe8a9 100%);
+  box-shadow:0 4px 0 rgba(122,181,104,.45),0 18px 36px rgba(22,129,58,.16);
+}
+
+.home-stage:before{
+  background:
+    radial-gradient(ellipse at 50% 100%,rgba(99,169,75,.34) 0 52%,transparent 54%),
+    linear-gradient(90deg,rgba(255,255,255,.2) 1px,transparent 1px);
+  background-size:auto,22px 22px;
+  opacity:.45;
+}
+
+.home-stage:after{
+  content:"🌱";
+  position:absolute;
+  right:22px;
+  bottom:18px;
+  font-size:54px;
+  opacity:.38;
+  filter:drop-shadow(0 4px 0 rgba(255,255,255,.65));
+  pointer-events:none;
+}
+
+.panel,.card,
+.start-box,
+.daily-card,.streak-card,.adventure-map,.shortcut-dock,
+.level-panel,.achievement-panel,
+.practice,.ranking-summary-card,.full-rank-grid li,
+.school-help,.rules details{
+  background:linear-gradient(180deg,#ffffff,#f2ffe9);
+  border-color:#8bcf78;
+  border-top-color:#ffffff;
+  border-left-color:#ffffff;
+  border-radius:18px;
+  box-shadow:0 4px 0 rgba(122,181,104,.35),0 12px 22px rgba(22,129,58,.10);
+}
+
+.mascot{
+  background:linear-gradient(180deg,#ffffff,#e8ffd9);
+}
+
+.bubble{
+  color:#14532d;
+  border-color:#8bcf78;
+  border-radius:20px;
+  box-shadow:0 5px 0 rgba(122,181,104,.28);
+}
+
+.sign{
+  background:linear-gradient(180deg,#8fd16f,#4f9f3d);
+  border-radius:18px;
+}
+
+.solid-title{
+  background:linear-gradient(180deg,#ffffff,#efffe6);
+  border-color:#8bcf78;
+  border-top-color:#ffffff;
+  border-left-color:#ffffff;
+  border-radius:24px;
+  box-shadow:0 7px 0 rgba(122,181,104,.55),0 16px 26px rgba(22,129,58,.14);
+}
+
+.title-line-1{
+  color:#ffffff;
+  -webkit-text-stroke:2px #16813a;
+  text-shadow:3px 4px 0 #7abf58;
+}
+
+.title-line-2{
+  color:#facc15;
+  -webkit-text-stroke:3px #16813a;
+  text-shadow:4px 5px 0 #7abf58;
+}
+
+.ribbon{
+  color:#14532d;
+  background:linear-gradient(180deg,#fff7bd,#facc15);
+  border-color:#fff4a3;
+  border-right-color:#d6a600;
+  border-bottom-color:#d6a600;
+  border-radius:999px;
+  box-shadow:0 4px 0 rgba(180,128,0,.22);
+}
+
+.goal{
+  color:#245335;
+  background:rgba(255,255,255,.88);
+  border-color:#8bcf78;
+  border-radius:16px;
+}
+
+input[type=text],select{
+  border-color:#a7d99a;
+  border-radius:12px;
+  background:#ffffff;
+}
+
+.group-card{
+  background:linear-gradient(180deg,#ffffff,#f3ffe8);
+  border-color:#9bdc80;
+  border-radius:22px;
+  box-shadow:0 6px 0 rgba(122,181,104,.35),0 14px 24px rgba(22,129,58,.11);
+}
+
+.group-card.blue{
+  background:linear-gradient(180deg,#ffffff,#e8f8ff);
+  border-color:#9bd7f0;
+}
+
+.group-card.purple{
+  background:linear-gradient(180deg,#ffffff,#f5efff);
+  border-color:#cdb7ff;
+}
+
+.group-card.orange{
+  background:linear-gradient(180deg,#ffffff,#fff3dc);
+  border-color:#f8bf72;
+}
+
+.card-pic{
+  border-color:#ffffff;
+  border-radius:18px;
+  box-shadow:0 4px 0 rgba(122,181,104,.20);
+}
+
+.pic-label,
+.achievement-item,
+.tabs span,
+.adventure-badge,
+.player-title,
+.achievement-badge,
+.mini-badge,
+.pill,.counter-badge{
+  border-radius:999px;
+}
+
+button,.btn{
+  color:#ffffff;
+  background:linear-gradient(180deg,#43c85d,#16813a);
+  border-color:#b7f7a6;
+  border-right-color:#0f7a31;
+  border-bottom-color:#0f7a31;
+  border-radius:16px;
+  box-shadow:0 5px 0 rgba(22,105,45,.26);
+}
+
+button.ghost,
+.rank-more button,
+.shortcut-dock a,.shortcut-dock button{
+  color:#14532d;
+  background:linear-gradient(180deg,#ffffff,#e8ffd9);
+  border-color:#b7e69c;
+  border-radius:16px;
+  box-shadow:0 4px 0 rgba(122,181,104,.28);
+}
+
+.practice-grid button,
+.daily-tag,
+.stage-btn.king{
+  background:linear-gradient(180deg,#ffd666,#f59e0b);
+  border-color:#fff4a3;
+  color:#78350f;
+}
+
+.rank h3,.rank h3.blue{
+  color:#14532d;
+  background:linear-gradient(180deg,#e8ffd9,#b9e99f);
+  border-bottom:2px solid #8bcf78;
+}
+
+.tabs span{
+  background:#f2ffe9;
+  border-color:#b7e69c;
+  color:#245335;
+}
+
+.tabs span.active{
+  background:#facc15;
+  color:#14532d;
+  border-color:#eab308;
+}
+
+.stat-card{
+  background:linear-gradient(180deg,#ffffff,#f2ffe9);
+  border-color:#b7e69c;
+  border-radius:18px;
+  box-shadow:0 4px 0 rgba(122,181,104,.28);
+}
+
+.stat-card b{
+  color:#256d35;
+}
+
+.daily-card{
+  background:linear-gradient(180deg,#ffffff,#fff8d7);
+  border-color:#f6d66f;
+}
+
+.streak-card,
+.adventure-map,
+.adventure-status{
+  background:linear-gradient(180deg,#ffffff,#e9ffe4);
+  border-color:#9bdc80;
+}
+
+.stage-btn{
+  color:#14532d;
+  border-color:#b7e69c;
+  border-radius:16px;
+  box-shadow:0 4px 0 rgba(122,181,104,.25);
+}
+
+.level-panel{
+  background:linear-gradient(180deg,#fffdf0,#f2ffe9);
+  border-color:#facc15;
+}
+
+.achievement-panel h3,
+.step-title,
+.rules h2{
+  color:#16813a;
+}
+
+.school-help summary,
+.rules summary{
+  color:#14532d;
+  background:#e8ffd9;
+}
+
+.school-help summary:hover,
+.rules summary:hover{
+  background:#dcfce7;
+}
+
+.site-footer{
+  background:linear-gradient(180deg,#63b949,#16813a);
+  box-shadow:inset 0 3px 0 rgba(255,255,255,.24);
+}
+
+@media(max-width:760px){
+  .home-stage{border-radius:0 0 20px 20px}
+  .panel,.card{border-radius:16px}
+  .solid-title{border-radius:20px}
+}
+
 
 </style>
 <script data-goatcounter="https://ai-agri-education.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
