@@ -2866,18 +2866,30 @@ function cleanPlantBaseName(name){
 }
 
 function getDailyPlantItem(pools){
-  const all = getAllItemsWithCategory(pools);
+  // 每天輪替一個分類：A → B → C → D → E → F → G → H。
+  // 完成八天後回到 A 類，並選該分類的下一種植物。
+  const categoryOrder = ['A','B','C','D','E','F','G','H']
+    .filter(key => Array.isArray(pools[key]) && pools[key].length > 0);
+
+  if(categoryOrder.length === 0) return null;
+
+  const [year, month, day] = taiwanTodayKey().split('-').map(Number);
+  const dayNumber = Math.floor(Date.UTC(year, month - 1, day) / 86400000);
+  const categoryKey = categoryOrder[dayNumber % categoryOrder.length];
   const uniqueMap = new Map();
 
-  all.forEach(item => {
+  pools[categoryKey].forEach(item => {
     const baseName = cleanPlantBaseName(item.name);
-    if(!uniqueMap.has(baseName)){
-      uniqueMap.set(baseName, item);
+    if(baseName && !uniqueMap.has(baseName)){
+      uniqueMap.set(baseName, {...item, categoryKey});
     }
   });
 
   const uniquePlants = Array.from(uniqueMap.values());
-  const index = hashString(taiwanTodayKey()) % uniquePlants.length;
+  if(uniquePlants.length === 0) return null;
+
+  const categoryRound = Math.floor(dayNumber / categoryOrder.length);
+  const index = categoryRound % uniquePlants.length;
 
   return uniquePlants[index];
 }
