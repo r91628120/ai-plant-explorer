@@ -12,15 +12,25 @@
     "aliases": ["明正", "明正國民中學"]
   },
   {
-    "id": "ctavs",
+    "id": "ctvs",
     "name": "佳冬高農",
     "group": "senior",
-    "aliases": ["佳冬農工", "國立佳冬高農", "佳冬高級農業職業學校"]
+    "aliases": ["佳冬高農", "國立佳冬高農", "國立佳冬高級農業職業學校"]
   },
   {
     "id": "wdes",
     "name": "文德國小",
     "group": "elementary",
     "aliases": ["文德國民小學"]
+  },
+  {
+    "id": "TWAIS",
+    "name": "曾文農工",
+    "group": "senior",
+    "aliases": ["佳冬農工", "國立曾文農工", "國立曾文高級農工職業學校"]
   }
+
+
+
+
 ]
