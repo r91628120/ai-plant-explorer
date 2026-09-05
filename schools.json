@@ -34,6 +34,18 @@
     "name": "大成國小(藝術實驗小學)",
     "group": "elementary",
     "aliases": ["大成國民小學"]
+  },
+ {
+    "id": "DGHS",
+    "name": "東港國中",
+    "group": "junior",
+    "aliases": ["東港國民中學"]
+  },
+ {
+    "id": "CAIS",
+    "name": "旗山農工",
+    "group": "senior",
+    "aliases": ["旗山農工", "國立旗山農工", "國立旗山高級農工職業學校"]
   }
 
 
