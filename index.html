@@ -1286,7 +1286,7 @@ button.ghost,
 
             
           <div class="helper-row">
-            <span id="qCountHint" class="question-hint">（目前題數：100 題）</span>
+            <span id="qCountHint" class="question-hint">（目前題數：50 題）</span>
             <span class="pill">來源：<b id="sourceLabel">R2 + Cloudflare CDN</b></span>
             <span class="counter-badge" id="cloudBadge" title="雲端連線狀態"><span class="badge-dot dot-off" id="cloudDot"></span><span id="cloudText" class="muted">雲端：離線</span></span>
             <span class="pill">累計挑戰：<b id="globalCount">000000 人</b></span>
@@ -1350,13 +1350,13 @@ button.ghost,
           <article class="group-card">
             <h2>國小組</h2><div class="age">四～六年級適用</div>
             <div class="card-pic pic1"><span class="pic-label">校園植物探索</span></div>
-            <ul class="list"><li>入門挑戰模式</li><li>可愛徽章獎勵</li><li>適合課堂暖身</li></ul>
+            <ul class="list"><li>正式30題挑戰</li><li>入門挑戰模式</li><li>可愛徽章獎勵</li><li>適合課堂暖身</li></ul>
             <button type="button" class="js-group-start" data-group="elementary">立即挑戰<br>排行榜 ➜</button>
           </article>
           <article class="group-card blue">
             <h2>國中組</h2><div class="age">七～九年級適用</div>
             <div class="card-pic pic2"><span class="pic-label">植物達人挑戰</span></div>
-            <ul class="list"><li>生涯探索入口</li><li>學校積分競賽</li><li>縣市排行榜規劃</li></ul>
+            <ul class="list"><li>正式50題挑戰</li><li>生涯探索入口</li><li>學校積分競賽</li><li>縣市排行榜規劃</li></ul>
             <button type="button" class="js-group-start" data-group="junior">立即挑戰<br>排行榜 ➜</button>
           </article>
           <article class="group-card purple">
@@ -1375,6 +1375,7 @@ button.ghost,
                </div>
 
                <ul class="list">
+                 <li>正式50題挑戰</li>
                  <li>自由參加模式</li>
                  <li>教師家長皆可挑戰</li>
                  <li>植物愛好者適用</li>
@@ -1489,7 +1490,7 @@ button.ghost,
            <summary>🏆 排行榜計分方式</summary>
               <p>
                  排行榜採「累積積分制」，不是只看單次最高分。
-                 目前只有正式100題挑戰會列入個人排行榜與學校排行榜。
+                 目前只有各組正式挑戰會列入個人排行榜與學校排行榜。
               </p>
 
               <p>
@@ -1509,7 +1510,7 @@ button.ghost,
 
               <p>
                 學校排行榜依照組別分為國小組、國中組與高中職組。
-                同一學校學生完成正式100題挑戰後，
+                同一學校學生完成所屬組別的正式挑戰後，
                 積分會依學校與組別累加，形成各組的學校積分排行榜。
               </p>
 
@@ -1537,7 +1538,7 @@ button.ghost,
         <details>
             <summary>📝 正式挑戰規則</summary>
               <p>
-                正式挑戰採用園藝植物題庫「全部題庫依比例組卷」，共 100 題，作答時間 40 分鐘。
+                正式挑戰依組別採不同題數：國小組30題、國中組50題、高中職組100題、自由組50題；皆採園藝植物題庫依比例組卷，作答時間統一為40分鐘。
               </p>
               <p>
                 題目包含植物與園藝資材，皆屬於植物識別與農業學習範圍。
@@ -1756,6 +1757,12 @@ const COUNTER_URL = 'https://script.google.com/macros/s/AKfycbxtY_zohVsck_4dnPvX
 const RANKING_URL = 'https://script.google.com/macros/s/AKfycbxJJhE2HA7p-exFGG54xoVhTaGDaQb4V6HF0bF641CuZOoAKuFwDHHKFoxELZf6whhe/exec';
 
 const QUOTA_100 = { B:20, G:20, A:4, H:6, C:20, E:10, F:10, D:10 };
+const OFFICIAL_EXAM_CONFIGS = {
+  elementary: { total:30, quota:{ A:1, B:6, C:6, D:3, E:3, F:3, G:6, H:2 } },
+  junior: { total:50, quota:{ A:2, B:10, C:10, D:5, E:5, F:5, G:10, H:3 } },
+  senior: { total:100, quota:QUOTA_100 },
+  free: { total:50, quota:{ A:2, B:10, C:10, D:5, E:5, F:5, G:10, H:3 } }
+};
 const LABELS = ['A','B','C','D'];
 
 let QUESTIONS = [];
@@ -1876,7 +1883,8 @@ function optimizeThumb(url){
 /* ----------------------- 0.6) 題數顯示 ----------------------- */
 function getSelectedQuestionCount(){
   const mode = $('#bankSel').value;
-  return mode === 'mix' ? 100 : 50;
+  const group = $('#groupSel').value || 'free';
+  return mode === 'mix' ? (OFFICIAL_EXAM_CONFIGS[group] || OFFICIAL_EXAM_CONFIGS.free).total : 50;
 }
 
 function updateQuestionCountUI(){
@@ -2007,17 +2015,17 @@ async function loadQuestions(){
   return {keys, pools};
 }
 
-function makePaperMix(pools){
+function makePaperMix(pools, quota = QUOTA_100, total = 100){
   const picked = [];
 
-  for(const [k, n] of Object.entries(QUOTA_100)){
+  for(const [k, n] of Object.entries(quota)){
     if(!pools[k]) continue;
     const arr = pick(pools[k], Math.min(n, pools[k].length))
       .map(item => ({ ...item, categoryKey:k }));
     picked.push(...arr);
   }
 
-  let deficit = 100 - picked.length;
+  let deficit = total - picked.length;
   if(deficit > 0){
     const all = Object.entries(pools).flatMap(([k, arr]) =>
       arr.map(item => ({ ...item, categoryKey:k }))
@@ -2028,7 +2036,7 @@ function makePaperMix(pools){
     picked.push(...pick(candidates, Math.min(deficit, candidates.length)));
   }
 
-  return picked.slice(0, 100);
+  return picked.slice(0, total);
 }
 
 function makePaperSingle(pools, key, N){
@@ -3120,7 +3128,8 @@ async function startNormalExam({quick=false} = {}){
   }else{
     const mode = $('#bankSel').value;
     if(mode === 'mix'){
-      chosen = makePaperMix(pools);
+      const config = OFFICIAL_EXAM_CONFIGS[LOCKED_EXAM_GROUP] || OFFICIAL_EXAM_CONFIGS.free;
+      chosen = makePaperMix(pools, config.quota, config.total);
     }else{
       chosen = makePaperSingle(pools, mode, 50);
 
@@ -3247,7 +3256,10 @@ document.querySelectorAll('.practice-start').forEach(btn => {
 });
 
 $('#bankSel').addEventListener('change', updateQuestionCountUI);
-$('#groupSel').addEventListener('change', renderSchoolOptions);
+$('#groupSel').addEventListener('change', () => {
+  renderSchoolOptions();
+  updateQuestionCountUI();
+});
 $('#schoolName').addEventListener('change', () => {
   const otherInput = document.getElementById('otherSchoolName');
 
