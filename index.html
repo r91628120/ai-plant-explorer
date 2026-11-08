@@ -543,6 +543,59 @@ button.ghost{background:linear-gradient(180deg,#ffffff,#c0d5e6);color:var(--chro
   line-height:1.7;
 }
 
+.personal-rank-tabs{
+  flex-wrap:wrap;
+}
+
+.personal-rank-tabs span{
+  flex:1 1 72px;
+  cursor:pointer;
+}
+
+.personal-rank-accordion{
+  margin-top:12px;
+  min-width:0;
+}
+
+.personal-rank-section{
+  margin-bottom:10px;
+  border:2px solid #b7e69c;
+  border-radius:12px;
+  background:#f8fff4;
+  overflow:hidden;
+}
+
+.personal-rank-section summary{
+  cursor:pointer;
+  padding:12px 14px;
+  color:#14532d;
+  font-weight:1000;
+  background:#efffe6;
+}
+
+.personal-rank-section summary small{
+  color:#617261;
+}
+
+.personal-rank-section ol{
+  margin:0;
+  padding:10px 12px 0;
+  list-style:none;
+}
+
+.full-rank-grid li.rank-hit{
+  background:#e8f8c9;
+  border-color:#8bcf78;
+  box-shadow:0 0 0 3px rgba(139,207,120,.24),0 6px 14px rgba(22,129,58,.12);
+}
+
+.empty-rank{
+  margin:0;
+  padding:16px;
+  color:#617261;
+  font-weight:900;
+}
+
 .full-rank-grid li{
   background:linear-gradient(180deg,#ffffff,#f8fff4);
   border:1px solid #e5f3df;
@@ -605,6 +658,24 @@ button.ghost{background:linear-gradient(180deg,#ffffff,#c0d5e6);color:var(--chro
 
   .rank-search-box{
     grid-template-columns:1fr;
+  }
+
+  .personal-rank-tabs{
+    padding:10px 10px 0;
+  }
+
+  .personal-rank-tabs span{
+    flex-basis:120px;
+  }
+
+  .full-rank-grid li{
+    grid-template-columns:32px minmax(0,1fr) auto;
+    gap:7px;
+    overflow-wrap:anywhere;
+  }
+
+  .personal-rank-section ol{
+    padding:8px 10px 0;
   }
 }
 
@@ -1362,7 +1433,7 @@ button.ghost,
           <article class="group-card purple">
             <h2>高中職組</h2><div class="age">高中職學生適用</div>
             <div class="card-pic pic3"><span class="pic-label">植物王競技場</span></div>
-            <ul class="list"><li>丙級檢定模式</li><li>正式100題挑戰</li><li>全國排行榜規劃</li></ul>
+            <ul class="list"><li>丙級檢定模式</li><li>正式50題挑戰</li><li>全國排行榜規劃</li></ul>
             <button type="button" class="js-group-start" data-group="senior">立即挑戰<br>排行榜 ➜</button>
           </article>
           
@@ -1442,7 +1513,13 @@ button.ghost,
 
       <aside class="side-right" id="ranking">
         <div class="panel rank">
-          <h3>🏆 個人排行榜 TOP10</h3>
+          <h3>🏆 個人學習積分榜 TOP10</h3>
+          <div class="tabs personal-rank-tabs" id="personalRankTabs">
+            <span class="active" data-group="elementary">國小組</span>
+            <span data-group="junior">國中組</span>
+            <span data-group="senior">高中職組</span>
+            <span data-group="free">自由組</span>
+          </div>
           <ol id="personalRankList">
             <li><span class="no">1</span><span>植物王<br><small>潮州國中</small></span><b>98分</b></li>
             <li><span class="no">2</span><span>植物博士<br><small>明正國中</small></span><b>95分</b></li>
@@ -1451,14 +1528,14 @@ button.ghost,
             <li><span class="no">5</span><span>校園小偵探<br><small>長治國中</small></span><b>90分</b></li>
           </ol>
           
-          <div class="note">個人排行榜採累積積分制，完成挑戰越多，積分越高。</div>
+          <div class="note">各組分開累積學習積分，只與相同組別參加者排名。</div>
            <div class="rank-more">
-             <button id="btnFullPersonalRank" type="button">查看完整排行榜與我的排名 ➜</button>
+              <button id="btnFullPersonalRank" type="button">查看完整個人榜與我的排名 ➜</button>
            </div>
 
         </div>
         <div class="panel rank">
-          <h3 class="blue">🏫 學校積分排行榜 TOP10</h3>
+          <h3 class="blue">🏫 學校學習積分榜 TOP10</h3>
           <div class="tabs" id="schoolRankTabs">
              
               <span class="active" data-group="elementary">國小組</span>
@@ -1473,10 +1550,10 @@ button.ghost,
             <li><span class="no">4</span><span>萬丹國中</span><b>9,680分</b></li>
             <li><span class="no">5</span><span>長治國中</span><b>8,920分</b></li>
           </ol>
-          <div class="note">本站遊戲依國小組、國中組、高中職組分開計算，並加入最低參與人數門檻。</div>
+          <div class="note">依國小組、國中組、高中職組分開呈現各校學習積分。</div>
 
           <div class="rank-more">
-            <button id="btnFullSchoolRank" type="button">查看完整排行榜與我的排名 ➜</button>
+              <button id="btnFullSchoolRank" type="button">查看完整學校榜 ➜</button>
           </div>
 
         </div>
@@ -1487,37 +1564,40 @@ button.ghost,
        <h2>📘 AI植物探索王競賽規則說明</h2>
 
         <details open>
-           <summary>🏆 排行榜計分方式</summary>
+           <summary>🏆 個人學習積分榜計分方式</summary>
               <p>
-                 排行榜採「累積積分制」，不是只看單次最高分。
-                 目前只有各組正式挑戰會列入個人排行榜與學校排行榜。
+                 個人學習積分榜依組別分為國小組、國中組、高中職組與自由組；各組參加者只會與相同組別的參加者排名，不設跨組別個人總排行榜。
               </p>
 
               <p>
                   每日植物挑戰、植物闖關地圖、快速體驗、
                   八大分類自由練習與錯題回顧，
-                  均屬於學習或練習功能，不列入任何排行榜。
+                   均屬學習或練習功能，不列入任何排行榜；只有各組正式挑戰會列入個人學習積分榜。
               </p>
 
               <p>
                    正式挑戰的積分計算方式為：測驗分數 × 10。
-                   例如：正式挑戰得99分，即獲得990積分。
+                    例如：正式挑戰獲得90分，即取得900積分。
+               </p>
+
+               <p>
+                    個人學習積分榜採累積學習積分制，完成正式挑戰的次數越多，累積積分越高；同時保留顯示挑戰次數與個人最高分。
               </p>
         </details>
 
         <details>
-            <summary>🏫 學校積分規則</summary>
+            <summary>🏫 學校學習積分榜規則</summary>
 
               <p>
-                學校排行榜依照組別分為國小組、國中組與高中職組。
-                同一學校學生完成所屬組別的正式挑戰後，
-                積分會依學校與組別累加，形成各組的學校積分排行榜。
+                學校學習積分榜依組別分為國小組、國中組與高中職組；自由組只列入個人學習積分榜，不列入學校學習積分榜。
               </p>
 
               <p>
-                每日植物挑戰、植物闖關地圖、快速體驗、
-                八大分類自由練習與錯題回顧，
-                皆不列入學校積分排行榜。
+                學生完成所屬組別的正式挑戰後，積分會依照學校與組別分別累加。學校學習積分榜主要呈現各校學生參與植物學習與正式挑戰的熱度，不代表正式校際競賽成績。
+              </p>
+
+              <p>
+                每日植物挑戰、闖關地圖、快速體驗、八大分類自由練習與錯題回顧，均不列入學校學習積分榜。
               </p>
 
               <p>
@@ -1528,17 +1608,26 @@ button.ghost,
         <details>
            <summary>🌱 組別說明</summary>
              <p>
-              自由組：一般民眾、大學生、教師、家長、植物愛好者皆可參加。
+               國小組：四至六年級學生適用。
              </p>
              <p>
-              國小組、國中組、高中職組：提供學生依照就學階段參與校園植物競賽。
+                國中組：七至九年級學生適用。
+              </p>
+              <p>
+                高中職組：高中職學生適用。
+              </p>
+              <p>
+                自由組：教師、家長、大學生、農民、植物愛好者與一般民眾皆可參加。
              </p>
         </details>
 
         <details>
             <summary>📝 正式挑戰規則</summary>
               <p>
-                正式挑戰依組別採不同題數：國小組30題、國中組50題、高中職組100題、自由組50題；皆採園藝植物題庫依比例組卷，作答時間統一為40分鐘。
+                國小組30題、國中組50題、高中職組50題、自由組50題；各組正式挑戰皆採百分制，作答時間統一為40分鐘。
+              </p>
+              <p>
+                正式挑戰成績會列入所屬組別的個人學習積分榜；國小、國中與高中職組也會列入所屬組別的學校學習積分榜。
               </p>
               <p>
                 題目包含植物與園藝資材，皆屬於植物識別與農業學習範圍。
@@ -1586,8 +1675,8 @@ button.ghost,
      </section>
 
   <section id="fullRankingPage" class="panel full-rank-page hide">
-       <h2>🏆 完整排行榜</h2>
-        <p>目前顯示正式排行榜資料。</p>
+        <h2>🏆 完整學習積分榜</h2>
+         <p>完整個人排行榜依組別顯示，每100名為一個可展開區段。可使用暱稱搜尋自己的組別與排名。</p>
 
     <div class="ranking-summary">
 
@@ -1621,12 +1710,18 @@ button.ghost,
 
     <div class="full-rank-grid">
       <div>
-         <h3>🏆 個人排行榜</h3>
-          <ol id="fullPersonalRankList"></ol>
+         <h3>🏆 個人學習積分榜</h3>
+          <div class="tabs personal-rank-tabs" id="fullPersonalRankTabs">
+            <span class="active" data-group="elementary">國小組</span>
+            <span data-group="junior">國中組</span>
+            <span data-group="senior">高中職組</span>
+            <span data-group="free">自由組</span>
+          </div>
+          <div id="fullPersonalRankList" class="personal-rank-accordion"></div>
       </div>
 
       <div>
-          <h3>🏫 學校排行榜</h3>
+          <h3>🏫 學校學習積分榜</h3>
           <div class="tabs" id="fullSchoolRankTabs">
             
             <span class="active" data-group="elementary">國小組</span>
@@ -1760,7 +1855,7 @@ const QUOTA_100 = { B:20, G:20, A:4, H:6, C:20, E:10, F:10, D:10 };
 const OFFICIAL_EXAM_CONFIGS = {
   elementary: { total:30, quota:{ A:1, B:6, C:6, D:3, E:3, F:3, G:6, H:2 } },
   junior: { total:50, quota:{ A:2, B:10, C:10, D:5, E:5, F:5, G:10, H:3 } },
-  senior: { total:100, quota:QUOTA_100 },
+  senior: { total:50, quota:{ A:2, B:10, C:10, D:5, E:5, F:5, G:10, H:3 } },
   free: { total:50, quota:{ A:2, B:10, C:10, D:5, E:5, F:5, G:10, H:3 } }
 };
 const LABELS = ['A','B','C','D'];
@@ -1791,6 +1886,7 @@ let SCHOOL_RANK_DATA = {
 };
 
 let FULL_PERSONAL_DATA = [];
+let CURRENT_PERSONAL_RANK_GROUP = 'elementary';
 
 let SCHOOL_LIST = [];
 
@@ -2657,18 +2753,14 @@ function rankNo(i){
 
 function renderRankings(){
   const demo = [
-    {name:'植物王', school:'潮州國中', score:98},
-    {name:'植物博士', school:'明正國中', score:95},
-    {name:'植物達人', school:'麟洛國中', score:93},
-    {name:'花卉高手', school:'潮州國中', score:92},
-    {name:'校園小偵探', school:'長治國中', score:90}
+    {name:'植物王', school:'潮州國中', score:98, group:'junior'},
+    {name:'植物博士', school:'明正國中', score:95, group:'junior'},
+    {name:'植物達人', school:'麟洛國中', score:93, group:'junior'},
+    {name:'花卉高手', school:'潮州國中', score:92, group:'junior'},
+    {name:'校園小偵探', school:'長治國中', score:90, group:'junior'}
   ];
-  const scores = getLocalScores().map(s => ({name:s.name, school:s.school, score:s.score}));
-  const merged = scores.concat(demo).sort((a,b) => b.score - a.score).slice(0,10);
-  const list = $('#personalRankList');
-  if(list){
-    list.innerHTML = merged.map((r,i) => `<li><span class="no">${i+1}</span><span>${r.name}<br><small>${r.school}</small></span><b>${r.score}分</b></li>`).join('');
-  }
+  const scores = getLocalScores();
+  updatePersonalRanking(scores.concat(demo).sort((a,b) => b.score - a.score));
 
   const schoolMap = new Map([
     ['潮州國中',12560],['明正國中',11820],['佳冬高農',10750],['萬丹國中',9680],['長治國中',8920]
@@ -2721,18 +2813,24 @@ async function loadRankingsFromGoogleSheet(){
   }
 }
 
+function getPersonalRankingsForGroup(personal, group = CURRENT_PERSONAL_RANK_GROUP){
+  return (personal || []).filter(r => String(r.group || 'free') === group);
+}
+
 function updatePersonalRanking(personal){
   const list = document.getElementById('personalRankList');
   if(!list) return;
 
-  if(personal.length === 0){
+  const groupPersonal = getPersonalRankingsForGroup(personal);
+
+  if(groupPersonal.length === 0){
     list.innerHTML = `
       <li><span class="no">1</span><span>尚無成績<br><small>等待第一位植物王</small></span><b>0分</b></li>
     `;
     return;
   }
 
-  list.innerHTML = personal.slice(0,10).map((r, i) => `
+  list.innerHTML = groupPersonal.slice(0,10).map((r, i) => `
     <li>
       <span class="no">${rankNo(i)}</span>
       <span>
@@ -2765,21 +2863,70 @@ function updateSchoolRanking(schools){
   `).join('');
 }
 
-function updateFullPersonalRanking(personal){
+function updateFullPersonalRanking(personal, focusIndex = null){
   const list = document.getElementById('fullPersonalRankList');
   if(!list) return;
 
-  list.innerHTML = personal.slice(0,50).map((r, i) => `
-    <li>
-      <span class="no">${rankNo(i)}</span>
-      <span>
-        ${r.name || '植物挑戰者'}<br>
-        <small>${r.school || '未填學校'}｜挑戰 ${Number(r.attempts || 0)} 次｜最高 ${Number(r.bestScore || 0)} 分</small><br>
-        <span class="player-title">👑 ${titleByScore(Number(r.bestScore || 0))}</span>
-      </span>
-      <b>${Number(r.score || 0).toLocaleString()}分</b>
-    </li>
-  `).join('');
+  const groupPersonal = getPersonalRankingsForGroup(personal);
+  if(groupPersonal.length === 0){
+    list.innerHTML = '<p class="empty-rank">這個組別目前尚無成績。</p>';
+    return;
+  }
+
+  list.innerHTML = Array.from(
+    {length: Math.ceil(groupPersonal.length / 100)},
+    (_, sectionIndex) => {
+      const start = sectionIndex * 100;
+      const end = Math.min(start + 100, groupPersonal.length);
+      const isOpen = focusIndex === null ? sectionIndex === 0 : focusIndex >= start && focusIndex < end;
+      const rows = groupPersonal.slice(start, end).map((r, index) => {
+        const rankIndex = start + index;
+        return `
+          <li data-rank-index="${rankIndex}">
+            <span class="no">${rankNo(rankIndex)}</span>
+            <span>
+              ${r.name || '植物挑戰者'}<br>
+              <small>${r.school || '未填學校'}｜挑戰 ${Number(r.attempts || 0)} 次｜最高 ${Number(r.bestScore || 0)} 分</small><br>
+              <span class="player-title">👑 ${titleByScore(Number(r.bestScore || 0))}</span>
+            </span>
+            <b>${Number(r.score || 0).toLocaleString()}分</b>
+          </li>
+        `;
+      }).join('');
+      return `
+        <details class="personal-rank-section"${isOpen ? ' open' : ''}>
+          <summary>第${start + 1}～${end}名 <small>（${end - start}人）</small></summary>
+          <ol>${rows}</ol>
+        </details>
+      `;
+    }
+  ).join('');
+
+  list.querySelectorAll('.personal-rank-section').forEach(section => {
+    section.addEventListener('toggle', () => {
+      if(!section.open) return;
+      list.querySelectorAll('.personal-rank-section').forEach(other => {
+        if(other !== section) other.open = false;
+      });
+    });
+  });
+}
+
+function setPersonalRankGroup(group, focusIndex = null){
+  CURRENT_PERSONAL_RANK_GROUP = group;
+  document.querySelectorAll('.personal-rank-tabs span').forEach(tab => {
+    tab.classList.toggle('active', tab.dataset.group === group);
+  });
+  updatePersonalRanking(FULL_PERSONAL_DATA);
+  updateFullPersonalRanking(FULL_PERSONAL_DATA, focusIndex);
+
+  if(focusIndex === null) return;
+  requestAnimationFrame(() => {
+    const target = document.querySelector(`#fullPersonalRankList [data-rank-index="${focusIndex}"]`);
+    if(!target) return;
+    target.classList.add('rank-hit');
+    target.scrollIntoView({behavior:'smooth', block:'center'});
+  });
 }
 
 function updateFullSchoolRanking(schools){
@@ -3468,6 +3615,12 @@ document.querySelectorAll('#schoolRankTabs span').forEach(tab => {
   });
 });
 
+document.querySelectorAll('.personal-rank-tabs span').forEach(tab => {
+  tab.addEventListener('click', () => {
+    setPersonalRankGroup(tab.dataset.group || 'elementary');
+  });
+});
+
 
 const btnClearLocalRank = document.getElementById('btnClearLocalRank');
 if(btnClearLocalRank) btnClearLocalRank.addEventListener('click', () => {
@@ -3517,16 +3670,19 @@ if(btnSearchMyRank){
       return;
     }
 
-    const index = FULL_PERSONAL_DATA.findIndex(r =>
+    const r = FULL_PERSONAL_DATA.find(r =>
       String(r.name || '').includes(keyword)
     );
 
-    if(index === -1){
+    if(!r){
       resultBox.textContent = `目前沒有找到「${keyword}」的排行榜資料。`;
       return;
     }
 
-    const r = FULL_PERSONAL_DATA[index];
+    const group = String(r.group || 'free');
+    const groupPersonal = getPersonalRankingsForGroup(FULL_PERSONAL_DATA, group);
+    const index = groupPersonal.indexOf(r);
+    setPersonalRankGroup(group, index);
 
     const score = Number(r.score || 0);
 const streak = Number(r.streak || 0);
@@ -3535,7 +3691,7 @@ const badges = badgesByScore(score, streak);
 
 resultBox.innerHTML = `
   🎉 找到了！<br>
-  <b>${r.name || '植物挑戰者'}</b> 目前排名第 <b>${index + 1}</b> 名，
+  <b>${r.name || '植物挑戰者'}</b> 目前在${({elementary:'國小組', junior:'國中組', senior:'高中職組', free:'自由組'})[group] || '自由組'}排名第 <b>${index + 1}</b> 名，
   分數 <b>${score}</b> 分。<br>
   學校／身分：${r.school === '未填學校' ? '自由挑戰者' : (r.school || '未填學校')}。<br>
   <span class="player-title">👑 稱號：${title}</span>
